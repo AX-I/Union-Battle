@@ -1,0 +1,290 @@
+[gd_scene load_steps=15 format=3 uid="uid://c331oxuq4jhyl"]
+
+[ext_resource type="Script" uid="uid://bgmuvfbsm32i3" path="res://Scripts/strike_scene_scripts/strike_scene.gd" id="1_n1sj3"]
+[ext_resource type="Texture2D" uid="uid://dagmrjq5aoyhs" path="res://icon.svg" id="1_x2neb"]
+[ext_resource type="Script" uid="uid://c1qectmublotf" path="res://Scripts/strike_scene_scripts/player_1.gd" id="2_8vefq"]
+[ext_resource type="Script" uid="uid://dl1anf54l1wy8" path="res://Scenes/player_2.gd" id="4_5jf1a"]
+[ext_resource type="Texture2D" uid="uid://covfk64b4jk1o" path="res://Assets/union_temp.png" id="4_20e5f"]
+[ext_resource type="Texture2D" uid="uid://ck55yqxt6dtvr" path="res://Assets/admin_temp.png" id="5_514q4"]
+[ext_resource type="Texture2D" uid="uid://drdkrulj5s0sn" path="res://Assets/union_press_temp.png" id="5_linjo"]
+[ext_resource type="Script" uid="uid://c1kxkaeueau2u" path="res://Scenes/player_3.gd" id="5_xcxxk"]
+[ext_resource type="Script" uid="uid://dufmeguifnpal" path="res://Scenes/player_4.gd" id="6_k2kik"]
+[ext_resource type="Texture2D" uid="uid://cnpqoyjhw3ils" path="res://Assets/admin_press_temp.png" id="7_5jf1a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qj3wv"]
+size = Vector2(128, 128)
+
+[sub_resource type="LabelSettings" id="LabelSettings_x2neb"]
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_n1sj3"]
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_k2kik"]
+font_size = 25
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[node name="StrikeScene" type="Node2D"]
+script = ExtResource("1_n1sj3")
+
+[node name="Player1" type="StaticBody2D" parent="." groups=["player_group"]]
+position = Vector2(583, 584)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("2_8vefq")
+
+[node name="PlayerSprite1" type="Sprite2D" parent="Player1"]
+modulate = Color(0, 0, 1, 1)
+texture = ExtResource("1_x2neb")
+metadata/_edit_lock_ = true
+
+[node name="PlayerShape1" type="CollisionShape2D" parent="Player1"]
+shape = SubResource("RectangleShape2D_qj3wv")
+metadata/_edit_lock_ = true
+
+[node name="PlayerEngagement1" type="Label" parent="Player1"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -89.0
+offset_top = -110.0
+offset_right = 89.0
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Engagement: 0"
+label_settings = SubResource("LabelSettings_x2neb")
+metadata/_edit_lock_ = true
+
+[node name="PlayerRisk1" type="Label" parent="Player1"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.5
+offset_top = 75.0
+offset_right = 38.5
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Risk: 0"
+label_settings = SubResource("LabelSettings_n1sj3")
+horizontal_alignment = 2
+metadata/_edit_lock_ = true
+
+[node name="PlayerLabel1" type="Label" parent="Player1"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.0
+offset_top = -11.5
+offset_right = 62.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_k2kik")
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Player2" type="StaticBody2D" parent="." groups=["player_group"]]
+position = Vector2(1094, 306)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("4_5jf1a")
+
+[node name="PlayerSprite2" type="Sprite2D" parent="Player2"]
+modulate = Color(1, 0, 1, 1)
+texture = ExtResource("1_x2neb")
+metadata/_edit_lock_ = true
+
+[node name="PlayerShape2" type="CollisionShape2D" parent="Player2"]
+shape = SubResource("RectangleShape2D_qj3wv")
+metadata/_edit_lock_ = true
+
+[node name="PlayerEngagement2" type="Label" parent="Player2"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -89.0
+offset_top = -110.0
+offset_right = 89.0
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Engagement: 0"
+label_settings = SubResource("LabelSettings_x2neb")
+metadata/_edit_lock_ = true
+
+[node name="PlayerRisk2" type="Label" parent="Player2"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.5
+offset_top = 75.0
+offset_right = 38.5
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Risk: 0"
+label_settings = SubResource("LabelSettings_n1sj3")
+horizontal_alignment = 2
+autowrap_mode = 3
+metadata/_edit_lock_ = true
+
+[node name="PlayerLabel2" type="Label" parent="Player2"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.0
+offset_top = -11.5
+offset_right = 62.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_k2kik")
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Player3" type="StaticBody2D" parent="." groups=["player_group"]]
+position = Vector2(582, 60)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("5_xcxxk")
+
+[node name="PlayerSprite3" type="Sprite2D" parent="Player3"]
+modulate = Color(0, 1, 0, 1)
+texture = ExtResource("1_x2neb")
+metadata/_edit_lock_ = true
+
+[node name="PlayerShape3" type="CollisionShape2D" parent="Player3"]
+shape = SubResource("RectangleShape2D_qj3wv")
+metadata/_edit_lock_ = true
+
+[node name="PlayerEngagement3" type="Label" parent="Player3"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -89.0
+offset_top = -110.0
+offset_right = 89.0
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Engagement: 0"
+label_settings = SubResource("LabelSettings_x2neb")
+metadata/_edit_lock_ = true
+
+[node name="PlayerRisk3" type="Label" parent="Player3"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.5
+offset_top = 75.0
+offset_right = 38.5
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Risk: 0"
+label_settings = SubResource("LabelSettings_n1sj3")
+horizontal_alignment = 2
+autowrap_mode = 3
+metadata/_edit_lock_ = true
+
+[node name="PlayerLabel3" type="Label" parent="Player3"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.0
+offset_top = -11.5
+offset_right = 62.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_k2kik")
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Player4" type="StaticBody2D" parent="."]
+position = Vector2(53, 307)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("6_k2kik")
+
+[node name="PlayerSprite4" type="Sprite2D" parent="Player4"]
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("1_x2neb")
+metadata/_edit_lock_ = true
+
+[node name="PlayerShape4" type="CollisionShape2D" parent="Player4"]
+shape = SubResource("RectangleShape2D_qj3wv")
+metadata/_edit_lock_ = true
+
+[node name="Money" type="Label" parent="Player4"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -89.0
+offset_top = -110.0
+offset_right = 89.0
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Money: 0"
+label_settings = SubResource("LabelSettings_x2neb")
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="PlayerLabel4" type="Label" parent="Player4"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.0
+offset_top = -11.5
+offset_right = 62.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Admin"
+label_settings = SubResource("LabelSettings_k2kik")
+horizontal_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="UnionDeck" type="TextureButton" parent="."]
+offset_left = 473.00003
+offset_top = 266.0
+offset_right = 601.0
+offset_bottom = 394.0
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("4_20e5f")
+texture_pressed = ExtResource("5_linjo")
+stretch_mode = 0
+
+[node name="AdminDeck" type="TextureButton" parent="."]
+offset_left = 603.0
+offset_top = 267.0
+offset_right = 731.0
+offset_bottom = 395.0
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("5_514q4")
+texture_pressed = ExtResource("7_5jf1a")
+
+[connection signal="button_down" from="UnionDeck" to="." method="draw_card" binds= [true]]
+[connection signal="button_down" from="AdminDeck" to="." method="draw_card" binds= [false]]

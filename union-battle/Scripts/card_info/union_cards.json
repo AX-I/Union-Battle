@@ -1,0 +1,32 @@
+{
+	"external_fundraising": {
+		"card_name": "External Fundraising",
+		"engagement": 3,
+		"risk": 1,
+		"path_to_img": ""
+	},
+	"funding": {
+		"card_name": "Funding",
+		"engagement": 2,
+		"risk": 1,
+		"path_to_img": ""
+	},
+	"one_on_one": {
+		"card_name": "One on One Talk",
+		"engagement": 1,
+		"risk": 0,
+		"path_to_img": ""
+	},
+	"steward": {
+		"card_name": "Steward",
+		"engagement": 4,
+		"risk": 2,
+		"path_to_img": ""
+	},
+	"tabling_topic": {
+		"card_name": "Tabling Topic",
+		"engagement": 5,
+		"risk": 3,
+		"path_to_img": ""
+	}
+}

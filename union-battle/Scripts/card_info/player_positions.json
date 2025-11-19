@@ -1,0 +1,41 @@
+{
+	"academic_position":[
+		{
+			"name":"Graduate",
+			"engagement":3,
+			"risk":2
+		},
+		{
+			"name":"Liberal Arts\nUndergrad",
+			"engagement":2,
+			"risk":1
+		},
+		{
+			"name":"Science\nUndergrad",
+			"engagement":1,
+			"risk":1
+		}
+	],
+	"personal_position":[
+		{
+			"name":"Privileged",
+			"engagement":0,
+			"risk":0
+		},
+		{
+			"name":"International",
+			"engagement":1,
+			"risk":2
+		},
+		{
+			"name":"LGBTQ+",
+			"engagement":2,
+			"risk":1
+		},
+		{
+			"name":"POC",
+			"engagement":1,
+			"risk":1
+		}
+	]
+}

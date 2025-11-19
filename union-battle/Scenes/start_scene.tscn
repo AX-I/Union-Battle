@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://u41higdya1m3"]
+
+[ext_resource type="Script" uid="uid://cu8jdsp4bqyqc" path="res://Scripts/start_scene_scripts/start_game_button.gd" id="1_82sop"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7tv2a"]
+font_size = 51
+font_color = Color(1, 0.6392157, 0.27058825, 1)
+outline_size = 14
+outline_color = Color(0.23137255, 0.15294118, 0.2784314, 1)
+
+[sub_resource type="Theme" id="Theme_7tv2a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82sop"]
+bg_color = Color(1, 0.6392157, 0.27058825, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2784314, 0.12941177, 0.31764707, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7tv2a"]
+bg_color = Color(0.9490196, 0.6784314, 0.4509804, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2784314, 0.12941177, 0.31764707, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aeweq"]
+bg_color = Color(1, 0.69044125, 0.3985905, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.31543413, 0.15039995, 0.35888165, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7tv2a"]
+
+[node name="StartScene" type="Node2D"]
+
+[node name="Title" type="Label" parent="."]
+offset_left = 308.0
+offset_top = 151.0
+offset_right = 844.0
+offset_bottom = 226.0
+text = "Union Battle"
+label_settings = SubResource("LabelSettings_7tv2a")
+horizontal_alignment = 1
+
+[node name="StartGameButton" type="Button" parent="."]
+offset_left = 450.0
+offset_top = 468.0
+offset_right = 695.0
+offset_bottom = 545.0
+theme = SubResource("Theme_7tv2a")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_82sop")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7tv2a")
+theme_override_styles/hover = SubResource("StyleBoxFlat_aeweq")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7tv2a")
+text = "Press to Join"
+script = ExtResource("1_82sop")
+
+[connection signal="pressed" from="StartGameButton" to="StartGameButton" method="_on_pressed"]

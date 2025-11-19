@@ -1,0 +1,20 @@
+{
+	"back_to_work_legislation": {
+		"card_name": "Back to Work Legislation",
+		"engagement": -2,
+		"risk": 5,
+		"path_to_img": ""
+	},
+	"captive_meeting": {
+		"card_name": "Captive Meeting",
+		"engagement": -1,
+		"risk": 1,
+		"path_to_img": ""
+	},
+	"threaten_visas": {
+		"card_name": "Threaten Visas",
+		"engagement": -1,
+		"risk": 3,
+		"path_to_img": ""
+	}
+}
