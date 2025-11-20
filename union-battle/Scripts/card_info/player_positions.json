@@ -3,39 +3,46 @@
 		{
 			"name":"Graduate",
 			"engagement":3,
-			"risk":2
+			"risk":2,
+			"priorities": ["benefits"]
 		},
 		{
 			"name":"Liberal Arts\nUndergrad",
 			"engagement":2,
-			"risk":1
+			"risk":1, 
+			"priorities": ["benefits", "safety"]
 		},
 		{
 			"name":"Science\nUndergrad",
 			"engagement":1,
-			"risk":1
+			"risk":1,
+			"priorities": ["wages"]
 		}
 	],
 	"personal_position":[
 		{
 			"name":"Privileged",
 			"engagement":0,
-			"risk":0
+			"risk":0,
+			"priorities": []
 		},
 		{
 			"name":"International",
 			"engagement":1,
-			"risk":2
+			"risk":2,
+			"priorities": ["wages"]
 		},
 		{
 			"name":"LGBTQ+",
 			"engagement":2,
-			"risk":1
+			"risk":1,
+			"priorities": ["equality", "safety"]
 		},
 		{
 			"name":"POC",
 			"engagement":1,
-			"risk":1
+			"risk":1,
+			"priorities": ["equality"]
 		}
 	]
 }

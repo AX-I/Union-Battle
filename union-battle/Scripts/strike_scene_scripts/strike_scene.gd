@@ -144,6 +144,7 @@ func random_role(
 	const POS_NAME		= "name"
 	const ENGAGEMENT	= "engagement"
 	const RISK			= "risk"
+	const PRIORITIES 	= "priorities"
 
 	# Choose a random academic and personal position
 	var personal		= personal_list[randi_range(0, personal_list.size() - 1)]
@@ -153,6 +154,10 @@ func random_role(
 	player.set_engagement(personal.get(ENGAGEMENT) + academic.get(ENGAGEMENT))
 	player.set_risk(personal.get(RISK) + academic.get(RISK))
 	player.set_player_label(personal.get(POS_NAME) + "\n" + academic.get(POS_NAME))
+
+	#Now set the priorities
+	player.add_priorities(personal.get(PRIORITIES) + academic.get(PRIORITIES))
+	print("Created Player with priorities: ", personal.get(PRIORITIES) + academic.get(PRIORITIES))
 
 # Draw a card from the unionist deck
 func draw_card(is_union: bool) -> void:

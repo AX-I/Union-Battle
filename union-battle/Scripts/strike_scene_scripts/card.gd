@@ -117,8 +117,8 @@ func set_sprite(
 	print("Path to Image: %s" % sprite_image_name)
 
 	# If the file path exists then load it as a texture
-	if ResourceLoader.exists(sprite_image_name):
-		_tex.texture = load(sprite_image_name)
+	if ResourceLoader.exists("res://Assets/"+sprite_image_name):
+		_tex.texture = load("res://Assets/"+sprite_image_name)
 
 	# Use the default sprite if no file path exists
 	else:

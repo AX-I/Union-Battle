@@ -18,6 +18,7 @@ var _hand: 					Array   	= []
 # The player's engagement and risk
 var _engagement: 			int 		= 0
 var _risk: 					int			= 0
+var _priorities:			Array		= []
 
 # Positions for player cards
 var _card_positions:		Array 		= [Vector2(462,595),
@@ -112,6 +113,16 @@ func set_risk(
 ) -> void:
 	_risk 			= new_risk
 	risk_label.text = RISK_LABEL_STR + str(_risk)
+
+func add_priorities(
+	priorities: Array
+) -> void:
+	for p in priorities:
+		if p not in _priorities:
+			_priorities.append(p)
+
+func get_priorities() -> Array:
+	return _priorities
 
 # Setter for the player label
 func set_player_label(player_name: String) -> void:
