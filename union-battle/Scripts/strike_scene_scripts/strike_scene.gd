@@ -318,3 +318,29 @@ func get_json_from_file(
 		print("WARNING: JSON file content not a dictionary, type '", typeof(retrieved_json), "' found instead")
 
 	return json_obj
+
+
+func _on_end_turn() -> void:
+	if Globals.curr_turn == Globals.PLAYER_COUNT-1:
+		Globals.curr_turn = 0
+	else:
+		Globals.curr_turn += 1
+
+	print("current turn", Globals.curr_turn)
+
+	if Globals.PLAYERS[Globals.curr_turn].is_player_union():
+		if Globals.PLAYERS[Globals.curr_turn].get_risk() > 6:
+			Globals.PLAYERS[Globals.curr_turn].set_engagement(Globals.PLAYERS[Globals.curr_turn].get_engagement()-2)
+		elif Globals.PLAYERS[Globals.curr_turn].get_risk() > 2:
+			Globals.PLAYERS[Globals.curr_turn].set_engagement(Globals.PLAYERS[Globals.curr_turn].get_engagement()-1)
+		if Globals.PLAYERS[Globals.curr_turn].get_engagement() < 1:
+			Globals.curr_turn += 1
+		else:
+			draw_card(true)
+	else:
+		var total_engagement = 0
+		for player in Globals.PLAYERS:
+			if player.is_player_union():
+				total_engagement -= player.get_engagement()
+		Globals.PLAYERS[Globals.curr_turn].adjust_money(total_engagement)
+		draw_card(false)

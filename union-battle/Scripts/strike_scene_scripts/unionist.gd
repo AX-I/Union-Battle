@@ -26,6 +26,8 @@ var _priorities:			Array		= []
 # Positions for player cards
 var _card_positions:		Array 		= []
 
+signal end_turn
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
@@ -92,6 +94,7 @@ func discard(
 	_card_positions.append(old_card.get_start_pos())
 	old_card.set_start_pos(Globals.OFF_SCREEN)
 	old_card.to_start_pos()
+	emit_signal('end_turn')
 
 # Called to adjust statistics
 func adjust_stats(
