@@ -4,10 +4,13 @@ extends StaticBody2D
 @onready var money_label: 	Label		= $"Money"
 
 # The player ID
-const _ID: 					int 		= 4
+var _id: 					int 		= -1
 
 # Money string constant
 const MONEY_STR:			String		= "Money: "
+
+# The player is union
+const _IS_UNION:			bool		= false
 
 # The player's hand
 var _hand: 					Array   	= []
@@ -16,11 +19,7 @@ var _hand: 					Array   	= []
 var _money: 				int 		= 100
 
 # Positions for player cards
-var _card_positions:		Array 		= [Vector2(60,186),
-										   Vector2(180,186),
-										   Vector2(180,306),
-										   Vector2(180,426),
-										   Vector2(60,426)]
+var _card_positions:		Array 		= []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,6 +30,15 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
+
+# Called to setup a player
+func setup_player(id: int, card_pos: Array) -> void:
+
+	# Set ID
+	_id 			= id
+
+	# Set card positions
+	_card_positions = card_pos
 
 # Called to take a card from the deck
 func take_card(
@@ -45,7 +53,7 @@ func take_card(
 	_hand.append(new_card)
 
 	# Setting the card's ID and position
-	new_card.set_id(_ID)
+	new_card.set_id(_id)
 	new_card.set_start_pos(_card_positions.pop_back())
 	new_card.to_start_pos()
 
@@ -79,8 +87,12 @@ func adjust_money(
 
 # Getter for the ID
 func get_id() -> int:
-	return _ID
+	return _id
 
 # Getter for hand size
 func get_hand_size() -> int:
 	return _hand.size()
+
+# Called to get if the player is union
+func is_player_union() -> bool:
+	return _IS_UNION

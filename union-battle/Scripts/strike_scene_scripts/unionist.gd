@@ -1,16 +1,19 @@
 extends StaticBody2D
 
-# Both of the labels
-@onready var egmt_label: 	Label		= $"PlayerEngagement3"
-@onready var risk_label:	Label		= $"PlayerRisk3"
-@onready var player_label:	Label		= $"PlayerLabel3"
-
-# The player ID
-const _ID: 					int 		= 3
+# All of the labels
+var egmt_label: 			Label		= null
+var risk_label:				Label		= null
+var player_label:			Label		= null
 
 # Constants for strings
-const ENGAGEMENT_LABEL_STR:	String	   = "Engagement: "
-const RISK_LABEL_STR:		String	   = "Risk: "
+const ENGAGEMENT_LABEL_STR:	String	    = "Engagement: "
+const RISK_LABEL_STR:		String	    = "Risk: "
+
+# The player is union
+const _IS_UNION:			bool		= true
+
+# The player ID
+var _id: 					int 		= -1
 
 # The player's hand
 var _hand: 					Array   	= []
@@ -21,20 +24,38 @@ var _risk: 					int			= 0
 var _priorities:			Array		= []
 
 # Positions for player cards
-var _card_positions:		Array 		= [Vector2(462,60),
-										   Vector2(462,180),
-										   Vector2(582,180),
-										   Vector2(702,180),
-										   Vector2(702,60)]
+var _card_positions:		Array 		= []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
 
+	# Retrieving the children and assigning them accordingly for later use
+	for child in self.get_children():
+
+		# Storing the engagement label
+		if child.name.contains("Engagement"):
+			egmt_label = child
+
+		# Storing the risk label
+		if child.name.contains("Risk"):
+			risk_label = child
+
+		# Storing the player label
+		if child.name.contains("Label"):
+			player_label = child
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
+
+# Called to setup a player
+func setup_player(id: int, card_pos: Array) -> void:
+
+	# Set ID
+	_id 			= id
+
+	# Set card positions
+	_card_positions = card_pos
 
 # Called to take a card from the deck
 func take_card(
@@ -49,10 +70,10 @@ func take_card(
 	_hand.append(new_card)
 
 	# Setting the card's ID and position
-	new_card.set_id(_ID)
+	new_card.set_id(_id)
 	new_card.set_start_pos(_card_positions.pop_back())
 	new_card.to_start_pos()
-	print("take card called: ", new_card.name)
+	print("take card called: ", new_card.get_card_name())
 	print(_card_positions)
 
 # Called to discard a card
@@ -131,8 +152,12 @@ func set_player_label(player_name: String) -> void:
 
 # Getter for the ID
 func get_id() -> int:
-	return _ID
+	return _id
 
 # Getter for hand size
 func get_hand_size() -> int:
 	return _hand.size()
+
+# Called to get if the player is union
+func is_player_union() -> bool:
+	return _IS_UNION

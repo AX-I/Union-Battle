@@ -1,14 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://c331oxuq4jhyl"]
+[gd_scene load_steps=13 format=3 uid="uid://c331oxuq4jhyl"]
 
 [ext_resource type="Script" uid="uid://bgmuvfbsm32i3" path="res://Scripts/strike_scene_scripts/strike_scene.gd" id="1_n1sj3"]
 [ext_resource type="Texture2D" uid="uid://dagmrjq5aoyhs" path="res://icon.svg" id="1_x2neb"]
-[ext_resource type="Script" uid="uid://c1qectmublotf" path="res://Scripts/strike_scene_scripts/player_1.gd" id="2_8vefq"]
-[ext_resource type="Script" uid="uid://dl1anf54l1wy8" path="res://Scenes/player_2.gd" id="4_5jf1a"]
+[ext_resource type="Script" uid="uid://c1qectmublotf" path="res://Scripts/strike_scene_scripts/unionist.gd" id="2_linjo"]
+[ext_resource type="Script" uid="uid://dufmeguifnpal" path="res://Scripts/strike_scene_scripts/admin.gd" id="4_5jf1a"]
 [ext_resource type="Texture2D" uid="uid://covfk64b4jk1o" path="res://Assets/union_temp.png" id="4_20e5f"]
 [ext_resource type="Texture2D" uid="uid://ck55yqxt6dtvr" path="res://Assets/admin_temp.png" id="5_514q4"]
 [ext_resource type="Texture2D" uid="uid://drdkrulj5s0sn" path="res://Assets/union_press_temp.png" id="5_linjo"]
-[ext_resource type="Script" uid="uid://c1kxkaeueau2u" path="res://Scenes/player_3.gd" id="5_xcxxk"]
-[ext_resource type="Script" uid="uid://dufmeguifnpal" path="res://Scenes/player_4.gd" id="6_k2kik"]
 [ext_resource type="Texture2D" uid="uid://cnpqoyjhw3ils" path="res://Assets/admin_press_temp.png" id="7_5jf1a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qj3wv"]
@@ -31,7 +29,7 @@ script = ExtResource("1_n1sj3")
 [node name="Player1" type="StaticBody2D" parent="." groups=["player_group"]]
 position = Vector2(583, 584)
 scale = Vector2(0.5, 0.5)
-script = ExtResource("2_8vefq")
+script = ExtResource("2_linjo")
 
 [node name="PlayerSprite1" type="Sprite2D" parent="Player1"]
 modulate = Color(0, 0, 1, 1)
@@ -48,14 +46,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -89.0
+offset_left = -124.0
 offset_top = -110.0
-offset_right = 89.0
+offset_right = 126.0
 offset_bottom = -75.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Engagement: 0"
 label_settings = SubResource("LabelSettings_x2neb")
+horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="PlayerRisk1" type="Label" parent="Player1"]
@@ -64,15 +63,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -38.5
+offset_left = -62.0
 offset_top = 75.0
-offset_right = 38.5
+offset_right = 64.0
 offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Risk: 0"
 label_settings = SubResource("LabelSettings_n1sj3")
-horizontal_alignment = 2
+horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="PlayerLabel1" type="Label" parent="Player1"]
@@ -94,7 +93,7 @@ metadata/_edit_lock_ = true
 [node name="Player2" type="StaticBody2D" parent="." groups=["player_group"]]
 position = Vector2(1094, 306)
 scale = Vector2(0.5, 0.5)
-script = ExtResource("4_5jf1a")
+script = ExtResource("2_linjo")
 
 [node name="PlayerSprite2" type="Sprite2D" parent="Player2"]
 modulate = Color(1, 0, 1, 1)
@@ -111,14 +110,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -89.0
+offset_left = -110.0
 offset_top = -110.0
-offset_right = 89.0
+offset_right = 110.0
 offset_bottom = -75.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Engagement: 0"
 label_settings = SubResource("LabelSettings_x2neb")
+horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="PlayerRisk2" type="Label" parent="Player2"]
@@ -127,15 +127,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -38.5
+offset_left = -64.0
 offset_top = 75.0
-offset_right = 38.5
+offset_right = 64.0
 offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Risk: 0"
 label_settings = SubResource("LabelSettings_n1sj3")
-horizontal_alignment = 2
+horizontal_alignment = 1
 autowrap_mode = 3
 metadata/_edit_lock_ = true
 
@@ -158,7 +158,7 @@ metadata/_edit_lock_ = true
 [node name="Player3" type="StaticBody2D" parent="." groups=["player_group"]]
 position = Vector2(582, 60)
 scale = Vector2(0.5, 0.5)
-script = ExtResource("5_xcxxk")
+script = ExtResource("2_linjo")
 
 [node name="PlayerSprite3" type="Sprite2D" parent="Player3"]
 modulate = Color(0, 1, 0, 1)
@@ -175,14 +175,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -89.0
+offset_left = -120.0
 offset_top = -110.0
-offset_right = 89.0
+offset_right = 120.0
 offset_bottom = -75.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Engagement: 0"
 label_settings = SubResource("LabelSettings_x2neb")
+horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="PlayerRisk3" type="Label" parent="Player3"]
@@ -191,15 +192,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -38.5
+offset_left = -64.0
 offset_top = 75.0
-offset_right = 38.5
+offset_right = 64.0
 offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Risk: 0"
 label_settings = SubResource("LabelSettings_n1sj3")
-horizontal_alignment = 2
+horizontal_alignment = 1
 autowrap_mode = 3
 metadata/_edit_lock_ = true
 
@@ -222,7 +223,7 @@ metadata/_edit_lock_ = true
 [node name="Player4" type="StaticBody2D" parent="."]
 position = Vector2(53, 307)
 scale = Vector2(0.5, 0.5)
-script = ExtResource("6_k2kik")
+script = ExtResource("4_5jf1a")
 
 [node name="PlayerSprite4" type="Sprite2D" parent="Player4"]
 modulate = Color(1, 0, 0, 1)
