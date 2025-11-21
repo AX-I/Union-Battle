@@ -1,11 +1,5 @@
 extends Node2D
 
-# Variables to keep track of the players
-@onready var player1 				= $Player1
-@onready var player2 				= $Player2
-@onready var player3 				= $Player3
-@onready var player4 				= $Player4
-
 # The unionist and admin decks
 var unionist_deck: 			Array 	= []
 var admin_deck:    			Array 	= []
@@ -18,6 +12,7 @@ var admin_discard_pile:		Array	= []
 func _ready() -> void:
 
 	# Globals for retrieving JSON values
+	const PLAYER_STR	   = "Player"
 	const NAME_STR		   = "card_name"
 	const ENGAGEMENT_STR   = "engagement"
 	const RISK_STR		   = "risk"
@@ -25,18 +20,33 @@ func _ready() -> void:
 	const ACADEMIC_STR	   = "academic_position"
 	const PERSONAL_STR	   = "personal_position"
 
+	# Get each child that is a player
+	for players in self.get_children():
+
+		# Store players only
+		if players.name.contains(PLAYER_STR):
+			Globals.PLAYERS.append(players)
+
 	# Total number of cards created
 	var total_cards 	   = 0
 
 	# Get each player component
-	var player_positions   = get_json_from_file(Globals.PLAYER_POS_JSON)
-	var personal_positions = player_positions.get(PERSONAL_STR)
-	var academic_positions = player_positions.get(ACADEMIC_STR)
+	var player_stances     = get_json_from_file(Globals.PLAYER_POS_JSON)
+	var personal_positions = player_stances.get(PERSONAL_STR)
+	var academic_positions = player_stances.get(ACADEMIC_STR)
 
-	# Choose a role for each player
-	random_role(player1, personal_positions, academic_positions)
-	random_role(player2, personal_positions, academic_positions)
-	random_role(player3, personal_positions, academic_positions)
+	# Setup initial player values
+	for player in Globals.PLAYERS:
+
+		# Setup variable player attributes
+		player.setup_player(Globals.PLAYER_COUNT, Globals.CARD_COORD_SETS.pop_front())
+
+		# Choose a role for the player if it is union
+		if player.is_player_union():
+			random_role(player, personal_positions, academic_positions)
+
+		# Increasing player count
+		Globals.PLAYER_COUNT += 1
 
 	# Initializing random number generator
 	randomize()
@@ -125,10 +135,17 @@ func deal_cards() -> void:
 
 	# Deal a card to each player in order
 	for i in range(5):
-		player1.take_card(unionist_deck.pop_front())
-		player2.take_card(unionist_deck.pop_front())
-		player3.take_card(unionist_deck.pop_front())
-		player4.take_card(admin_deck.pop_front())
+
+		# Deal a card to each player once
+		for player in Globals.PLAYERS:
+
+			# If player is union pull from the union deck
+			if player.is_player_union():
+				player.take_card(unionist_deck.pop_front())
+
+			# If the player is not union draw from the admin deck
+			else:
+				player.take_card(admin_deck.pop_front())
 
 # Called to choose a random role for a player
 func random_role(
@@ -160,19 +177,22 @@ func random_role(
 	print("Created Player with priorities: ", personal.get(PRIORITIES) + academic.get(PRIORITIES))
 
 # Draw a card from the unionist deck
-func draw_card(is_union: bool) -> void:
+func draw_card(union_deck: bool) -> void:
 
 	# Success of a draw
 	var draw_success = false
+
+	# Getting the player allegiance
+	var is_union	 = Globals.PLAYERS[Globals.curr_turn].is_player_union()
 
 	# Only draw if no card has been drawn this turn
 	if not Globals.drew_this_turn:
 
 		# Draw a card based on the player drawing
-		if Globals.curr_turn == 4:
-			draw_success = admin_draw(is_union)
-		else:
+		if is_union and union_deck:
 			draw_success = union_draw(is_union)
+		elif not(is_union or union_deck):
+			draw_success = admin_draw(is_union)
 
 		# Making sure that no other card can be drawn this turn
 		if draw_success:
@@ -187,35 +207,9 @@ func union_draw(
 	if not is_union:
 		return false
 
-	# Draw a card based on the player drawing
-	match Globals.curr_turn:
-		1:
-
-			# If hand size is greater than 5 do nothing
-			if player1.get_hand_size() >= 5:
-				return false
-
-			# Player 1 draws from the unionist deck
-			player1.take_card(unionist_deck.pop_front())
-		2:
-
-			# If hand size is greater than 5 do nothing
-			if player2.get_hand_size() >= 5:
-				return false
-
-			# Player 2 draws from the unionist deck
-			player2.take_card(unionist_deck.pop_front())
-		3:
-
-			# If hand size is greater than 5 do nothing
-			if player3.get_hand_size() >= 5:
-				return false
-
-			# Player 3 draws from the unionist deck
-			player3.take_card(unionist_deck.pop_front())
-		_:
-			# Print message that a card could not be drawn
-			print("Unable to draw card")
+	# If the player's hand is not full then draw
+	if Globals.PLAYERS[Globals.curr_turn].get_hand_size() < 5:
+		Globals.PLAYERS[Globals.curr_turn].take_card(unionist_deck.pop_front())
 
 	# Check if the unionist discard pile should be shuffled back into the deck
 	if unionist_deck.size() == 0:
@@ -229,11 +223,11 @@ func admin_draw(
 ) -> bool:
 
 	# Do not draw if wrong deck as trigger or hand size is too large
-	if is_union or player4.get_hand_size() >= 5:
+	if is_union:
 		return false
 
 	# Player 4 draws from the admin deck
-	player4.take_card(admin_deck.pop_front())
+	Globals.PLAYERS[Globals.curr_turn].take_card(admin_deck.pop_front())
 
 	# Check if the admin discard pile should be shuffled back into the deck
 	if admin_deck.size() == 0:
@@ -246,27 +240,16 @@ func discard_card(
 	old_card: PlayingCard
 ) -> void:
 	
-	# Discard a card based on the player drawing
-	match Globals.curr_turn:
-		1:
-			# Player 1 discards
-			player1.discard(old_card)
-			union_discard(old_card)
-		2:
-			# Player 2 discards
-			player2.discard(old_card)
-			union_discard(old_card)
-		3:
-			# Player 3 discards
-			player3.discard(old_card)
-			union_discard(old_card)
-		4:
-			# Player 4 discards
-			player4.discard(old_card)
-			admin_discard(old_card)
-		_:
-			# Print message that a card could not be drawn
-			print("Unable to discard card")
+	# Discard from the player's hand first
+	Globals.PLAYERS[Globals.curr_turn].discard(old_card)
+	
+	# Discard to the union discard pile if the player is a unionist
+	if Globals.PLAYERS[Globals.curr_turn].is_player_union():
+		union_discard(old_card)
+
+	# Discard to the admin discard pile otherwise
+	else:
+		admin_discard(old_card)
 
 # Called to reshuffle the unionist deck
 func union_reshuffle() -> void:
