@@ -61,4 +61,23 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_7tv2a")
 text = "Press to Join"
 script = ExtResource("1_82sop")
 
+[node name="ServerAddr" type="LineEdit" parent="StartGameButton"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = -105.0
+offset_right = 256.0
+offset_bottom = -59.0
+text = "http://127.0.0.1:6400"
+placeholder_text = "Server IP"
+
+[node name="Username" type="LineEdit" parent="StartGameButton"]
+layout_mode = 0
+offset_left = -22.0
+offset_top = -189.0
+offset_right = 255.0
+offset_bottom = -141.0
+placeholder_text = "Username"
+
+[node name="JoinRequest" type="HTTPRequest" parent="StartGameButton"]
+
 [connection signal="pressed" from="StartGameButton" to="StartGameButton" method="_on_pressed"]

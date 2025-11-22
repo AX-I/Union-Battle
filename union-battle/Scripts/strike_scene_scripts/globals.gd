@@ -38,6 +38,11 @@ var drew_this_turn:			bool		= false
 # Player count
 var PLAYER_COUNT:			int			= 0
 
+
+# Networked Multiplayer
+var SERVER_ADDR: String = ""
+var USERNAME: String = ""
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
