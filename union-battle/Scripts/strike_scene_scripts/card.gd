@@ -53,7 +53,8 @@ func _input(event: InputEvent) -> void:
 
 		# If the mouse event is left mouse button then deal with it
 		if event.button_index == MOUSE_BUTTON_LEFT:
-
+			if Globals.curr_turn != Globals.MY_ID:
+				return
 			# Checking if the object is picked up or not
 			if event.is_pressed() and Globals.picked_up_name != "":
 				Globals.picked_up 	   = true
@@ -73,7 +74,8 @@ func _input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 
 	# Checking if the cards are being interacted with in the right turn order
-	if Globals.curr_turn == _player_id:
+	if (Globals.curr_turn == _player_id and
+		Globals.curr_turn == Globals.MY_ID):
 
 		# If the card is picked up then move it by its calculated offset
 		if Globals.picked_up and Globals.picked_up_name == self.name:
@@ -132,7 +134,7 @@ func set_sprite(
 func _on_mouse_entered() -> void:
 
 	# Only consider if the card belongs to the player
-	if Globals.curr_turn == _player_id:
+	if Globals.MY_ID == _player_id:
 
 		# We only want to do starting pickup changes if the item is not picked up
 		if not Globals.picked_up:
@@ -145,7 +147,7 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 
 	# Only consider if the card belongs to the player
-	if Globals.curr_turn == _player_id:
+	if Globals.MY_ID == _player_id:
 
 		# If we haven't dropped the item yet then amend this
 		if Globals.picked_up and Globals.picked_up_name == self.name:
