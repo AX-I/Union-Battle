@@ -42,6 +42,7 @@ var PLAYER_COUNT:			int			= 0
 # Networked Multiplayer
 var SERVER_ADDR: String = ""
 var USERNAME: String = ""
+var MY_ID: int = -1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
