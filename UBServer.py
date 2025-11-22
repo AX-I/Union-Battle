@@ -25,13 +25,20 @@ class UnionHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         print('path', self.path)
+
+        path = urlparse(self.path).path
+        if path == '/join':
+            self.addPlayer()
+
+    def addPlayer(self):
         data = parse_qs(urlparse(self.path).query)
 
         # Add new player
+        player_id = len(self.server.players)
         username = data['user'][0]
-        self.server.players[username] = {}
+        self.server.players[player_id] = {'user':username}
 
-        message = {'msg': 'Success', 'id':len(self.server.players)}
+        message = {'msg': 'Success', 'id':player_id}
 
         msg = json.dumps(message).encode()
         print('sending', msg)
