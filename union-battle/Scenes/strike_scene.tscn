@@ -287,9 +287,17 @@ scale = Vector2(0.75, 0.75)
 texture_normal = ExtResource("5_514q4")
 texture_pressed = ExtResource("7_5jf1a")
 
+[node name="EndTurn" type="Button" parent="."]
+offset_left = 1032.0
+offset_top = 581.0
+offset_right = 1129.0
+offset_bottom = 624.0
+text = "End Turn"
+
 [connection signal="end_turn" from="Player1" to="." method="_on_end_turn"]
 [connection signal="end_turn" from="Player2" to="." method="_on_end_turn"]
 [connection signal="end_turn" from="Player3" to="." method="_on_end_turn"]
 [connection signal="end_turn" from="Player4" to="." method="_on_end_turn"]
 [connection signal="button_down" from="UnionDeck" to="." method="draw_card" binds= [true]]
 [connection signal="button_down" from="AdminDeck" to="." method="draw_card" binds= [false]]
+[connection signal="pressed" from="EndTurn" to="." method="_on_end_turn"]
