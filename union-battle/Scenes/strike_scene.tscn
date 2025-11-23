@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c331oxuq4jhyl"]
+[gd_scene load_steps=17 format=3 uid="uid://c331oxuq4jhyl"]
 
 [ext_resource type="Script" uid="uid://bgmuvfbsm32i3" path="res://Scripts/strike_scene_scripts/strike_scene.gd" id="1_n1sj3"]
 [ext_resource type="Texture2D" uid="uid://dagmrjq5aoyhs" path="res://icon.svg" id="1_x2neb"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://ck55yqxt6dtvr" path="res://Assets/admin_temp.png" id="5_514q4"]
 [ext_resource type="Texture2D" uid="uid://drdkrulj5s0sn" path="res://Assets/union_press_temp.png" id="5_linjo"]
 [ext_resource type="Texture2D" uid="uid://cnpqoyjhw3ils" path="res://Assets/admin_press_temp.png" id="7_5jf1a"]
+[ext_resource type="Shader" uid="uid://dnl4m4npq2spa" path="res://Shaders/meIndicator.gdshader" id="9_xcxxk"]
+[ext_resource type="Shader" uid="uid://c8k73vwhqk75" path="res://Shaders/turnIndicator.gdshader" id="10_k2kik"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qj3wv"]
 size = Vector2(128, 128)
@@ -22,6 +24,12 @@ font_size = 25
 font_size = 25
 outline_size = 12
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k2kik"]
+shader = ExtResource("9_xcxxk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_erwlu"]
+shader = ExtResource("10_k2kik")
 
 [node name="StrikeScene" type="Node2D"]
 script = ExtResource("1_n1sj3")
@@ -293,6 +301,17 @@ offset_top = 581.0
 offset_right = 1129.0
 offset_bottom = 624.0
 text = "End Turn"
+
+[node name="MeIndicator" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_k2kik")
+position = Vector2(33, -68)
+texture = ExtResource("1_x2neb")
+
+[node name="TurnIndicator" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_erwlu")
+position = Vector2(299.75, -150.75)
+scale = Vector2(2.3164063, 2.3164063)
+texture = ExtResource("1_x2neb")
 
 [connection signal="end_turn" from="Player1" to="." method="_on_end_turn"]
 [connection signal="end_turn" from="Player2" to="." method="_on_end_turn"]
