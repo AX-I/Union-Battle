@@ -313,6 +313,13 @@ position = Vector2(299.75, -150.75)
 scale = Vector2(2.3164063, 2.3164063)
 texture = ExtResource("1_x2neb")
 
+[node name="DevSwitch" type="Button" parent="."]
+offset_left = 977.0
+offset_top = 524.0
+offset_right = 1133.0
+offset_bottom = 561.0
+text = "DEV switch player"
+
 [connection signal="end_turn" from="Player1" to="." method="_on_end_turn"]
 [connection signal="end_turn" from="Player2" to="." method="_on_end_turn"]
 [connection signal="end_turn" from="Player3" to="." method="_on_end_turn"]
@@ -320,3 +327,4 @@ texture = ExtResource("1_x2neb")
 [connection signal="button_down" from="UnionDeck" to="." method="draw_card" binds= [true]]
 [connection signal="button_down" from="AdminDeck" to="." method="draw_card" binds= [false]]
 [connection signal="pressed" from="EndTurn" to="." method="_on_end_turn"]
+[connection signal="pressed" from="DevSwitch" to="." method="_on_dev_switch_player_pressed"]
