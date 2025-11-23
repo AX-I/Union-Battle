@@ -358,3 +358,10 @@ func _on_end_turn() -> void:
 				total_engagement -= player.get_engagement()
 		Globals.PLAYERS[Globals.curr_turn].adjust_money(total_engagement)
 		draw_card(false)
+
+
+func _on_dev_switch_player_pressed() -> void:
+	Globals.MY_ID += 1
+	if Globals.MY_ID == Globals.PLAYER_COUNT:
+		Globals.MY_ID = 0
+	setupIndicators()
