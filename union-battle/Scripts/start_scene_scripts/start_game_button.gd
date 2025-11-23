@@ -43,6 +43,9 @@ func _on_request_completed(result, response_code, headers, body):
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_GUI_error(CONN_ERR_STR)
 		return
+	if response_code == 400:
+		push_GUI_error(body.get_string_from_utf8())
+		return
 	var json = JSON.parse_string(body.get_string_from_utf8())
 	print('Server response ', json)
 	Globals.MY_ID = json['id']

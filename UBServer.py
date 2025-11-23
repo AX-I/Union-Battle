@@ -17,8 +17,12 @@ class UnionHandler(BaseHTTPRequestHandler):
 
     # Godot requires a Content-Length
     # https://github.com/godotengine/godot/issues/20272
-    def send_response(self, code, response, body=''):
-        self.send_response_only(code, response)
+    def send_response(self, code, payload):
+        self.send_response_only(code, '')
+        if type(payload) is str:
+            body = payload.encode()
+        else:
+            body = json.dumps(payload).encode()
         self.send_header('Content-Length', str(len(body)))
         self.end_headers()
         self.wfile.write(body)
@@ -34,15 +38,23 @@ class UnionHandler(BaseHTTPRequestHandler):
         data = parse_qs(urlparse(self.path).query)
 
         # Add new player
-        player_id = len(self.server.players)
+        if 'user' not in data:
+            self.send_response(400, 'Please input a username!')
+            return
+
         username = data['user'][0]
+
+        if username in {p['user'] for p in self.server.players.values()}:
+            self.send_response(400, 'Username is already taken!')
+            return
+
+        player_id = len(self.server.players)
         self.server.players[player_id] = {'user':username}
 
-        message = {'msg': 'Success', 'id':player_id}
+        msg = {'msg': 'Success', 'id':player_id}
 
-        msg = json.dumps(message).encode()
         print('sending', msg)
-        self.send_response(200, 'Hello!', msg)
+        self.send_response(200, msg)
 
 
 def run(ip):
