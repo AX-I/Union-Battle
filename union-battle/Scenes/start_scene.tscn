@@ -80,4 +80,11 @@ placeholder_text = "Username"
 
 [node name="JoinRequest" type="HTTPRequest" parent="StartGameButton"]
 
+[node name="ErrorLabel" type="Label" parent="StartGameButton"]
+layout_mode = 0
+offset_left = 264.0
+offset_top = 3.0
+offset_right = 491.0
+offset_bottom = 56.0
+
 [connection signal="pressed" from="StartGameButton" to="StartGameButton" method="_on_pressed"]
