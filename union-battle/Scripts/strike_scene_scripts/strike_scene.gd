@@ -116,6 +116,17 @@ func _ready() -> void:
 	# Dealing the cards
 	deal_cards()
 
+	setupIndicators()
+
+func setupIndicators():
+	var indicator = get_node('MeIndicator')
+	indicator.position = Globals.PLAYER_COORDS[Globals.MY_ID]
+	indicator.z_index = -10
+
+	indicator = get_node('TurnIndicator')
+	indicator.position = Globals.PLAYER_COORDS[Globals.curr_turn]
+	indicator.z_index = -20
+
 # Called to handle player input
 func _input(event):
 
@@ -327,6 +338,9 @@ func _on_end_turn() -> void:
 		Globals.curr_turn += 1
 
 	print("current turn", Globals.curr_turn)
+
+	var indicator = get_node('TurnIndicator')
+	indicator.position = Globals.PLAYER_COORDS[Globals.curr_turn]
 
 	if Globals.PLAYERS[Globals.curr_turn].is_player_union():
 		if Globals.PLAYERS[Globals.curr_turn].get_risk() > 6:

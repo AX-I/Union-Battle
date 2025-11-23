@@ -8,6 +8,9 @@ const PLAYER_POS_JSON:		String		= "res://Scripts/card_info/player_positions.json
 
 # Player list
 var PLAYERS:				Array		= []
+var PLAYER_COORDS: Array = [
+	Vector2(580, 580), Vector2(1090,306), Vector2(580, 60), Vector2(50, 306)
+]
 
 # The coordinate positions for each player cards
 var CARD_COORD_SETS:		Array		= [ 
