@@ -411,8 +411,6 @@ func _on_end_turn() -> void:
 			Globals.PLAYERS[Globals.curr_turn].set_engagement(Globals.PLAYERS[Globals.curr_turn].get_engagement()-2)
 		elif Globals.PLAYERS[Globals.curr_turn].get_risk() > 2:
 			Globals.PLAYERS[Globals.curr_turn].set_engagement(Globals.PLAYERS[Globals.curr_turn].get_engagement()-1)
-		if Globals.PLAYERS[Globals.curr_turn].get_engagement() < 1:
-			Globals.curr_turn += 1
 		else:
 			draw_card(true)
 	else:

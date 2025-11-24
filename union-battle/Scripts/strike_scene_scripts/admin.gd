@@ -99,3 +99,6 @@ func get_hand_size() -> int:
 # Called to get if the player is union
 func is_player_union() -> bool:
 	return _IS_UNION
+
+func is_alive() -> bool:
+	return _money > 0

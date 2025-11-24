@@ -55,6 +55,8 @@ func _input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if Globals.curr_turn != Globals.MY_ID:
 				return
+			if not Globals.PLAYERS[Globals.MY_ID].is_alive():
+				return
 			# Checking if the object is picked up or not
 			if event.is_pressed() and Globals.picked_up_name != "":
 				Globals.picked_up 	   = true
@@ -75,7 +77,8 @@ func _process(_delta: float) -> void:
 
 	# Checking if the cards are being interacted with in the right turn order
 	if (Globals.curr_turn == _player_id and
-		Globals.curr_turn == Globals.MY_ID):
+		Globals.curr_turn == Globals.MY_ID and
+		Globals.PLAYERS[_player_id].is_alive()):
 
 		# If the card is picked up then move it by its calculated offset
 		if Globals.picked_up and Globals.picked_up_name == self.name:
