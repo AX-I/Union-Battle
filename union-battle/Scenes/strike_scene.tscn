@@ -491,3 +491,4 @@ script = ExtResource("12_ajl8s")
 [connection signal="pressed" from="PrioritySwitch" to="." method="_on_priority_switch_pressed"]
 [connection signal="pressed" from="DevSwitch" to="." method="_on_dev_switch_player_pressed"]
 [connection signal="pressed" from="GlobalPriorities/Undecided/VoteCancelBtn" to="." method="_on_vote_cancel_btn_pressed"]
+[connection signal="recv_turn_end" from="ConnectionIn" to="." method="_on_connection_in_recv_turn_end"]
