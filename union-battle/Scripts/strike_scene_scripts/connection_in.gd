@@ -4,7 +4,9 @@ var serv = Globals.SERVER_ADDR
 var uname = Globals.USERNAME
 var ti
 
-var allUsers = []
+var syncData = {}
+
+signal recv_turn_end
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -40,6 +42,15 @@ func _on_request_completed(result, response_code, _headers, body):
 func syncPlayers(data):
 	for k in data:
 		var pid = int(k)
-		var p = data[k]
+		if pid == Globals.MY_ID:
+			continue
+		if pid not in syncData:
+			syncData[pid] = {'endTurn':'-1'}
+		var pdata = data[k]
 		var plabel = Globals.PLAYERS[pid].get_node('PlayerLabel')
-		plabel.text = p['user']
+		plabel.text = pdata['user']
+		if 'endTurn' in pdata:
+			if syncData[pid]['endTurn'] != pdata['endTurn']:
+				# Someone's turn end
+				emit_signal('recv_turn_end')
+				syncData[pid]['endTurn'] = pdata['endTurn']

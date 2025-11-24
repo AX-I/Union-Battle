@@ -466,3 +466,7 @@ func _on_global_priority_btn_pressed(btn):
 func _on_vote_cancel_btn_pressed() -> void:
 	active_vote_btn = null
 	set_visible_prio_voting(false)
+
+func _on_connection_in_recv_turn_end() -> void:
+	assert(Globals.curr_turn != Globals.MY_ID)
+	_on_end_turn()
