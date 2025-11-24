@@ -17,9 +17,8 @@ var yes_priority_btns:	Array 		= []
 
 var show_priorities:			bool 	= false
 
-# Will hold the global_priority.tscn instance
-# for the one that is currently being voted on
-var active_vote_btn 					= null
+# If set, forces the next turn to be this player's turn
+var force_player_turn:	int				= -1
 
 signal send_end_my_turn
 
@@ -37,6 +36,7 @@ func _ready() -> void:
 	
 	# Don't show priority stuff by default
 	get_node("GlobalPriorities").visible = false
+	get_node("PriorityPopup").visible 	 = false
 
 	# Get each child that is a player
 	for players in self.get_children():
@@ -50,7 +50,6 @@ func _ready() -> void:
 
 	# Get each player component
 	var player_stances     	= get_json_from_file(Globals.PLAYER_POS_JSON)
-	var global_priorities  	  	= get_json_from_file(Globals.GLOBAL_PRIOS_JSON)["priorities"]
 	var personal_positions 	= player_stances.get(PERSONAL_STR)
 	var academic_positions 	= player_stances.get(ACADEMIC_STR)
 
@@ -67,16 +66,19 @@ func _ready() -> void:
 		# Increasing player count
 		Globals.PLAYER_COUNT += 1
 		
-	for priority in global_priorities:
+	for priority in Globals.get_all_priorities():
 		var btn 		= PRIO_BTN_SCENE.instantiate()
 		
-		btn.text     = priority
+		btn.text     	= priority
+		btn.set_prio_name(priority)
 		get_node("GlobalPriorities").add_child(btn)
 		undecided_priority_btns.append(btn)
 		btn.size = Vector2(75, 30)
 		
 		# Connect the button_pressed signal
 		btn.pressed.connect(_on_global_priority_btn_pressed.bind(btn))
+		btn.mouse_entered.connect(_on_global_priority_btn_mouse_entered.bind(btn))
+		btn.mouse_exited.connect(_on_global_priority_btn_mouse_exited.bind(btn))
 		
 	place_all_global_priorities()
 		
@@ -282,6 +284,10 @@ func union_draw(
 	# If the player's hand is not full then draw
 	if Globals.PLAYERS[Globals.curr_turn].get_hand_size() < 5:
 		Globals.PLAYERS[Globals.curr_turn].take_card(unionist_deck.pop_front())
+		
+		# If showing priorities, hide the card
+		if show_priorities:
+			Globals.PLAYERS[Globals.curr_turn].toggle_priorities(true)
 
 	# Check if the unionist discard pile should be shuffled back into the deck
 	if unionist_deck.size() == 0:
@@ -300,6 +306,10 @@ func admin_draw(
 
 	# Player 4 draws from the admin deck
 	Globals.PLAYERS[Globals.curr_turn].take_card(admin_deck.pop_front())
+	
+	# If showing priorities, hide the card
+	if show_priorities:
+		Globals.PLAYERS[Globals.curr_turn].toggle_priorities(true)
 
 	# Check if the admin discard pile should be shuffled back into the deck
 	if admin_deck.size() == 0:
@@ -393,6 +403,8 @@ func get_json_from_file(
 
 
 func _on_end_turn() -> void:
+	Globals.drew_this_turn = false
+	
 	if Globals.curr_turn == Globals.MY_ID:
 		emit_signal('send_end_my_turn')
 
@@ -402,10 +414,36 @@ func _on_end_turn() -> void:
 		Globals.curr_turn += 1
 
 	print("current turn", Globals.curr_turn)
+	
+	# If we are forcing a player's turn, keep going until we hit it
+	if -1 != force_player_turn:
+		if force_player_turn != Globals.curr_turn:
+			_on_end_turn()
+		else:
+			force_player_turn = -1
 
 	var indicator = get_node('TurnIndicator')
 	indicator.position = Globals.PLAYER_COORDS[Globals.curr_turn]
+	
+	if null != Globals.active_vote_btn:
+		start_voting_turn()
+	else:
+		start_normal_turn()
 
+func start_voting_turn():
+	# IF it is a voting turn, make sure we go through each unionist's opinion on the vote before we get to the admin
+	if not Globals.PLAYERS[Globals.curr_turn].is_player_union():
+		# Num votes has to equal number of players - 1 (# of unionists), else skip the admin's turn
+		if Globals.active_vote_btn.get_num_votes() < (len(Globals.PLAYERS) - 1):
+			_on_end_turn()
+			
+	# If this player has already voted, skip their turn
+	if Globals.active_vote_btn.has_player_voted(Globals.curr_turn):
+		_on_end_turn()
+		
+	show_voting_ui(true)
+	
+func start_normal_turn():	
 	if Globals.PLAYERS[Globals.curr_turn].is_player_union():
 		if Globals.PLAYERS[Globals.curr_turn].get_risk() > 6:
 			Globals.PLAYERS[Globals.curr_turn].set_engagement(Globals.PLAYERS[Globals.curr_turn].get_engagement()-2)
@@ -420,14 +458,17 @@ func _on_end_turn() -> void:
 				total_engagement -= player.get_engagement()
 		Globals.PLAYERS[Globals.curr_turn].adjust_money(total_engagement)
 		draw_card(false)
-
-
+	
 func _on_dev_switch_player_pressed() -> void:
 	Globals.MY_ID += 1
 	if Globals.MY_ID == Globals.PLAYER_COUNT:
 		Globals.MY_ID = 0
 	setupIndicators()
-
+	
+	# If vote is in progress, update the UI
+	if null != Globals.active_vote_btn:
+		if not Globals.active_vote_btn.get_can_start_vote():
+			show_voting_ui(true)
 
 func _on_priority_switch_pressed() -> void:
 	show_priorities = not show_priorities
@@ -437,34 +478,182 @@ func _on_priority_switch_pressed() -> void:
 	get_node("AdminDeck").visible 			= not show_priorities
 	
 	for player in Globals.PLAYERS:
-		
 		# For debugging
 		if player.get_id() == Globals.MY_ID and player.is_player_union():
 			player.get_priorities()
 			
-		if player.is_player_union():
-			player.toggle_priorities(show_priorities)
+		player.toggle_priorities(show_priorities)
 
 func set_visible_prio_voting(visible_voting: bool):
+	get_node("GlobalPriorities/SelectedPriority").text 				= "Selected Priority: " + Globals.active_vote_btn.get_prio_name() if visible_voting else ""
+	
+	get_node("GlobalPriorities/SelectedPriority").visible 			= visible_voting
 	get_node("GlobalPriorities/Scrapped/VoteScrapBtn").visible 		= visible_voting
 	get_node("GlobalPriorities/Undecided/VoteCancelBtn").visible 	= visible_voting
 	get_node("GlobalPriorities/Approved/VoteApproveBtn").visible 	= visible_voting
 	get_node("GlobalPriorities/Title").visible 						= not visible_voting
 
 func _on_global_priority_btn_pressed(btn):
+	# Nothing happens if it is not your turn
+	if Globals.curr_turn != Globals.MY_ID:
+		return
+		
+	# Nothing happens if a vote is in progress
+	if null != Globals.active_vote_btn:
+		if not Globals.active_vote_btn.get_can_start_vote():
+			return
+	
 	# Nothing happens if you press on a NON undecided prio
 	if btn.get_prio_state() != Globals.UNDECIDED_STATE:
-		pass
+		return
 	
 	# At this point it is undecided, can either cancel
 	# action, or start a vote for a "YES" or "NO" for this prio
-	active_vote_btn = btn
+	Globals.active_vote_btn = btn
 	set_visible_prio_voting(true)
+	
+func _on_global_priority_btn_mouse_entered(btn):
+	get_node("PriorityPopup/PopupText").text = btn.get_hover_text()
+	get_node("PriorityPopup").visible = true
+	
+func _on_global_priority_btn_mouse_exited(btn):
+	# If a vote is in progress, do as if we entered the actively voted priority's button, else hide the popup
+	if null != Globals.active_vote_btn:
+		if not Globals.active_vote_btn.get_can_start_vote():
+			_on_global_priority_btn_mouse_entered(Globals.active_vote_btn)
+			return
+			
+	get_node("PriorityPopup").visible = false
 
 func _on_vote_cancel_btn_pressed() -> void:
-	active_vote_btn = null
-	set_visible_prio_voting(false)
+	# If a vote already started, simply add a vote
+	if Globals.active_vote_btn.get_can_start_vote():
+		Globals.active_vote_btn = null
+		set_visible_prio_voting(false)
+	else:
+		# Add a vote as long as it's your turn
+		if Globals.curr_turn != Globals.MY_ID:
+			return
+		add_vote(Globals.UNDECIDED_STATE)
 
 func _on_connection_in_recv_turn_end() -> void:
 	assert(Globals.curr_turn != Globals.MY_ID)
 	_on_end_turn()
+
+func show_voting_ui(to_show: bool):
+	if to_show:
+		# Force the 'hover' box to be on - with the actively voted btn's data
+		_on_global_priority_btn_mouse_entered(Globals.active_vote_btn)
+	
+		# Force the 'priorities' screen (toggle on priorities + disable the button)
+		if not show_priorities:
+			_on_priority_switch_pressed()
+		
+	get_node("PrioritySwitch").disabled = to_show
+	# Disable the end turn button - only way to proceed is voting
+	get_node("EndTurn").disabled 		= to_show
+	
+	# Different text for admin
+	var abstain_text = "Abstain" if Globals.PLAYERS[Globals.MY_ID].is_player_union() else "Leave Undecided"
+	var yes_text 	 = "Vote to Approve" if Globals.PLAYERS[Globals.MY_ID].is_player_union() else "Approve Priority"
+	var no_text 	 = "Vote to Scrap" if Globals.PLAYERS[Globals.MY_ID].is_player_union() else "Scrap Priority"
+	
+	get_node("GlobalPriorities/Undecided/VoteCancelBtn").text = abstain_text if to_show else "Cancel Vote"
+	get_node("GlobalPriorities/Approved/VoteApproveBtn").text = yes_text if to_show else "Vote to Approve"
+	get_node("GlobalPriorities/Scrapped/VoteScrapBtn").text   = no_text if to_show else "Vote to Scrap"
+	
+func start_vote(to_approve: bool):
+	# Re-init in case of prev data being there
+	Globals.active_vote_btn.start_vote()
+	
+	show_voting_ui(true)
+	
+	# Only add your vote if you are not the admin, since admin is last
+	if Globals.PLAYERS[Globals.curr_turn].is_player_union():
+		Globals.active_vote_btn.add_player_yes_vote(Globals.curr_turn) if to_approve else Globals.active_vote_btn.add_player_no_vote(Globals.curr_turn)
+	Globals.active_vote_btn.set_vote_starter_id(Globals.curr_turn)
+	Globals.active_vote_btn.set_vote_to_approve(to_approve)
+	
+	# Starts a vote, assuming that active_vote_btn has already been set
+	_on_end_turn()
+
+# Vote to add should be one of Globals.UNDECIDED|YES|NO_STATE
+func add_vote(vote_to_add: String):
+	if Globals.UNDECIDED_STATE == vote_to_add:
+		Globals.active_vote_btn.add_player_undecided_vote(Globals.curr_turn)
+		
+	elif Globals.YES_STATE == vote_to_add:
+		Globals.active_vote_btn.add_player_yes_vote(Globals.curr_turn)
+		
+	elif Globals.NO_STATE == vote_to_add:
+		Globals.active_vote_btn.add_player_no_vote(Globals.curr_turn)
+		
+	else:
+		print("ERROR! Should never see this with: ", vote_to_add)
+		
+	# IF we are the admin, finish the voting phase
+	if not Globals.PLAYERS[Globals.curr_turn].is_player_union():
+		finish_voting(vote_to_add)
+		
+	_on_end_turn()
+
+# Vote to add should be one of Globals.UNDECIDED|YES|NO_STATE
+func finish_voting(vote_to_add: String):
+	Globals.active_vote_btn.set_prio_state(vote_to_add)
+	show_voting_ui(false)
+	
+	if Globals.UNDECIDED_STATE != vote_to_add:
+		
+		# Remove btn from undecided
+		var index_to_rm = -1
+		for i in range(len(undecided_priority_btns)):
+			var btn = undecided_priority_btns[i]
+			if btn.get_prio_name() == Globals.active_vote_btn.get_prio_name():
+				index_to_rm = i
+				break
+				
+		if -1 != index_to_rm:
+			undecided_priority_btns.remove_at(index_to_rm)
+			
+		# Add btn to appropriate list
+		if Globals.YES_STATE == vote_to_add:
+			yes_priority_btns.append(Globals.active_vote_btn)
+		elif Globals.NO_STATE == vote_to_add:
+			no_priority_btns.append(Globals.active_vote_btn)
+			
+		# Re-place buttons
+		place_all_global_priorities()
+		
+	set_visible_prio_voting(false)
+	
+	# Force next player's turn to be the player after the inital voter
+	force_player_turn = Globals.active_vote_btn.get_vote_starter_id() + 1
+	if force_player_turn >= len(Globals.PLAYERS):
+		force_player_turn = 0
+		
+	Globals.active_vote_btn = null
+	
+	# Hide the hover box
+	get_node("PriorityPopup").visible = false
+
+func _on_vote_scrap_btn_pressed() -> void:
+	# Needs to be your turn for it to do anything
+	if Globals.curr_turn != Globals.MY_ID:
+		return
+	
+	# If a vote already started, simply add a vote
+	if Globals.active_vote_btn.get_can_start_vote():
+		start_vote(false)
+	else:
+		add_vote(Globals.NO_STATE)
+
+func _on_vote_approve_btn_pressed() -> void:
+	# Needs to be your turn for it to do anything
+	if Globals.curr_turn != Globals.MY_ID:
+		return
+	
+	# If a vote already started, simply add a vote
+	if Globals.active_vote_btn.get_can_start_vote():
+		start_vote(true)
+	else:
+		add_vote(Globals.YES_STATE)

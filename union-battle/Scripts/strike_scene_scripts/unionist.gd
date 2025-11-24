@@ -13,6 +13,8 @@ const RISK_LABEL_STR:		String	    = "Risk: "
 # The player is union
 const _IS_UNION:				bool		= true
 
+var player_name:			String	 	= ""
+
 # The player ID
 var _id: 					int 		= -1
 
@@ -31,7 +33,6 @@ signal end_turn
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
 	# Retrieving the children and assigning them accordingly for later use
 	for child in self.get_children():
 
@@ -66,6 +67,9 @@ func setup_player(id: int, card_pos: Array) -> void:
 
 	# Set card positions
 	_card_positions = card_pos
+	
+	if not player_name:
+		player_name = "Playester " + str(_id + 1)
 
 func toggle_priorities(show_priorities: bool) -> void:
 	# Either show the priorities and hide the cards, or vice versa
@@ -176,8 +180,12 @@ func get_priorities() -> Array:
 	return _priorities
 
 # Setter for the player label
-func set_player_label(player_name: String) -> void:
-	player_label.text = player_name
+func set_player_label(player_name_param: String) -> void:
+	player_name 	  = player_name_param.replace("\n", " ")
+	player_label.text = player_name_param
+	
+func get_player_name():
+	return player_name
 
 # Getter for the ID
 func get_id() -> int:

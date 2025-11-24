@@ -59,6 +59,14 @@ func take_card(
 	new_card.set_start_pos(_card_positions.pop_back())
 	new_card.to_start_pos()
 
+func toggle_priorities(show_priorities: bool) -> void:
+	# Either show the priorities and hide the cards, or vice versa
+	for card in _hand:
+		card.visible = not show_priorities
+
+func get_player_name():
+	return "Admin"
+
 # Called to discard a card
 func discard(
 	old_card: PlayingCard

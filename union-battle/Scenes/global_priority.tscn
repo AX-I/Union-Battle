@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dcr7pjfc6fpga"]
 
-[ext_resource type="Script" uid="uid://bdiisbsf0tort" path="res://Scenes/global_priority.gd" id="1_xeesl"]
+[ext_resource type="Script" uid="uid://bdiisbsf0tort" path="res://Scripts/other/global_priority.gd" id="1_xeesl"]
 
 [node name="GlobalPriority" type="Button"]
 anchors_preset = -1

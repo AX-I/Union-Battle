@@ -5,7 +5,6 @@ extends Node
 const UNIONIST_CARD_JSON: 	String 		= "res://Scripts/card_info/union_cards.json"
 const ADMIN_CARD_JSON: 		String 		= "res://Scripts/card_info/admin_cards.json"
 const PLAYER_POS_JSON:		String		= "res://Scripts/card_info/player_positions.json"
-const GLOBAL_PRIOS_JSON:		String 		= "res://Scripts/card_info/global_priorities.json"
 
 # For priority btns
 const UNDECIDED_STATE 					= "undecided"
@@ -43,6 +42,9 @@ var picked_up_name:			String		= ""
 # Values controlling current turn
 var curr_turn:				int			= 0
 var drew_this_turn:			bool		= false
+# Will hold the global_priority.tscn instance
+# for the one that is currently being voted on
+var active_vote_btn 					= null
 
 # Player count
 var PLAYER_COUNT:			int			= 0
@@ -52,6 +54,18 @@ var PLAYER_COUNT:			int			= 0
 var SERVER_ADDR: String = ""
 var USERNAME: String = ""
 var MY_ID: int = -1
+
+func get_all_priorities() -> Array:
+	# Returns an array of all priorities for all unionists combined, with no duplicates
+	var ret = []
+		
+	for player in PLAYERS:
+		if player.is_player_union():
+			for priority in player.get_priorities():
+				if priority not in ret:
+					ret.append(priority)
+				
+	return ret 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
