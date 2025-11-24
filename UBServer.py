@@ -28,15 +28,26 @@ class UnionHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        print('path', self.path)
+        print('get', self.path)
 
         path = urlparse(self.path).path
         if path == '/join':
             self.addPlayer()
         elif path == '/fetch':
             self.sendUpdates()
-        elif path == '/update':
-            self.recvUpdates()
+
+    def do_POST(self):
+        print('post', self.path)
+
+        path = urlparse(self.path).path
+
+        n = int(self.headers.get("Content-Length"))
+        raw = self.rfile.read(n).decode("utf-8")
+        print('  data', raw)
+        jdata = json.loads(raw)
+
+        if path == '/update':
+            self.recvUpdates(jdata)
 
     def addPlayer(self):
         data = parse_qs(urlparse(self.path).query)
@@ -65,13 +76,15 @@ class UnionHandler(BaseHTTPRequestHandler):
 
         self.send_response(200, self.server.players)
 
-    def recvUpdates(self):
+    def recvUpdates(self, jdata):
         data = parse_qs(urlparse(self.path).query)
 
         player_id = int(data['id'][0])
 
         if 'endTurn' in data:
             self.server.players[player_id]['endTurn'] = data['endTurn'][0]
+
+        self.server.players[player_id]['data'] = jdata
 
 
 def run(ip):
