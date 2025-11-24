@@ -54,3 +54,8 @@ func syncPlayers(data):
 				# Someone's turn end
 				emit_signal('recv_turn_end')
 				syncData[pid]['endTurn'] = pdata['endTurn']
+				syncOnePlayer(pid, pdata)
+
+func syncOnePlayer(pid: int, pdata: Dictionary):
+	if 'data' in pdata:
+		Globals.PLAYERS[pid].set_stats(pdata['data']['stats'])
