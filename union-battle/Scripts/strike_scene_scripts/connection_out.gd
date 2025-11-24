@@ -11,9 +11,12 @@ func _ready() -> void:
 func _on_strike_scene_send_end_my_turn() -> void:
 	var time = int(Time.get_unix_time_from_system())
 
+	var pinfo = Globals.PLAYERS[Globals.MY_ID].get_stats();
+	var body = JSON.stringify(pinfo)
+
 	var target = Globals.SERVER_ADDR + '/update?id=' + str(Globals.MY_ID)
 	target += '&endTurn=' + str(time)
-	var err = self.request(target)
+	var err = self.request(target, [], HTTPClient.METHOD_POST, body)
 	if err:
 		push_error('Connection error')
 

@@ -110,3 +110,6 @@ func is_player_union() -> bool:
 
 func is_alive() -> bool:
 	return _money > 0
+
+func get_stats() -> Dictionary:
+	return {'money':_money}

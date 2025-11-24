@@ -201,3 +201,6 @@ func is_player_union() -> bool:
 
 func is_alive() -> bool:
 	return _engagement > 0
+
+func get_stats() -> Dictionary:
+	return {'engagement':get_engagement(), 'risk':get_risk()}
