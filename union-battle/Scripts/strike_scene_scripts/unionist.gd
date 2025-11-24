@@ -1,16 +1,17 @@
 extends StaticBody2D
 
 # All of the labels
-var egmt_label: 			Label		= null
+var egmt_label: 				Label		= null
 var risk_label:				Label		= null
 var player_label:			Label		= null
+var priorities_label:		Label 		= null
 
 # Constants for strings
 const ENGAGEMENT_LABEL_STR:	String	    = "Engagement: "
 const RISK_LABEL_STR:		String	    = "Risk: "
 
 # The player is union
-const _IS_UNION:			bool		= true
+const _IS_UNION:				bool		= true
 
 # The player ID
 var _id: 					int 		= -1
@@ -20,11 +21,11 @@ var _hand: 					Array   	= []
 
 # The player's engagement and risk
 var _engagement: 			int 		= 0
-var _risk: 					int			= 0
-var _priorities:			Array		= []
+var _risk: 					int		= 0
+var _priorities:				Array	= []
 
 # Positions for player cards
-var _card_positions:		Array 		= []
+var _card_positions:			Array 	= []
 
 signal end_turn
 
@@ -45,6 +46,13 @@ func _ready() -> void:
 		# Storing the player label
 		if child.name.contains("Label"):
 			player_label = child
+			
+		# Storing the priorities label
+		if child.name.contains("Priorities"):
+			priorities_label = child
+			
+			# Start as hidden
+			priorities_label.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -58,6 +66,23 @@ func setup_player(id: int, card_pos: Array) -> void:
 
 	# Set card positions
 	_card_positions = card_pos
+
+func toggle_priorities(show_priorities: bool) -> void:
+	# Either show the priorities and hide the cards, or vice versa
+	for card in _hand:
+		card.visible = not show_priorities
+	
+	if show_priorities:
+		var priority_text = ""
+		for priority in _priorities:
+			priority_text += priority + ", "
+			
+		# Strip last comma and space
+		priority_text = priority_text.left(priority_text.length() - 2)
+		
+		priorities_label.text = "Priorities: " + priority_text
+	
+	priorities_label.visible = show_priorities
 
 # Called to take a card from the deck
 func take_card(
@@ -147,6 +172,7 @@ func add_priorities(
 			_priorities.append(p)
 
 func get_priorities() -> Array:
+	print("player w/ id: " + str(_id) + "'s priorities = " + str(_priorities))
 	return _priorities
 
 # Setter for the player label

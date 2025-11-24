@@ -1,5 +1,7 @@
 extends Node2D
 
+const PRIO_BTN_SCENE = preload("res://Scenes/global_priority.tscn")
+
 # The unionist and admin decks
 var unionist_deck: 			Array 	= []
 var admin_deck:    			Array 	= []
@@ -7,6 +9,17 @@ var admin_deck:    			Array 	= []
 # The unionist and admin discard piles
 var unionist_discard_pile:	Array	= []
 var admin_discard_pile:		Array	= []
+
+# "global_priority.tscn" instances
+var undecided_priority_btns:	Array 	= []
+var no_priority_btns:	Array 		= []
+var yes_priority_btns:	Array 		= []
+
+var show_priorities:			bool 	= false
+
+# Will hold the global_priority.tscn instance
+# for the one that is currently being voted on
+var active_vote_btn 					= null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -19,6 +32,9 @@ func _ready() -> void:
 	const SPRITE_STR	   = "path_to_img"
 	const ACADEMIC_STR	   = "academic_position"
 	const PERSONAL_STR	   = "personal_position"
+	
+	# Don't show priority stuff by default
+	get_node("GlobalPriorities").visible = false
 
 	# Get each child that is a player
 	for players in self.get_children():
@@ -31,9 +47,10 @@ func _ready() -> void:
 	var total_cards 	   = 0
 
 	# Get each player component
-	var player_stances     = get_json_from_file(Globals.PLAYER_POS_JSON)
-	var personal_positions = player_stances.get(PERSONAL_STR)
-	var academic_positions = player_stances.get(ACADEMIC_STR)
+	var player_stances     	= get_json_from_file(Globals.PLAYER_POS_JSON)
+	var global_priorities  	  	= get_json_from_file(Globals.GLOBAL_PRIOS_JSON)["priorities"]
+	var personal_positions 	= player_stances.get(PERSONAL_STR)
+	var academic_positions 	= player_stances.get(ACADEMIC_STR)
 
 	# Setup initial player values
 	for player in Globals.PLAYERS:
@@ -47,7 +64,20 @@ func _ready() -> void:
 
 		# Increasing player count
 		Globals.PLAYER_COUNT += 1
-
+		
+	for priority in global_priorities:
+		var btn 		= PRIO_BTN_SCENE.instantiate()
+		
+		btn.text     = priority
+		get_node("GlobalPriorities").add_child(btn)
+		undecided_priority_btns.append(btn)
+		btn.size = Vector2(75, 30)
+		
+		# Connect the button_pressed signal
+		btn.pressed.connect(_on_global_priority_btn_pressed.bind(btn))
+		
+	place_all_global_priorities()
+		
 	# Initializing random number generator
 	randomize()
 
@@ -117,6 +147,35 @@ func _ready() -> void:
 	deal_cards()
 
 	setupIndicators()
+
+func place_all_global_priorities():
+	place_global_priorities(undecided_priority_btns)
+	place_global_priorities(yes_priority_btns)
+	place_global_priorities(no_priority_btns)
+
+func place_global_priorities(instance_arr: Array):
+	const UNDECIDED_PATH 	= "GlobalPriorities/Undecided"
+	const NO_PATH			= "GlobalPriorities/Scrapped"
+	const YES_PATH			= "GlobalPriorities/Approved"
+	
+	for i in range(len(instance_arr)):
+		var prio_btn 	= instance_arr[i] 
+		var parent 		= null
+		
+		if prio_btn.get_prio_state() == Globals.UNDECIDED_STATE:
+			parent 	= get_node(UNDECIDED_PATH)
+		elif prio_btn.get_prio_state() == Globals.NO_STATE:
+			parent 	= get_node(NO_PATH)
+		elif prio_btn.get_prio_state() == Globals.YES_STATE:
+			parent 	= get_node(YES_PATH)
+		
+		# 0 or 1
+		var col 		= (i % 2)
+		
+		# 0+
+		var row     = (floor(i / 2))
+		
+		prio_btn.global_position = parent.global_position + Vector2(col * 80, row * 35) + Vector2(-15, 35)
 
 func setupIndicators():
 	var indicator = get_node('MeIndicator')
@@ -365,3 +424,40 @@ func _on_dev_switch_player_pressed() -> void:
 	if Globals.MY_ID == Globals.PLAYER_COUNT:
 		Globals.MY_ID = 0
 	setupIndicators()
+
+
+func _on_priority_switch_pressed() -> void:
+	show_priorities = not show_priorities
+	
+	get_node("GlobalPriorities").visible 	= show_priorities
+	get_node("UnionDeck").visible 			= not show_priorities
+	get_node("AdminDeck").visible 			= not show_priorities
+	
+	for player in Globals.PLAYERS:
+		
+		# For debugging
+		if player.get_id() == Globals.MY_ID and player.is_player_union():
+			player.get_priorities()
+			
+		if player.is_player_union():
+			player.toggle_priorities(show_priorities)
+
+func set_visible_prio_voting(visible_voting: bool):
+	get_node("GlobalPriorities/Scrapped/VoteScrapBtn").visible 		= visible_voting
+	get_node("GlobalPriorities/Undecided/VoteCancelBtn").visible 	= visible_voting
+	get_node("GlobalPriorities/Approved/VoteApproveBtn").visible 	= visible_voting
+	get_node("GlobalPriorities/Title").visible 						= not visible_voting
+
+func _on_global_priority_btn_pressed(btn):
+	# Nothing happens if you press on a NON undecided prio
+	if btn.get_prio_state() != Globals.UNDECIDED_STATE:
+		pass
+	
+	# At this point it is undecided, can either cancel
+	# action, or start a vote for a "YES" or "NO" for this prio
+	active_vote_btn = btn
+	set_visible_prio_voting(true)
+
+func _on_vote_cancel_btn_pressed() -> void:
+	active_vote_btn = null
+	set_visible_prio_voting(false)

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcr7pjfc6fpga"]
+
+[ext_resource type="Script" uid="uid://bdiisbsf0tort" path="res://Scenes/global_priority.gd" id="1_xeesl"]
+
+[node name="GlobalPriority" type="Button"]
+anchors_preset = -1
+anchor_right = 0.109000005
+anchor_bottom = 0.07700001
+offset_right = -0.5680084
+offset_bottom = 0.10399628
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "PriorityName"
+script = ExtResource("1_xeesl")

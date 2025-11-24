@@ -5,6 +5,12 @@ extends Node
 const UNIONIST_CARD_JSON: 	String 		= "res://Scripts/card_info/union_cards.json"
 const ADMIN_CARD_JSON: 		String 		= "res://Scripts/card_info/admin_cards.json"
 const PLAYER_POS_JSON:		String		= "res://Scripts/card_info/player_positions.json"
+const GLOBAL_PRIOS_JSON:		String 		= "res://Scripts/card_info/global_priorities.json"
+
+# For priority btns
+const UNDECIDED_STATE 					= "undecided"
+const NO_STATE 							= "no"
+const YES_STATE 							= "yes"
 
 # Player list
 var PLAYERS:				Array		= []
