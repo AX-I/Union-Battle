@@ -75,7 +75,8 @@ func _process(_delta: float) -> void:
 
 	# Checking if the cards are being interacted with in the right turn order
 	if (Globals.curr_turn == _player_id and
-		Globals.curr_turn == Globals.MY_ID):
+		Globals.curr_turn == Globals.MY_ID and
+		Globals.PLAYERS[_player_id].is_alive()):
 
 		# If the card is picked up then move it by its calculated offset
 		if Globals.picked_up and Globals.picked_up_name == self.name:
