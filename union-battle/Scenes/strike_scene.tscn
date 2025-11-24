@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c331oxuq4jhyl"]
+[gd_scene load_steps=19 format=3 uid="uid://c331oxuq4jhyl"]
 
 [ext_resource type="Script" uid="uid://bgmuvfbsm32i3" path="res://Scripts/strike_scene_scripts/strike_scene.gd" id="1_n1sj3"]
 [ext_resource type="Texture2D" uid="uid://dagmrjq5aoyhs" path="res://icon.svg" id="1_x2neb"]
@@ -10,7 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://cnpqoyjhw3ils" path="res://Assets/admin_press_temp.png" id="7_5jf1a"]
 [ext_resource type="Shader" uid="uid://dnl4m4npq2spa" path="res://Shaders/meIndicator.gdshader" id="9_xcxxk"]
 [ext_resource type="Shader" uid="uid://c8k73vwhqk75" path="res://Shaders/turnIndicator.gdshader" id="10_k2kik"]
-[ext_resource type="Script" uid="uid://dya7gnl4x3wyj" path="res://Scripts/connection.gd" id="11_erwlu"]
+[ext_resource type="Script" uid="uid://dya7gnl4x3wyj" path="res://Scripts/strike_scene_scripts/connection_in.gd" id="11_erwlu"]
+[ext_resource type="Script" uid="uid://cc0qggkckv3fa" path="res://Scripts/strike_scene_scripts/connection_out.gd" id="12_ajl8s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qj3wv"]
 size = Vector2(128, 128)
@@ -473,9 +474,13 @@ offset_top = -35.0
 offset_right = 125.0
 text = "Vote to Approve"
 
-[node name="Connection" type="HTTPRequest" parent="."]
+[node name="ConnectionIn" type="HTTPRequest" parent="."]
 script = ExtResource("11_erwlu")
 
+[node name="ConnectionOut" type="HTTPRequest" parent="."]
+script = ExtResource("12_ajl8s")
+
+[connection signal="send_end_my_turn" from="." to="ConnectionOut" method="_on_strike_scene_send_end_my_turn"]
 [connection signal="end_turn" from="Player1" to="." method="_on_end_turn"]
 [connection signal="end_turn" from="Player2" to="." method="_on_end_turn"]
 [connection signal="end_turn" from="Player3" to="." method="_on_end_turn"]

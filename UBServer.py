@@ -35,6 +35,8 @@ class UnionHandler(BaseHTTPRequestHandler):
             self.addPlayer()
         elif path == '/fetch':
             self.sendUpdates()
+        elif path == '/update':
+            self.recvUpdates()
 
     def addPlayer(self):
         data = parse_qs(urlparse(self.path).query)
@@ -62,6 +64,14 @@ class UnionHandler(BaseHTTPRequestHandler):
         data = parse_qs(urlparse(self.path).query)
 
         self.send_response(200, self.server.players)
+
+    def recvUpdates(self):
+        data = parse_qs(urlparse(self.path).query)
+
+        player_id = int(data['id'][0])
+
+        if 'endTurn' in data:
+            self.server.players[player_id]['endTurn'] = data['endTurn'][0]
 
 
 def run(ip):
