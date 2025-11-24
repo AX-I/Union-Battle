@@ -21,6 +21,8 @@ var show_priorities:			bool 	= false
 # for the one that is currently being voted on
 var active_vote_btn 					= null
 
+signal send_end_my_turn
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
@@ -391,6 +393,9 @@ func get_json_from_file(
 
 
 func _on_end_turn() -> void:
+	if Globals.curr_turn == Globals.MY_ID:
+		emit_signal('send_end_my_turn')
+
 	if Globals.curr_turn == Globals.PLAYER_COUNT-1:
 		Globals.curr_turn = 0
 	else:
