@@ -39,7 +39,7 @@ func _on_pressed() -> void:
 	if err:
 		push_GUI_error(CONN_ERR_STR)
 
-func _on_request_completed(result, response_code, headers, body):
+func _on_request_completed(result, response_code, _headers, body):
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_GUI_error(CONN_ERR_STR)
 		return

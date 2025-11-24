@@ -33,6 +33,8 @@ class UnionHandler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         if path == '/join':
             self.addPlayer()
+        elif path == '/fetch':
+            self.sendUpdates()
 
     def addPlayer(self):
         data = parse_qs(urlparse(self.path).query)
@@ -55,6 +57,11 @@ class UnionHandler(BaseHTTPRequestHandler):
 
         print('sending', msg)
         self.send_response(200, msg)
+
+    def sendUpdates(self):
+        data = parse_qs(urlparse(self.path).query)
+
+        self.send_response(200, self.server.players)
 
 
 def run(ip):
