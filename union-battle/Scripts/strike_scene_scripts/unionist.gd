@@ -204,3 +204,7 @@ func is_alive() -> bool:
 
 func get_stats() -> Dictionary:
 	return {'engagement':get_engagement(), 'risk':get_risk()}
+
+func set_stats(new_stat: Dictionary) -> void:
+	set_engagement(new_stat['engagement'])
+	set_risk(new_stat['risk'])

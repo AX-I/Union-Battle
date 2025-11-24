@@ -113,3 +113,6 @@ func is_alive() -> bool:
 
 func get_stats() -> Dictionary:
 	return {'money':_money}
+
+func set_stats(new_stat: Dictionary) -> void:
+	_money = new_stat['money']
