@@ -17,6 +17,12 @@ var _card_name:			String				= "Unknown"
 var _movement_offset:	Vector2				= Vector2(0.0, 0.0)
 var _player_ref:		StaticBody2D		= null
 
+static func new_card_from_data(data: Dictionary) -> PlayingCard:
+	var c = PlayingCard.new()
+	c._engagement = data['e']
+	c._risk = data['r']
+	return c
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 
