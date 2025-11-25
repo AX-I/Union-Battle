@@ -410,12 +410,14 @@ func _on_end_turn() -> void:
 	else:
 		Globals.curr_turn += 1
 
-	print("current turn", Globals.curr_turn)
+	print('id ', Globals.MY_ID, " current turn ", Globals.curr_turn)
 	
 	# If we are forcing a player's turn, keep going until we hit it
 	if -1 != force_player_turn:
-		if force_player_turn != Globals.curr_turn:
-			_on_end_turn()
+		if (force_player_turn != Globals.curr_turn and
+			Globals.curr_turn == Globals.MY_ID):
+				print('skip my turn')
+				_on_end_turn()
 		else:
 			force_player_turn = -1
 
@@ -538,7 +540,7 @@ func _on_vote_cancel_btn_pressed(remote_activation := false) -> void:
 
 			connectionOutNode.send_vote(Globals.UNDECIDED_STATE)
 
-		add_vote(Globals.UNDECIDED_STATE)
+		add_vote(Globals.UNDECIDED_STATE, remote_activation)
 
 func _on_connection_in_recv_turn_end() -> void:
 	#assert(Globals.curr_turn != Globals.MY_ID)
