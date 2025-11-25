@@ -20,6 +20,8 @@ var show_priorities:			bool 	= false
 # If set, forces the next turn to be this player's turn
 var force_player_turn:	int				= -1
 
+var connectionOutNode
+
 signal send_end_my_turn
 
 # Called when the node enters the scene tree for the first time.
@@ -148,6 +150,8 @@ func _ready() -> void:
 
 	# Dealing the cards
 	deal_cards()
+
+	connectionOutNode = get_node('ConnectionOut')
 
 	setupIndicators()
 
@@ -523,6 +527,9 @@ func _on_vote_cancel_btn_pressed() -> void:
 		# Add a vote as long as it's your turn
 		if Globals.curr_turn != Globals.MY_ID:
 			return
+
+		connectionOutNode.send_vote(Globals.UNDECIDED_STATE)
+
 		add_vote(Globals.UNDECIDED_STATE)
 
 func _on_connection_in_recv_turn_end() -> void:
@@ -629,7 +636,9 @@ func _on_vote_scrap_btn_pressed() -> void:
 	# Needs to be your turn for it to do anything
 	if Globals.curr_turn != Globals.MY_ID:
 		return
-	
+
+	connectionOutNode.send_vote(Globals.NO_STATE)
+
 	# If a vote already started, simply add a vote
 	if Globals.active_vote_btn.get_can_start_vote():
 		start_vote(false)
@@ -641,6 +650,8 @@ func _on_vote_approve_btn_pressed() -> void:
 	if Globals.curr_turn != Globals.MY_ID:
 		return
 	
+	connectionOutNode.send_vote(Globals.YES_STATE)
+
 	# If a vote already started, simply add a vote
 	if Globals.active_vote_btn.get_can_start_vote():
 		start_vote(true)
