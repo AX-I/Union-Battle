@@ -57,5 +57,11 @@ func syncPlayers(data):
 				syncOnePlayer(pid, pdata)
 
 func syncOnePlayer(pid: int, pdata: Dictionary):
+	if 'actions' in pdata:
+		for act in pdata['actions']:
+			var card = PlayingCard.new_card_from_data(act['card'])
+			var targ_id = act['target']
+			Globals.PLAYERS[targ_id].adjust_stats(card)
+			card.queue_free()
 	if 'data' in pdata:
 		Globals.PLAYERS[pid].set_stats(pdata['data']['stats'])
