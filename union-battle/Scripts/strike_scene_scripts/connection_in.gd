@@ -51,9 +51,9 @@ func syncPlayers(data):
 		if 'endTurn' in pdata:
 			if syncData[pid]['endTurn'] != pdata['endTurn']:
 				# Someone's turn end
-				emit_signal('recv_turn_end')
 				syncData[pid]['endTurn'] = pdata['endTurn']
 				syncOnePlayer(pid, pdata)
+				emit_signal('recv_turn_end')
 
 func syncOnePlayer(pid: int, pdata: Dictionary):
 	if 'actions' in pdata:
@@ -64,6 +64,22 @@ func syncOnePlayer(pid: int, pdata: Dictionary):
 				Globals.PLAYERS[targ_id].adjust_stats(card)
 				card.queue_free()
 			elif 'vote' in act:
-				pass
+				syncVote(pid, act)
 	if 'data' in pdata:
 		Globals.PLAYERS[pid].set_stats(pdata['data']['stats'])
+
+func syncVote(pid, act):
+	var strikeNode = self.get_parent()
+
+	for btn in strikeNode.undecided_priority_btns:
+		#print('btn name ', btn.get_prio_name(), ' act name ', act['priority'])
+		if btn.get_prio_name() == act['priority']:
+			#print(' match!')
+			strikeNode._on_global_priority_btn_pressed(btn, true)
+
+	if act['vote'] == Globals.YES_STATE:
+		strikeNode._on_vote_approve_btn_pressed(true)
+	elif act['vote'] == Globals.NO_STATE:
+		strikeNode._on_vote_scrap_btn_pressed(true)
+	elif act['vote'] == Globals.UNDECIDED_STATE:
+		strikeNode._on_vote_cancel_btn_pressed(true)
