@@ -20,6 +20,18 @@ func _on_strike_scene_send_end_my_turn() -> void:
 	if err:
 		push_error('Connection error')
 
+func _on_card_played(card, player_ref) -> void:
+	print('card ', card)
+	var pinfo = {'e': card.get_engagement(), 'r':card.get_risk()}
+	var body = JSON.stringify(
+		{'card':pinfo, 'target': player_ref.get_id()}
+	)
+
+	var target = Globals.SERVER_ADDR + '/action?id=' + str(Globals.MY_ID)
+	var err = self.request(target, [], HTTPClient.METHOD_POST, body)
+	if err:
+		push_error('Connection error')
+
 func _on_request_completed(result, _response_code, _headers, _body):
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_error('Connection error')

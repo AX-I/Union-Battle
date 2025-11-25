@@ -406,6 +406,7 @@ func _on_end_turn() -> void:
 	Globals.drew_this_turn = false
 	
 	if Globals.curr_turn == Globals.MY_ID:
+		await get_tree().create_timer(0.5).timeout
 		emit_signal('send_end_my_turn')
 
 	if Globals.curr_turn == Globals.PLAYER_COUNT-1:
