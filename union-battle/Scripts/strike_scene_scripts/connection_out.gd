@@ -45,5 +45,5 @@ func send_vote(vote) -> void:
 
 func _on_request_completed(result, _response_code, _headers, _body):
 	if result != HTTPRequest.RESULT_SUCCESS:
-		push_error('Connection error')
+		push_error('Connection error: ', result)
 		return
