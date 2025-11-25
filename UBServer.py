@@ -32,7 +32,7 @@ class UnionHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        print('get', self.path)
+        #print('get', self.path)
 
         path = urlparse(self.path).path
         if path == '/join':
