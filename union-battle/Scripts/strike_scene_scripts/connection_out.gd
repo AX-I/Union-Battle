@@ -33,8 +33,10 @@ func _on_card_played(card, player_ref) -> void:
 		push_error('Connection error')
 
 func send_vote(vote) -> void:
+	var prio_name = Globals.active_vote_btn.get_prio_name()
 	print('vote ', vote)
-	var body = JSON.stringify({'vote':vote})
+	print('on issue ', prio_name)
+	var body = JSON.stringify({'vote':vote, 'priority':prio_name})
 
 	var target = Globals.SERVER_ADDR + '/action?id=' + str(Globals.MY_ID)
 	var err = self.request(target, [], HTTPClient.METHOD_POST, body)
