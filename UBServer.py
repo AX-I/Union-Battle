@@ -63,6 +63,9 @@ class UnionHandler(BaseHTTPRequestHandler):
             self.send_response(400, 'Username is already taken!')
             return
 
+        if len(self.server.players) >= 4:
+            self.server.players = {}
+
         player_id = len(self.server.players)
         self.server.players[player_id] = {'user':username}
 
