@@ -4,6 +4,7 @@ from urllib.parse import urlparse, parse_qs
 import socket
 import json
 import argparse
+import time
 
 class UnionServer(HTTPServer):
     def __init__(self, address, handler):
@@ -11,6 +12,8 @@ class UnionServer(HTTPServer):
 
         # Holds all player data
         self.players = {}
+
+        self.seed = int(time.time())
 
 
 class UnionHandler(BaseHTTPRequestHandler):
@@ -72,7 +75,7 @@ class UnionHandler(BaseHTTPRequestHandler):
         player_id = len(self.server.players)
         self.server.players[player_id] = {'user':username, 'actions':[]}
 
-        msg = {'msg': 'Success', 'id':player_id}
+        msg = {'msg': 'Success', 'id':player_id, 'seed': self.server.seed}
 
         print('sending', msg)
         self.send_response(200, msg)

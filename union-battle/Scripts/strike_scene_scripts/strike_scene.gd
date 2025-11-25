@@ -24,6 +24,8 @@ signal send_end_my_turn
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Initializing random number generator
+	seed(Globals.R_SEED)
 
 	# Globals for retrieving JSON values
 	const PLAYER_STR	   = "Player"
@@ -81,9 +83,6 @@ func _ready() -> void:
 		btn.mouse_exited.connect(_on_global_priority_btn_mouse_exited.bind(btn))
 		
 	place_all_global_priorities()
-		
-	# Initializing random number generator
-	randomize()
 
 	# Getting the full lists of each kind of card
 	var unionist_deck_dict = get_json_from_file(Globals.UNIONIST_CARD_JSON)
@@ -228,9 +227,6 @@ func random_role(
 	academic_list: 	Array
 ) -> void:
 
-	# Intialize random number generator
-	randomize()
-
 	# Globals for retrieving JSON values
 	const POS_NAME		= "name"
 	const ENGAGEMENT	= "engagement"
@@ -336,9 +332,6 @@ func discard_card(
 # Called to reshuffle the unionist deck
 func union_reshuffle() -> void:
 
-	# Set random number generator
-	randomize()
-
 	# Resetting the decks
 	for i in unionist_discard_pile:
 		unionist_deck.append(unionist_discard_pile.pop_front())
@@ -349,8 +342,6 @@ func union_reshuffle() -> void:
 # Called to reshuffle the admin deck
 func admin_reshuffle() -> void:
 
-	# Set random number generator
-	randomize()
 
 	# Resetting the decks
 	for i in admin_discard_pile:
