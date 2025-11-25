@@ -98,7 +98,7 @@ class UnionHandler(BaseHTTPRequestHandler):
         data = parse_qs(urlparse(self.path).query)
         player_id = int(data['id'][0])
 
-        if 'card' in jdata:
+        if 'card' in jdata or 'vote' in jdata:
             self.server.players[player_id]['actions'] = [jdata]
 
 

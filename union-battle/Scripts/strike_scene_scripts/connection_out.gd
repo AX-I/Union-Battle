@@ -32,6 +32,15 @@ func _on_card_played(card, player_ref) -> void:
 	if err:
 		push_error('Connection error')
 
+func send_vote(vote) -> void:
+	print('vote ', vote)
+	var body = JSON.stringify({'vote':vote})
+
+	var target = Globals.SERVER_ADDR + '/action?id=' + str(Globals.MY_ID)
+	var err = self.request(target, [], HTTPClient.METHOD_POST, body)
+	if err:
+		push_error('Connection error')
+
 func _on_request_completed(result, _response_code, _headers, _body):
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_error('Connection error')
