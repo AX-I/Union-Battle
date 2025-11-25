@@ -17,6 +17,10 @@ var _card_name:			String				= "Unknown"
 var _movement_offset:	Vector2				= Vector2(0.0, 0.0)
 var _player_ref:		StaticBody2D		= null
 
+# Info text nodes
+var _text_container:	CenterContainer		= CenterContainer.new()
+var _info:				Label				= Label.new()
+
 static func new_card_from_data(data: Dictionary) -> PlayingCard:
 	var c = PlayingCard.new()
 	c._engagement = data['e']
@@ -44,6 +48,13 @@ func _ready() -> void:
 	#collision.debug_color			 = Color(0, 0, 0, 0.5)
 	_collision.global_position 		 = self.global_position
 	add_child(_collision)
+
+	# Add the info text and its container
+	add_child(_text_container)
+	_text_container.size = _tex.texture.get_size()
+	_text_container.position = self.global_position - _tex.texture.get_size() / 2.0
+	_text_container.set_anchors_preset(Control.PRESET_CENTER)
+	_text_container.add_child(_info)
 
 	# Attaching signals
 	self.connect("mouse_entered", Callable(self, "_on_mouse_entered"))
@@ -110,11 +121,23 @@ func setup_card(
 ) -> void:
 
 	# Setting each of the fields
-	_player_id 		= new_player_id
-	_engagement 	= new_egmt
-	_risk 			= new_risk
-	_starting_pos 	= new_start_pos
-	_card_name 		= sprite_name
+	_player_id 						   = new_player_id
+	_engagement 					   = new_egmt
+	_risk 							   = new_risk
+	_starting_pos 					   = new_start_pos
+	_card_name 						   = sprite_name
+
+	# Setting the font parameters for the info text
+	_info.label_settings			   = LabelSettings.new()
+	_info.label_settings.font_size	   = 65
+
+	# Setting the info text
+	_info.text						   = str(_card_name) + "\nEngagement: " + str(_engagement) + "\nRisk: " + str(_risk)
+	_info.horizontal_alignment		   = HORIZONTAL_ALIGNMENT_CENTER
+	_info.vertical_alignment		   = VERTICAL_ALIGNMENT_CENTER
+	_info.custom_minimum_size		   = _tex.texture.get_size() * 0.80
+	_info.autowrap_mode				   = TextServer.AUTOWRAP_WORD_SMART
+	_info.visible					   = false
 
 	# Setup the sprite image
 	set_sprite(sprite_img)
@@ -148,6 +171,9 @@ func _on_mouse_entered() -> void:
 	# Only consider if the card belongs to the player
 	if Globals.MY_ID == _player_id:
 
+		# Display info text
+		_info.visible = true
+
 		# We only want to do starting pickup changes if the item is not picked up
 		if not Globals.picked_up:
 
@@ -168,6 +194,7 @@ func _on_mouse_exited() -> void:
 		# Just shrink the item if we are hovering an object already
 		elif Globals.picked_up_name != self.name:
 			self.scale     		   = Globals.CARD_SCALE
+			_info.visible		   = false
 
 		# We only want to do the dropped item operations if we have actually dropped it
 		else:
@@ -175,6 +202,7 @@ func _on_mouse_exited() -> void:
 			# Setting the scale smaller to indicate no longer hovering
 			Globals.picked_up_name = ""
 			self.scale     		   = Globals.CARD_SCALE
+			_info.visible		   = false
 
 # This function triggers if a card touches a player icon
 func _on_body_entered(
