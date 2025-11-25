@@ -29,97 +29,97 @@
 		"risk": 2,
 		"path_to_img": "union_card_art/temp_guy_serious.png"
 	},
-		"compromise_on_issue": {
+	"compromise_on_issue": {
 		"card_name": "Compromise on Issue",
 		"engagement": 0,
 		"risk": -1,
-		"path_to_img": "union_card_art/temp_guy_nice.png"		
+		"path_to_img": "union_card_art/temp_guy_nice.png"
 	},
-		"capitulate_on_issue": {
+	"capitulate_on_issue": {
 		"card_name": "Capitulate on Issue",
 		"engagement": -1,
 		"risk": -2,
-		"path_to_img": "union_card_art/temp_guy_nice.png"		
+		"path_to_img": "union_card_art/temp_guy_nice.png"
 	},
-		"secret_strike_plans": {
+	"secret_strike_plans": {
 		"card_name": "Secret Strike Plans",
 		"engagement": 1,
 		"risk": 0,
 		"path_to_img": "union_card_art/temp_guy_secret.png"
 	},
-		"show_up_drunk": {
+	"show_up_drunk": {
 		"card_name": "Show Up Drunk",
 		"engagement": 0,
 		"risk": 2,
 		"path_to_img": "union_card_art/temp_guy_drunk.png"
 	},
-		"catch_in_contradiction": {
+	"catch_in_contradiction": {
 		"card_name": "Catch in Contradiction",
 		"engagement": 2,
 		"risk": 0,
 		"path_to_img": "union_card_art/temp_guy_smart.png"
 	},
-		"stand_on_principle": {
+	"stand_on_principle": {
 		"card_name": "Stand on Principle",
 		"engagement": 1,
 		"risk": 0,
 		"path_to_img": "union_card_art/temp_guy_angel.png"
 	},
-		"send_update_email": {
+	"send_update_email": {
 		"card_name": "Send Update Email",
 		"engagement": 1,
 		"risk": 0,
 		"path_to_img": "union_card_art/temp_guy_smart.png"
 	},
-		"accept_sketchy_endorsement": {
+	"accept_sketchy_endorsement": {
 		"card_name": "Accept Sketchy Endorsement",
 		"engagement": 2,
 		"risk": 3,
 		"path_to_img": "union_card_art/temp_guy_funding.png"
 	},
-		"go_viral_positive": {
+	"go_viral_positive": {
 		"card_name": "Go Viral (Positive)",
 		"engagement": 3,
 		"risk": -1,
 		"path_to_img": "union_card_art/temp_guy_viral.png"
 	},
-		"go_viral_negative": {
+	"go_viral_negative": {
 		"card_name": "Go Viral (Negative)",
 		"engagement": 2,
 		"risk": 2,
 		"path_to_img": "union_card_art/temp_guy_viral.png"
 	},
-		"launch_personal_attack": {
+	"launch_personal_attack": {
 		"card_name": "Launch Personal Attack",
 		"engagement": 1,
 		"risk": 2,
 		"path_to_img": "union_card_art/temp_guy_mean.png"
 	},
-		"find_common_ground": {
+	"find_common_ground": {
 		"card_name": "Find Common Ground",
 		"engagement": 2,
 		"risk": -1,
 		"path_to_img": "union_card_art/temp_guy_nice.png"
 	},
-		"mandate_of_heven": {
+	"mandate_of_heven": {
 		"card_name": "Mandate of Heaven",
 		"engagement": 3,
 		"risk": 0,
 		"path_to_img": "union_card_art/temp_guy_angel.png"
 	},
-		"get_faculty_support": {
+	"get_faculty_support": {
 		"card_name": "Get Faculty Support",
 		"engagement": 2,
 		"risk": 0,
 		"path_to_img": "union_card_art/temp_guy_smart.png"
 	},
-		"spit_vitreol": {
+	"spit_vitreol": {
 		"card_name": "Spit Vitreol",
 		"engagement": 1,
 		"risk": 2,
 		"path_to_img": "union_card_art/temp_guy_mean.png"
 	},
-		"organize_pre_strike_protest": {
+	"organize_pre_strike_protest": {
 		"card_name": "Organise Larger Protest",
 		"engagement": 1,
 		"risk": 1,

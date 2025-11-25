@@ -1,31 +1,30 @@
 extends StaticBody2D
 
 # Both of the labels
-@onready var money_label: 	Label		= $"Money"
+@onready var money_label: Label = $"Money"
 
 # The player ID
-var _id: 					int 		= -1
+var _id: int = -1
 
 # Money string constant
-const MONEY_STR:			String		= "Money: "
+const MONEY_STR: String = "Money: "
 
 # The player is union
-const _IS_UNION:			bool		= false
+const _IS_UNION: bool = false
 
 # The player's hand
-var _hand: 					Array   	= []
+var _hand: Array = []
 
 # The player's engagement and risk
-var _money: 				int 		= 100
+var _money: int = 100
 
 # Positions for player cards
-var _card_positions:		Array 		= []
+var _card_positions: Array = []
 
 signal end_turn
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
 	# Setting the label's text
 	money_label.text = MONEY_STR + str(_money)
 
@@ -35,9 +34,8 @@ func _process(_delta: float) -> void:
 
 # Called to setup a player
 func setup_player(id: int, card_pos: Array) -> void:
-
 	# Set ID
-	_id 			= id
+	_id = id
 
 	# Set card positions
 	_card_positions = card_pos
@@ -46,7 +44,6 @@ func setup_player(id: int, card_pos: Array) -> void:
 func take_card(
 	new_card: PlayingCard
 ) -> void:
-
 	# If the new card is null or the hand is full do not perform any operations
 	if new_card == null or _hand.size() >= 5:
 		return
@@ -71,7 +68,6 @@ func get_player_name():
 func discard(
 	old_card: PlayingCard
 ) -> void:
-
 	# Remove the card from the hand
 	for i in range(_hand.size()):
 		if _hand[i] == old_card:
@@ -89,7 +85,6 @@ func discard(
 func adjust_money(
 	bonus: int
 ) -> void:
-
 	# Adding the bonus to the current money value
 	_money = _money + bonus
 
@@ -112,7 +107,10 @@ func is_alive() -> bool:
 	return _money > 0
 
 func get_stats() -> Dictionary:
-	return {'money':_money}
+	return {'money': _money}
 
 func set_stats(new_stat: Dictionary) -> void:
 	_money = new_stat['money']
+
+func get_money() -> int:
+	return _money
