@@ -49,4 +49,5 @@ func _on_request_completed(result, response_code, _headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
 	print('Server response ', json)
 	Globals.MY_ID = json['id']
+	Globals.R_SEED = json['seed']
 	get_tree().change_scene_to_file("res://Scenes/strike_scene.tscn")

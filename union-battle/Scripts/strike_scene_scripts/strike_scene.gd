@@ -15,10 +15,15 @@ var show_priorities: bool = false
 # If set, forces the next turn to be this player's turn
 var force_player_turn: int = -1
 
+var connectionOutNode
+
 signal send_end_my_turn
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Initializing random number generator
+	seed(Globals.R_SEED)
+
 	# Globals for retrieving JSON values
 	const PLAYER_STR = "Player"
 	const NAME_STR = "card_name"
@@ -73,9 +78,6 @@ func _ready() -> void:
 		btn.mouse_exited.connect(_on_global_priority_btn_mouse_exited.bind(btn))
 		
 	place_all_global_priorities()
-		
-	# Initializing random number generator
-	randomize()
 
 	# Getting the full lists of each kind of card
 	var unionist_deck_dict = get_json_from_file(Globals.UNIONIST_CARD_JSON)
@@ -137,6 +139,8 @@ func _ready() -> void:
 
 	# Dealing the cards
 	deal_cards()
+
+	connectionOutNode = get_node('ConnectionOut')
 
 	setupIndicators()
 
@@ -312,9 +316,6 @@ func discard_card(
 
 # Called to reshuffle the unionist deck
 func union_reshuffle() -> void:
-	# Set random number generator
-	randomize()
-
 	# Resetting the decks
 	for i in unionist_discard_pile:
 		unionist_deck.append(unionist_discard_pile.pop_front())
@@ -324,9 +325,6 @@ func union_reshuffle() -> void:
 
 # Called to reshuffle the admin deck
 func admin_reshuffle() -> void:
-	# Set random number generator
-	randomize()
-
 	# Resetting the decks
 	for i in admin_discard_pile:
 		admin_deck.append(admin_discard_pile.pop_front())
@@ -484,10 +482,11 @@ func set_visible_prio_voting(visible_voting: bool):
 	get_node("GlobalPriorities/Approved/VoteApproveBtn").visible = visible_voting
 	get_node("GlobalPriorities/Title").visible = not visible_voting
 
-func _on_global_priority_btn_pressed(btn):
-	# Nothing happens if it is not your turn
-	if Globals.curr_turn != Globals.MY_ID:
-		return
+func _on_global_priority_btn_pressed(btn, remote_activation := false):
+	if not remote_activation:
+		# Nothing happens if it is not your turn
+		if Globals.curr_turn != Globals.MY_ID:
+			return
 		
 	# Nothing happens if a vote is in progress
 	if null != Globals.active_vote_btn:
@@ -516,15 +515,19 @@ func _on_global_priority_btn_mouse_exited(btn):
 			
 	get_node("PriorityPopup").visible = false
 
-func _on_vote_cancel_btn_pressed() -> void:
+func _on_vote_cancel_btn_pressed(remote_activation := false) -> void:
 	# If a vote already started, simply add a vote
 	if Globals.active_vote_btn.get_can_start_vote():
 		Globals.active_vote_btn = null
 		set_visible_prio_voting(false)
 	else:
-		# Add a vote as long as it's your turn
-		if Globals.curr_turn != Globals.MY_ID:
-			return
+		if not remote_activation:
+			# Add a vote as long as it's your turn
+			if Globals.curr_turn != Globals.MY_ID:
+				return
+
+			connectionOutNode.send_vote(Globals.UNDECIDED_STATE)
+
 		add_vote(Globals.UNDECIDED_STATE)
 
 func _on_connection_in_recv_turn_end() -> void:
@@ -553,7 +556,7 @@ func show_voting_ui(to_show: bool):
 	get_node("GlobalPriorities/Approved/VoteApproveBtn").text = yes_text if to_show else "Vote to Approve"
 	get_node("GlobalPriorities/Scrapped/VoteScrapBtn").text = no_text if to_show else "Vote to Scrap"
 	
-func start_vote(to_approve: bool):
+func start_vote(to_approve: bool, remote_activation := false):
 	# Re-init in case of prev data being there
 	Globals.active_vote_btn.start_vote()
 	
@@ -566,10 +569,11 @@ func start_vote(to_approve: bool):
 	Globals.active_vote_btn.set_vote_to_approve(to_approve)
 	
 	# Starts a vote, assuming that active_vote_btn has already been set
-	_on_end_turn()
+	if not remote_activation:
+		_on_end_turn()
 
 # Vote to add should be one of Globals.UNDECIDED|YES|NO_STATE
-func add_vote(vote_to_add: String):
+func add_vote(vote_to_add: String, remote_activation := false):
 	if Globals.UNDECIDED_STATE == vote_to_add:
 		Globals.active_vote_btn.add_player_undecided_vote(Globals.curr_turn)
 		
@@ -585,8 +589,9 @@ func add_vote(vote_to_add: String):
 	# IF we are the admin, finish the voting phase
 	if not Globals.PLAYERS[Globals.curr_turn].is_player_union():
 		finish_voting(vote_to_add)
-		
-	_on_end_turn()
+
+	if not remote_activation:
+		_on_end_turn()
 
 # Vote to add should be one of Globals.UNDECIDED|YES|NO_STATE
 func finish_voting(vote_to_add: String):
@@ -626,24 +631,30 @@ func finish_voting(vote_to_add: String):
 	# Hide the hover box
 	get_node("PriorityPopup").visible = false
 
-func _on_vote_scrap_btn_pressed() -> void:
-	# Needs to be your turn for it to do anything
-	if Globals.curr_turn != Globals.MY_ID:
-		return
-	
-	# If a vote already started, simply add a vote
-	if Globals.active_vote_btn.get_can_start_vote():
-		start_vote(false)
-	else:
-		add_vote(Globals.NO_STATE)
+func _on_vote_scrap_btn_pressed(remote_activation := false) -> void:
+	if not remote_activation:
+		# Needs to be your turn for it to do anything
+		if Globals.curr_turn != Globals.MY_ID:
+			return
 
-func _on_vote_approve_btn_pressed() -> void:
-	# Needs to be your turn for it to do anything
-	if Globals.curr_turn != Globals.MY_ID:
-		return
-	
+		connectionOutNode.send_vote(Globals.NO_STATE)
+
 	# If a vote already started, simply add a vote
 	if Globals.active_vote_btn.get_can_start_vote():
-		start_vote(true)
+		start_vote(false, remote_activation)
 	else:
-		add_vote(Globals.YES_STATE)
+		add_vote(Globals.NO_STATE, remote_activation)
+
+func _on_vote_approve_btn_pressed(remote_activation := false) -> void:
+	if not remote_activation:
+		# Needs to be your turn for it to do anything
+		if Globals.curr_turn != Globals.MY_ID:
+			return
+
+		connectionOutNode.send_vote(Globals.YES_STATE)
+
+	# If a vote already started, simply add a vote
+	if Globals.active_vote_btn.get_can_start_vote():
+		start_vote(true, remote_activation)
+	else:
+		add_vote(Globals.YES_STATE, remote_activation)
