@@ -34,7 +34,8 @@ func _on_request_completed(result, response_code, _headers, body):
 		push_error('Bad request')
 		return
 	var json = JSON.parse_string(body.get_string_from_utf8())
-	print('Server response ', json)
+	if Globals.MY_ID == 0:
+		print('Server response ', json)
 	syncPlayers(json)
 	ti.start()
 
