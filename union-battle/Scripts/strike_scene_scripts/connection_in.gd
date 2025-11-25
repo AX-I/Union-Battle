@@ -18,10 +18,9 @@ func _ready() -> void:
 	ti.start()
 
 	self.timeout = 0.5
-
-func fetchUpdates():
 	self.request_completed.connect(_on_request_completed)
 
+func fetchUpdates():
 	var target = Globals.SERVER_ADDR + '/fetch?user=' + Globals.USERNAME
 	var err = self.request(target)
 	if err:
