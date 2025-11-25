@@ -402,6 +402,7 @@ func _on_end_turn() -> void:
 	
 	if Globals.curr_turn == Globals.MY_ID:
 		await get_tree().create_timer(0.5).timeout
+		print(Globals.MY_ID, ' end my turn!')
 		emit_signal('send_end_my_turn')
 
 	if Globals.curr_turn == Globals.PLAYER_COUNT-1:
@@ -427,15 +428,20 @@ func _on_end_turn() -> void:
 		start_normal_turn()
 
 func start_voting_turn():
+	print('id ', Globals.MY_ID, ' start voting turn')
 	# IF it is a voting turn, make sure we go through each unionist's opinion on the vote before we get to the admin
 	if not Globals.PLAYERS[Globals.curr_turn].is_player_union():
 		# Num votes has to equal number of players - 1 (# of unionists), else skip the admin's turn
 		if Globals.active_vote_btn.get_num_votes() < (len(Globals.PLAYERS) - 1):
-			_on_end_turn()
+			if Globals.MY_ID == Globals.curr_turn:
+				print('admin skip my turn ', Globals.MY_ID)
+				_on_end_turn()
 			
 	# If this player has already voted, skip their turn
 	if Globals.active_vote_btn.has_player_voted(Globals.curr_turn):
-		_on_end_turn()
+		if Globals.MY_ID == Globals.curr_turn:
+			print('already voted ', Globals.MY_ID)
+			_on_end_turn()
 		
 	show_voting_ui(true)
 	
