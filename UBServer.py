@@ -48,6 +48,8 @@ class UnionHandler(BaseHTTPRequestHandler):
 
         if path == '/update':
             self.recvUpdates(jdata)
+        elif path == '/action':
+            self.action(jdata)
 
     def addPlayer(self):
         data = parse_qs(urlparse(self.path).query)
@@ -67,7 +69,7 @@ class UnionHandler(BaseHTTPRequestHandler):
             self.server.players = {}
 
         player_id = len(self.server.players)
-        self.server.players[player_id] = {'user':username}
+        self.server.players[player_id] = {'user':username, 'actions':[]}
 
         msg = {'msg': 'Success', 'id':player_id}
 
@@ -81,13 +83,19 @@ class UnionHandler(BaseHTTPRequestHandler):
 
     def recvUpdates(self, jdata):
         data = parse_qs(urlparse(self.path).query)
-
         player_id = int(data['id'][0])
 
         if 'endTurn' in data:
             self.server.players[player_id]['endTurn'] = data['endTurn'][0]
 
         self.server.players[player_id]['data'] = jdata
+
+    def action(self, jdata):
+        data = parse_qs(urlparse(self.path).query)
+        player_id = int(data['id'][0])
+
+        if 'card' in jdata:
+            self.server.players[player_id]['actions'] = [jdata]
 
 
 def run(ip):

@@ -87,6 +87,9 @@ func _process(_delta: float) -> void:
 		# If the card is dropped on a player then apply stats and discard it
 		if _player_ref != null and not Globals.picked_up:
 			if _player_ref.is_in_group("player_group"):
+				var connOut = get_node('/root/StrikeScene/ConnectionOut')
+				connOut._on_card_played(self, _player_ref)
+
 				_player_ref.adjust_stats(self)
 				get_parent().discard_card(self)
 
