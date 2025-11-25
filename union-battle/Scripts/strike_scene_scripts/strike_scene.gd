@@ -450,15 +450,12 @@ func start_normal_turn():
 			Globals.PLAYERS[Globals.curr_turn].set_engagement(Globals.PLAYERS[Globals.curr_turn].get_engagement()-2)
 		elif Globals.PLAYERS[Globals.curr_turn].get_risk() > 2:
 			Globals.PLAYERS[Globals.curr_turn].set_engagement(Globals.PLAYERS[Globals.curr_turn].get_engagement()-1)
-		else:
-			draw_card(true)
 	else:
 		var total_engagement = 0
 		for player in Globals.PLAYERS:
 			if player.is_player_union():
 				total_engagement -= player.get_engagement()
 		Globals.PLAYERS[Globals.curr_turn].adjust_money(total_engagement)
-		draw_card(false)
 	
 func _on_dev_switch_player_pressed() -> void:
 	Globals.MY_ID += 1
