@@ -12,6 +12,19 @@ import ssl
 CERT_FILE = 'example_cert.pem'
 KEY_FILE = 'example_key.pem'
 
+welcome_msg = '''
+<style>
+body {background:#444; color:#fff; font-size:120%;}
+h1 {text-align:center; margin-top:1em;
+ font-family:Stencil; font-weight:normal;}
+p {text-align:center;}
+</style>
+<body>
+<h1>Welcome!</h1>
+<p>Connection success. You can close this tab and return to the game.</p>
+</body>
+'''
+
 class UnionServer(HTTPServer):
     def __init__(self, address, handler, use_ssl=False):
         super().__init__(address, handler)
@@ -50,6 +63,8 @@ class UnionHandler(BaseHTTPRequestHandler):
             self.addPlayer()
         elif path == '/fetch':
             self.sendUpdates()
+        else:
+            self.send_response(200, welcome_msg)
 
     def do_POST(self):
         print('post', self.path)
