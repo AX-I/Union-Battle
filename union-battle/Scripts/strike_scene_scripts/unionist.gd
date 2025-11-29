@@ -208,3 +208,11 @@ func get_stats() -> Dictionary:
 func set_stats(new_stat: Dictionary) -> void:
 	set_engagement(new_stat['engagement'])
 	set_risk(new_stat['risk'])
+
+func get_init_card_pos_array() -> Array:
+	var ret = []
+	for obj in get_node("CardPositions").get_children():
+		if obj.name.contains("CardPos"):
+			ret.append(obj.global_position)
+			
+	return ret
