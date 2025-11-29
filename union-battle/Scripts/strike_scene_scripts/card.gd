@@ -130,7 +130,9 @@ func setup_card(
 	# Setting the font parameters for the info text
 	_info.label_settings			   = LabelSettings.new()
 	_info.label_settings.font_size	   = 65
-	_info.label_settings.font_color	   = Color(0.2824, 0.1294, 0.3176)
+	_info.label_settings.font_color	   = Color(1, 1, 1)
+	_info.label_settings.outline_color = Color(0, 0, 0)
+	_info.label_settings.outline_size  = 15
 
 	# Setting the info text
 	_info.text						   = str(_card_name) + "\nEngagement: " + str(_engagement) + "\nRisk: " + str(_risk)

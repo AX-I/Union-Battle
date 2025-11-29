@@ -3,126 +3,126 @@
 		"card_name": "External Fundraising",
 		"engagement": 3,
 		"risk": 1,
-		"path_to_img": "union_card_art/temp_guy_funding.png"
+		"path_to_img": "union_card_art/Fundraiser.png"
 	},
 	"one_on_one": {
 		"card_name": "One on One Talk",
 		"engagement": 1,
 		"risk": 0,
-		"path_to_img": "union_card_art/temp_guy_cool.png"
+		"path_to_img": "union_card_art/OneOnOne.png"
 	},
 	"ultimatum": {
 		"card_name": "Ultimatum",
 		"engagement": 5,
 		"risk": 4,
-		"path_to_img": "union_card_art/temp_guy_devil.png"
+		"path_to_img": "union_card_art/Ultimatum.png"
 	},
 	"tabling_topic": {
 		"card_name": "Tabling Topic",
 		"engagement": 1,
 		"risk": 2,
-		"path_to_img": "union_card_art/temp_guy_serious.png"
+		"path_to_img": "union_card_art/TablingTopic.png"
 	},
 	"push_issue": {
 		"card_name": "Push Issue",
 		"engagement": 3,
 		"risk": 2,
-		"path_to_img": "union_card_art/temp_guy_serious.png"
+		"path_to_img": "union_card_art/Issue.png"
 	},
 		"compromise_on_issue": {
 		"card_name": "Compromise on Issue",
 		"engagement": 0,
 		"risk": -1,
-		"path_to_img": "union_card_art/temp_guy_nice.png"		
+		"path_to_img": "union_card_art/Compromise.png"		
 	},
 		"capitulate_on_issue": {
 		"card_name": "Capitulate on Issue",
 		"engagement": -1,
 		"risk": -2,
-		"path_to_img": "union_card_art/temp_guy_nice.png"		
+		"path_to_img": "union_card_art/Capitulate.png"		
 	},
 		"secret_strike_plans": {
 		"card_name": "Secret Strike Plans",
 		"engagement": 1,
 		"risk": 0,
-		"path_to_img": "union_card_art/temp_guy_secret.png"
+		"path_to_img": "union_card_art/SecretPlan.png"
 	},
 		"show_up_drunk": {
 		"card_name": "Show Up Drunk",
 		"engagement": 0,
 		"risk": 2,
-		"path_to_img": "union_card_art/temp_guy_drunk.png"
+		"path_to_img": "union_card_art/Drunk.png"
 	},
 		"catch_in_contradiction": {
 		"card_name": "Catch in Contradiction",
 		"engagement": 2,
 		"risk": 0,
-		"path_to_img": "union_card_art/temp_guy_smart.png"
+		"path_to_img": "union_card_art/Catch.png"
 	},
 		"stand_on_principle": {
 		"card_name": "Stand on Principle",
 		"engagement": 1,
 		"risk": 0,
-		"path_to_img": "union_card_art/temp_guy_angel.png"
+		"path_to_img": "union_card_art/Principle.png"
 	},
 		"send_update_email": {
 		"card_name": "Send Update Email",
 		"engagement": 1,
 		"risk": 0,
-		"path_to_img": "union_card_art/temp_guy_smart.png"
+		"path_to_img": "union_card_art/Email.png"
 	},
 		"accept_sketchy_endorsement": {
 		"card_name": "Accept Sketchy Endorsement",
 		"engagement": 2,
 		"risk": 3,
-		"path_to_img": "union_card_art/temp_guy_funding.png"
+		"path_to_img": "union_card_art/Endorsement.png"
 	},
 		"go_viral_positive": {
 		"card_name": "Go Viral (Positive)",
 		"engagement": 3,
 		"risk": -1,
-		"path_to_img": "union_card_art/temp_guy_viral.png"
+		"path_to_img": "union_card_art/ViralGood.png"
 	},
 		"go_viral_negative": {
 		"card_name": "Go Viral (Negative)",
 		"engagement": 2,
 		"risk": 2,
-		"path_to_img": "union_card_art/temp_guy_viral.png"
+		"path_to_img": "union_card_art/ViralBad.png"
 	},
 		"launch_personal_attack": {
 		"card_name": "Launch Personal Attack",
 		"engagement": 1,
 		"risk": 2,
-		"path_to_img": "union_card_art/temp_guy_mean.png"
+		"path_to_img": "union_card_art/Attack.png"
 	},
 		"find_common_ground": {
 		"card_name": "Find Common Ground",
 		"engagement": 2,
 		"risk": -1,
-		"path_to_img": "union_card_art/temp_guy_nice.png"
+		"path_to_img": "union_card_art/CommonGround.png"
 	},
 		"mandate_of_heven": {
 		"card_name": "Mandate of Heaven",
 		"engagement": 3,
 		"risk": 0,
-		"path_to_img": "union_card_art/temp_guy_angel.png"
+		"path_to_img": "union_card_art/Heaven.png"
 	},
 		"get_faculty_support": {
 		"card_name": "Get Faculty Support",
 		"engagement": 2,
 		"risk": 0,
-		"path_to_img": "union_card_art/temp_guy_smart.png"
+		"path_to_img": "union_card_art/Support.png"
 	},
 		"spit_vitreol": {
 		"card_name": "Spit Vitreol",
 		"engagement": 1,
 		"risk": 2,
-		"path_to_img": "union_card_art/temp_guy_mean.png"
+		"path_to_img": "union_card_art/Vitriol.png"
 	},
 		"organize_pre_strike_protest": {
 		"card_name": "Organise Larger Protest",
 		"engagement": 1,
 		"risk": 1,
-		"path_to_img": "union_card_art/temp_guy_cool.png"
+		"path_to_img": "union_card_art/Protest.png"
 	}
 }

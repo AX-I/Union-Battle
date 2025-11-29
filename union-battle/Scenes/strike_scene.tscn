@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c331oxuq4jhyl"]
+[gd_scene load_steps=24 format=3 uid="uid://c331oxuq4jhyl"]
 
 [ext_resource type="Script" uid="uid://bgmuvfbsm32i3" path="res://Scripts/strike_scene_scripts/strike_scene.gd" id="1_n1sj3"]
 [ext_resource type="Texture2D" uid="uid://dagmrjq5aoyhs" path="res://icon.svg" id="1_x2neb"]
@@ -8,8 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://ck55yqxt6dtvr" path="res://Assets/admin_temp.png" id="5_514q4"]
 [ext_resource type="Texture2D" uid="uid://drdkrulj5s0sn" path="res://Assets/union_press_temp.png" id="5_linjo"]
 [ext_resource type="Texture2D" uid="uid://cnpqoyjhw3ils" path="res://Assets/admin_press_temp.png" id="7_5jf1a"]
+[ext_resource type="Texture2D" uid="uid://gjjs3a3t62vs" path="res://Assets/UnionistOne.png" id="7_r67t3"]
+[ext_resource type="Texture2D" uid="uid://51vlxc7m00ex" path="res://Assets/UnionistTwo.png" id="8_pu5dd"]
+[ext_resource type="Texture2D" uid="uid://cflvgf4n0i8jg" path="res://Assets/UnionistThree.png" id="9_2vbqv"]
 [ext_resource type="Shader" uid="uid://dnl4m4npq2spa" path="res://Shaders/meIndicator.gdshader" id="9_xcxxk"]
 [ext_resource type="Shader" uid="uid://c8k73vwhqk75" path="res://Shaders/turnIndicator.gdshader" id="10_k2kik"]
+[ext_resource type="Texture2D" uid="uid://0g7xc0u6faso" path="res://Assets/Admin.png" id="11_7cr68"]
 [ext_resource type="Script" uid="uid://dya7gnl4x3wyj" path="res://Scripts/strike_scene_scripts/connection_in.gd" id="11_erwlu"]
 [ext_resource type="Script" uid="uid://cc0qggkckv3fa" path="res://Scripts/strike_scene_scripts/connection_out.gd" id="12_ajl8s"]
 
@@ -22,9 +26,13 @@ size = Vector2(128, 128)
 
 [sub_resource type="LabelSettings" id="LabelSettings_x2neb"]
 font_size = 25
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_n1sj3"]
 font_size = 25
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_k2kik"]
 font_size = 25
@@ -142,6 +150,7 @@ layout_mode = 2
 
 [node name="GlobalPriorities" type="Control" parent="CanvasLayer/Center/Control"]
 layout_mode = 1
+anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = -495.00003
 offset_top = -219.0
@@ -303,9 +312,8 @@ position = Vector2(0, -78)
 script = ExtResource("2_linjo")
 
 [node name="PlayerSprite1" type="Sprite2D" parent="CanvasLayer/BotCenter/Player1"]
-modulate = Color(0, 0, 1, 1)
-texture = ExtResource("1_x2neb")
-metadata/_edit_lock_ = true
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("7_r67t3")
 
 [node name="PlayerShape1" type="CollisionShape2D" parent="CanvasLayer/BotCenter/Player1"]
 shape = SubResource("RectangleShape2D_qj3wv")
@@ -412,9 +420,8 @@ position = Vector2(-87, 0)
 script = ExtResource("2_linjo")
 
 [node name="PlayerSprite2" type="Sprite2D" parent="CanvasLayer/RightCenter/Player2"]
-modulate = Color(1, 0, 1, 1)
-texture = ExtResource("1_x2neb")
-metadata/_edit_lock_ = true
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_pu5dd")
 
 [node name="PlayerShape2" type="CollisionShape2D" parent="CanvasLayer/RightCenter/Player2"]
 shape = SubResource("RectangleShape2D_qj3wv")
@@ -521,9 +528,8 @@ position = Vector2(0, 112)
 script = ExtResource("2_linjo")
 
 [node name="PlayerSprite3" type="Sprite2D" parent="CanvasLayer/TopCenter/Player3"]
-modulate = Color(0, 1, 0, 1)
-texture = ExtResource("1_x2neb")
-metadata/_edit_lock_ = true
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("9_2vbqv")
 
 [node name="PlayerShape3" type="CollisionShape2D" parent="CanvasLayer/TopCenter/Player3"]
 shape = SubResource("RectangleShape2D_qj3wv")
@@ -535,7 +541,7 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -380.0
+offset_left = -410.0
 offset_top = 121.0
 offset_right = 415.0
 offset_bottom = 206.0
@@ -629,9 +635,8 @@ position = Vector2(95, 0)
 script = ExtResource("4_5jf1a")
 
 [node name="PlayerSprite4" type="Sprite2D" parent="CanvasLayer/LeftCenter/Player4"]
-modulate = Color(1, 0, 0, 1)
-texture = ExtResource("1_x2neb")
-metadata/_edit_lock_ = true
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("11_7cr68")
 
 [node name="PlayerShape4" type="CollisionShape2D" parent="CanvasLayer/LeftCenter/Player4"]
 shape = SubResource("RectangleShape2D_qj3wv")
