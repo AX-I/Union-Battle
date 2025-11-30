@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dlsg6dcu0qyb8"]
+[gd_scene load_steps=9 format=3 uid="uid://dlsg6dcu0qyb8"]
 
 [ext_resource type="Script" uid="uid://cn5bbpeahnjgr" path="res://Scripts/connect_scene_scripts/join_button.gd" id="1_jsujh"]
+[ext_resource type="Script" uid="uid://bxhto7emhv8cr" path="res://Scripts/connect_scene_scripts/wait_for_players.gd" id="2_1wuk6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7tv2a"]
 font_size = 51
@@ -146,5 +147,8 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_7tv2a")
 theme_override_styles/hover = SubResource("StyleBoxFlat_aeweq")
 text = "0/4 Players Joined"
 script = ExtResource("1_jsujh")
+
+[node name="WaitForPlayers" type="HTTPRequest" parent="."]
+script = ExtResource("2_1wuk6")
 
 [connection signal="button_down" from="MainContainer/SeparationContainer/JoinButton" to="MainContainer/SeparationContainer/JoinButton" method="_on_button_down"]
