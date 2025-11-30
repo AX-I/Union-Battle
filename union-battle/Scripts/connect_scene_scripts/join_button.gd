@@ -6,7 +6,7 @@ const JOIN_LABEL:			String	= "Join Game"
 
 # Current player count and the threshold to let players join the game
 var curr_player_count:		int		= 0
-const PLAYER_THRESHOLD:		int		= 1 # CHANGE THIS LATER IF WE GET THE BUTTON WORKING
+const PLAYER_THRESHOLD:		int		= 4 # CHANGE THIS LATER IF WE GET THE BUTTON WORKING
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -14,7 +14,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 
 	# Change the label if the number of queued players has changed
 	if Globals.NUM_PLAYERS_WAITING != curr_player_count:
