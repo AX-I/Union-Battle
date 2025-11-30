@@ -408,8 +408,13 @@ func get_json_from_file(
 
 
 func _on_end_turn() -> void:
+
+	# If it is not the current player's turn don't end
+	if Globals.curr_turn != Globals.MY_ID:
+		return
+
 	Globals.drew_this_turn = false
-	
+
 	if Globals.curr_turn == Globals.MY_ID:
 		await get_tree().create_timer(0.5).timeout
 		print(Globals.MY_ID, ' end my turn!')

@@ -67,4 +67,5 @@ func _on_request_completed(result, response_code, _headers, body):
 	print('Server response ', json)
 	Globals.MY_ID = json['id']
 	Globals.R_SEED = json['seed']
-	get_tree().change_scene_to_file("res://Scenes/strike_scene.tscn")
+	Globals.NUM_PLAYERS_WAITING = json['id'] + 1
+	get_tree().change_scene_to_file("res://Scenes/connect_scene.tscn")

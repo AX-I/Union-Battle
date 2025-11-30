@@ -142,6 +142,7 @@ layout_mode = 2
 
 [node name="GlobalPriorities" type="Control" parent="CanvasLayer/Center/Control"]
 layout_mode = 1
+anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = -495.00003
 offset_top = -219.0
