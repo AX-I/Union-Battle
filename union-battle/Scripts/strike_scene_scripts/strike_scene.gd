@@ -6,6 +6,8 @@ extends Node2D
 @onready var global_priorities: Control = $CanvasLayer/Center/Control/GlobalPriorities
 @onready var union_deck_btn: TextureButton = $CanvasLayer/Center/Control/UnionDeck
 @onready var admin_deck_btn: TextureButton = $CanvasLayer/Center/Control/AdminDeck
+@onready var instructions_text: Label = $CanvasLayer/BotLeft/InstructionsBox/InstructionsLabel
+@onready var turn_text: Label = $CanvasLayer/TopLeft/TurnBox/TurnLabel
 
 const PRIO_BTN_SCENE = preload("res://Scenes/global_priority.tscn")
 
@@ -104,6 +106,8 @@ func _ready() -> void:
 	var unionist_deck_dict = get_json_from_file(Globals.UNIONIST_CARD_JSON)
 	var admin_deck_dict	   = get_json_from_file(Globals.ADMIN_CARD_JSON)
 
+	turn_text.text = "You are player " + str(Globals.MY_ID + 1) + "\nIt is player " + str(Globals.curr_turn + 1) + "'s turn"
+
 	# DELETE THIS OUTER LOOP ONCE WE GET MORE CARDS
 	for i in range(10):
 
@@ -198,6 +202,9 @@ func setupIndicators():
 	var indicator = get_node('MeIndicator')
 	indicator.global_position = Globals.PLAYER_COORDS[Globals.MY_ID]
 	indicator.z_index = -10
+	
+	if (!Globals.PLAYERS[Globals.MY_ID].is_player_union()):
+		instructions_text.text = "Turn Instructions/n1.Draw a card from the Admin Deck\n2.Play a card on a unionist\nOR\nSkip your turn"
 
 	indicator = get_node('TurnIndicator')
 	indicator.global_position = Globals.PLAYER_COORDS[Globals.curr_turn]
@@ -433,6 +440,8 @@ func _on_end_turn() -> void:
 
 	var indicator = get_node('TurnIndicator')
 	indicator.position = Globals.PLAYER_COORDS[Globals.curr_turn]
+	
+	turn_text.text = "You are player " + str(Globals.MY_ID + 1) + "\nIt is player " + str(Globals.curr_turn + 1) + "'s turn"
 	
 	if null != Globals.active_vote_btn:
 		start_voting_turn()
