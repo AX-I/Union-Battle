@@ -204,7 +204,27 @@ func setupIndicators():
 	indicator.z_index = -10
 	
 	if (!Globals.PLAYERS[Globals.MY_ID].is_player_union()):
-		instructions_text.text = "Turn Instructions/n1.Draw a card from the Admin Deck\n2.Play a card on a unionist\nOR\nSkip your turn"
+		instructions_text.text = "Turn Instructions\n1.Draw a card from the Admin Deck\n2.Play a card on a unionist\nOR\nSkip your turn"
+	else:
+
+		# If a player cannot play then ask them to end their turn
+		if !Globals.PLAYERS[Globals.MY_ID].is_alive():
+
+			# Telling the player that both their risk and engagement are out of bounds
+			if Globals.PLAYERS[Globals.MY_ID].get_engagement() <= 0 and Globals.PLAYERS[Globals.MY_ID].get_risk() >= 10:
+				instructions_text.text = "Your engagement is too low\nand your risk is too high.\nPlease end your turn."
+
+			# Telling the player that their risk is too high
+			elif Globals.PLAYERS[Globals.MY_ID].get_risk() >= 10:
+				instructions_text.text = "Your risk is too high.\nPlease end your turn."
+
+			# Telling the player that their engagement is too low
+			else:
+				instructions_text.text = "Your engagement is too low.\nPlease end your turn."
+
+		# Telling the player their actions on their turn as a unionist
+		else:
+			instructions_text.text = "Turn Instructions:\n1. Draw a card from the Union Deck\n2. Play a card (on yourself or another Unionist)\nOR\nDeclare a priority to vote on\nOR\nSkip your turn"
 
 	indicator = get_node('TurnIndicator')
 	indicator.global_position = Globals.PLAYER_COORDS[Globals.curr_turn]
@@ -483,6 +503,7 @@ func start_normal_turn():
 			if player.is_player_union():
 				total_engagement -= player.get_engagement()
 		Globals.PLAYERS[Globals.curr_turn].adjust_money(total_engagement)
+	setupIndicators()
 	
 func _on_dev_switch_player_pressed() -> void:
 	Globals.MY_ID += 1
