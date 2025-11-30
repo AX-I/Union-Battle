@@ -39,9 +39,9 @@ var drew_this_turn:			bool		= false
 # for the one that is currently being voted on
 var active_vote_btn 					= null
 
-# Player count
+# Player count for the game and for the waiting room
 var PLAYER_COUNT:			int			= 0
-
+var NUM_PLAYERS_WAITING:	int			= 0
 
 # Networked Multiplayer
 var SERVER_ADDR: String = ""
