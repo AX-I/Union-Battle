@@ -224,7 +224,9 @@ func _on_body_exited(
 
 	# If the body is an appliance then revert its colour
 	if body.is_in_group("player_group"):
-		body.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		if !body.modulate == Color(1.0, 0.8431, 0.0, 0.5):
+			body.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
 		_player_ref   = null
 
 # Getter for starting position
