@@ -34,8 +34,8 @@ func _on_request_completed(result, response_code, _headers, body):
 		push_error('Bad request')
 		return
 	var json = JSON.parse_string(body.get_string_from_utf8())
-	if Globals.MY_ID == 0:
-		print('Server response ', json)
+	#if Globals.MY_ID == 0:
+		#print('Server response ', json)
 	syncPlayers(json)
 	ti.start()
 
@@ -52,9 +52,11 @@ func syncPlayers(data):
 		if 'endTurn' in pdata:
 			if syncData[pid]['endTurn'] != pdata['endTurn']:
 				# Someone's turn end
-				syncData[pid]['endTurn'] = pdata['endTurn']
-				syncOnePlayer(pid, pdata)
-				emit_signal('recv_turn_end')
+				if Globals.curr_turn == pid:
+					syncData[pid]['endTurn'] = pdata['endTurn']
+					syncOnePlayer(pid, pdata)
+					print(Globals.MY_ID, ' ==== RECV end ', pid)
+					emit_signal('recv_turn_end')
 
 func syncOnePlayer(pid: int, pdata: Dictionary):
 	if 'actions' in pdata:
@@ -72,11 +74,15 @@ func syncOnePlayer(pid: int, pdata: Dictionary):
 func syncVote(pid, act):
 	var strikeNode = self.get_parent()
 
+	var foundbtn = false
 	for btn in strikeNode.undecided_priority_btns:
 		#print('btn name ', btn.get_prio_name(), ' act name ', act['priority'])
 		if btn.get_prio_name() == act['priority']:
 			#print(' match!')
 			strikeNode._on_global_priority_btn_pressed(btn, true)
+			foundbtn = true
+	if not foundbtn:
+		return
 
 	if act['vote'] == Globals.YES_STATE:
 		strikeNode._on_vote_approve_btn_pressed(true)
