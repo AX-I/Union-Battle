@@ -410,7 +410,12 @@ func _on_end_turn() -> void:
 	for player in Globals.PLAYERS:
 		if not player.is_player_union():
 			admin_no_money = not player.is_alive()
-
+	#TOTO REMOVE, IS FOR TESTING END OF GAME
+	# for player in Globals.PLAYERS:
+	# 	if not player.is_player_union():
+	# 		player.adjust_money(-100)
+	# admin_no_money = true
+	#END OF TESTING
 	if all_priorities_agreed or unionists_no_engagement or admin_no_money:
 		if all_priorities_agreed:
 			print("Game ended due to all_priorities_agreed")
@@ -418,7 +423,8 @@ func _on_end_turn() -> void:
 			print("Game ended due to unionists_no_engagement")
 		elif admin_no_money:
 			print("Game ended due to admin_no_money")
-		get_tree().change_scene_to_file("res://Scenes/end_scene.tscn")
+		#get_tree().change_scene_to_file("res://Scenes/end_scene.tscn")
+		add_child(load("res://Scenes/end_scene.tscn").instantiate())
 
 	if null != Globals.active_vote_btn:
 		start_voting_turn()

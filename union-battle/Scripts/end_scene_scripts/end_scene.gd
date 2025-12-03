@@ -21,7 +21,7 @@ func _ready():
 	for unionist in unionists:
 		var vps = unionist.get_engagement()
 		for priority in unionist.get_priorities():
-			for i in range(Globals.yes_priority_btns):
+			for i in range(len(Globals.yes_priority_btns)):
 				if priority == Globals.yes_priority_btns[i].text:
 					vps += priority_worth
 					break
@@ -39,18 +39,19 @@ func _ready():
 	#Now we order
 	var index_ordering = [0]
 	for i in range(1, player_vps.size()):
-		for j in range(index_ordering + 1):
-			if j == index_ordering + 1:
+		for j in range(len(index_ordering) + 1):
+			if j == len(index_ordering):
 				index_ordering.push_back(i)
+				break
 			elif player_vps[i] > player_vps[index_ordering[j]]:
 				index_ordering.insert(j, i)
 				break
 
 
 	#$WhoWonLabel.font.Size = 36
-	var final_text = "The Winner is " + players[index_ordering[0]].get_player_name() + " with " + player_vps[index_ordering[0]] + " victory points\nThen its\n"
+	var final_text = "The Winner is " + players[index_ordering[0]].get_player_name() + " with " + str(player_vps[index_ordering[0]]) + " victory points\nThen its\n"
 	for i in range(1, players.size()):
-		final_text = final_text + players[index_ordering[i]].get_player_name() + " with " + player_vps[index_ordering[i]] + " victory points\n"
+		final_text = final_text + players[index_ordering[i]].get_player_name() + " with " + str(player_vps[index_ordering[i]]) + " victory points\n"
 	$WhoWonLabel.text = final_text
 
 
