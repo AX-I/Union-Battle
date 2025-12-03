@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://dawy2qrhl70p4"]
+
+[ext_resource type="Script" uid="uid://cwr5lef0vn4vw" path="res://Scripts/end_scene_scripts/end_scene.gd" id="1_5pkqa"]
+[ext_resource type="Texture2D" uid="uid://dtvgqg0best8u" path="res://Assets/dark_background.jpg" id="2_5rked"]
+
+[node name="EndScene" type="Node2D"]
+script = ExtResource("1_5pkqa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(574.5, 325.5)
+scale = Vector2(1.0043631, 1.1003401)
+texture = ExtResource("2_5rked")
+
+[node name="GameOverLabel" type="RichTextLabel" parent="."]
+offset_right = 1154.0
+offset_bottom = 151.0
+text = "Game Over!"
+
+[node name="WhoWonLabel" type="RichTextLabel" parent="."]
+offset_left = 3.0
+offset_top = 241.0
+offset_right = 1151.0
+offset_bottom = 655.0
+text = "These People Won!"
