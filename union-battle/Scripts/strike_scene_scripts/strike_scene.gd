@@ -281,16 +281,16 @@ func draw_card(union_deck: bool) -> void:
 	var is_union = Globals.PLAYERS[Globals.curr_turn].is_player_union()
 
 	# Only draw if no card has been drawn this turn
-	if not Globals.drew_this_turn:
-		# Draw a card based on the player drawing
-		if is_union and union_deck:
-			draw_success = union_draw(is_union)
-		elif not (is_union or union_deck):
-			draw_success = admin_draw(is_union)
+	#if not Globals.drew_this_turn: Doesnt look like we want this but leaving it in for easy reversion
+	# Draw a card based on the player drawing
+	if is_union and union_deck:
+		draw_success = union_draw(is_union)
+	elif not (is_union or union_deck):
+		draw_success = admin_draw(is_union)
 
-		# Making sure that no other card can be drawn this turn
-		if draw_success:
-			Globals.drew_this_turn = true
+	# Making sure that no other card can be drawn this turn
+	if draw_success:
+		Globals.drew_this_turn = true
 
 # Draw a card specifically from the union pile
 func union_draw(
