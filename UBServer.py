@@ -1,19 +1,43 @@
 
+# python UBServer.py -ip xxx.xx.xx -ssl 1
+
 from http.server import *
 from urllib.parse import urlparse, parse_qs
 import socket
 import json
 import argparse
 import time
+import ssl
+
+CERT_FILE = 'example_cert.pem'
+KEY_FILE = 'example_key.pem'
+
+welcome_msg = '''
+<style>
+body {background:#444; color:#fff; font-size:120%;}
+h1 {text-align:center; margin-top:1em;
+ font-family:Stencil; font-weight:normal;}
+p {text-align:center;}
+</style>
+<body>
+<h1>Welcome!</h1>
+<p>Connection success. You can close this tab and return to the game.</p>
+</body>
+'''
 
 class UnionServer(HTTPServer):
-    def __init__(self, address, handler):
+    def __init__(self, address, handler, use_ssl=False):
         super().__init__(address, handler)
 
         # Holds all player data
         self.players = {}
 
         self.seed = int(time.time())
+
+        if use_ssl:
+            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            ssl_context.load_cert_chain(CERT_FILE, KEY_FILE)
+            self.socket = ssl_context.wrap_socket(self.socket, server_side=True)
 
 
 class UnionHandler(BaseHTTPRequestHandler):
@@ -39,6 +63,8 @@ class UnionHandler(BaseHTTPRequestHandler):
             self.addPlayer()
         elif path == '/fetch':
             self.sendUpdates()
+        else:
+            self.send_response(200, welcome_msg)
 
     def do_POST(self):
         print('post', self.path)
@@ -102,15 +128,17 @@ class UnionHandler(BaseHTTPRequestHandler):
             self.server.players[player_id]['actions'] = [jdata]
 
 
-def run(ip):
+def run(ip, use_ssl=False):
     addr = (ip, 6400)
     print("Hosting server on", addr)
-    httpd = UnionServer(addr, UnionHandler)
+    httpd = UnionServer(addr, UnionHandler, use_ssl)
     httpd.serve_forever()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-ip', type=str, default='', 
                         help='IP address to bind')
+    parser.add_argument('-ssl', type=int, default=0,
+                        help='Whether to use SSL')
     args = parser.parse_args()
-    run(args.ip)
+    run(args.ip, args.ssl)

@@ -1,0 +1,154 @@
+[gd_scene load_steps=9 format=3 uid="uid://dlsg6dcu0qyb8"]
+
+[ext_resource type="Script" uid="uid://cn5bbpeahnjgr" path="res://Scripts/connect_scene_scripts/join_button.gd" id="1_jsujh"]
+[ext_resource type="Script" uid="uid://bxhto7emhv8cr" path="res://Scripts/connect_scene_scripts/wait_for_players.gd" id="2_1wuk6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7tv2a"]
+font_size = 51
+font_color = Color(1, 0.6392157, 0.27058825, 1)
+outline_size = 14
+outline_color = Color(0.23137255, 0.15294118, 0.2784314, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jsujh"]
+font_size = 26
+font_color = Color(1, 0.6392157, 0.27058825, 1)
+outline_size = 6
+outline_color = Color(0.23137255, 0.15294118, 0.2784314, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1wuk6"]
+font_size = 30
+font_color = Color(1, 0.6392157, 0.27058825, 1)
+outline_size = 10
+outline_color = Color(0.23137255, 0.15294118, 0.2784314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82sop"]
+bg_color = Color(1, 0.6392157, 0.27058825, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2784314, 0.12941177, 0.31764707, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7tv2a"]
+bg_color = Color(0.9490196, 0.6784314, 0.4509804, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2784314, 0.12941177, 0.31764707, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aeweq"]
+bg_color = Color(1, 0.69044125, 0.3985905, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.31543413, 0.15039995, 0.35888165, 1)
+
+[node name="ConnectScene" type="Node2D"]
+
+[node name="MainContainer" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(1923, 1088)
+offset_right = 1923.0
+offset_bottom = 1088.0
+
+[node name="SeparationContainer" type="VBoxContainer" parent="MainContainer"]
+custom_minimum_size = Vector2(1600, 100)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="MainContainer/SeparationContainer"]
+layout_mode = 2
+text = "Welcome to Union Battle!"
+label_settings = SubResource("LabelSettings_7tv2a")
+horizontal_alignment = 1
+
+[node name="IntroLabel" type="Label" parent="MainContainer/SeparationContainer"]
+layout_mode = 2
+text = "The workers of Qarleton University are at odds with the administration, and a strike is afoot! Will you join your fellow unionists to strike against your tyranical admin for better working conditions, or will you reinforce the admin's wishes against these greedy unionists? Whatever side you choose, one thing is for sure: this will be quite the Union Battle!
+
+When you join the game, you will either be a Unionist, or the Admin. Here is what you need to know for each role..."
+label_settings = SubResource("LabelSettings_jsujh")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RoleContainer" type="HBoxContainer" parent="MainContainer/SeparationContainer"]
+layout_mode = 2
+
+[node name="UnionistContainer" type="VBoxContainer" parent="MainContainer/SeparationContainer/RoleContainer"]
+custom_minimum_size = Vector2(800, 100)
+layout_mode = 2
+
+[node name="UnionistTitle" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/UnionistContainer"]
+layout_mode = 2
+text = "Unionist"
+label_settings = SubResource("LabelSettings_1wuk6")
+horizontal_alignment = 1
+
+[node name="UnionistInfo" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/UnionistContainer"]
+layout_mode = 2
+text = "Your Goal: Get your own priorities approved by the Admin to
+earn points and win!
+
+Your Stats:
+- Engagement: How much support you have for the strike. If
+your engagement reaches 0, you can't play!
+- Risk: How much risk there is to you striking. If your risk
+reaches 10, you can't play.
+
+On Your Turn You Can:
+- Play a card on yourself or another Unionist to affect their
+Engagement and Risk levels
+- Draw a card from the Unionist Pile
+- Put forward a priority to be approved by the admin
+
+- Tip: Not all Unionists have the same priorities!"
+label_settings = SubResource("LabelSettings_jsujh")
+
+[node name="AdminContainer" type="VBoxContainer" parent="MainContainer/SeparationContainer/RoleContainer"]
+custom_minimum_size = Vector2(800, 100)
+layout_mode = 2
+
+[node name="AdminTitle" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/AdminContainer"]
+layout_mode = 2
+text = "Admin"
+label_settings = SubResource("LabelSettings_1wuk6")
+horizontal_alignment = 1
+
+[node name="Admin Info" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/AdminContainer"]
+layout_mode = 2
+text = "Your Goal: Have more Money by the end of the game than the
+Unionists have points to win!
+
+Your Stats:
+- Money: How rich you are! This decreases as the strike
+progresses, but approving Unionist priorities will give them
+points that could add up to be more than you're worth, so
+manage your money wisely!
+
+On Your Turn You Can:
+- Play a card on a Unionist to affect their Engagement and Risk
+levels
+- Draw a card from the Admin Pile
+
+
+- Tip: You have the final say on if a Unionist priority is approved!"
+label_settings = SubResource("LabelSettings_jsujh")
+
+[node name="JoinButton" type="Button" parent="MainContainer/SeparationContainer"]
+custom_minimum_size = Vector2(245, 77)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_82sop")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7tv2a")
+theme_override_styles/hover = SubResource("StyleBoxFlat_aeweq")
+text = "0/4 Players Joined"
+script = ExtResource("1_jsujh")
+
+[node name="WaitForPlayers" type="HTTPRequest" parent="."]
+script = ExtResource("2_1wuk6")
+
+[connection signal="button_down" from="MainContainer/SeparationContainer/JoinButton" to="MainContainer/SeparationContainer/JoinButton" method="_on_button_down"]

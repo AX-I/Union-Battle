@@ -3,84 +3,84 @@
 		"card_name": "Back to Work Legislation",
 		"engagement": 2,
 		"risk": -1,
-		"path_to_img": "admin_card_art/temp_admin_legislation.png"
+		"path_to_img": "admin_card_art/BackToWork.png"
 	},
 	"captive_meeting": {
 		"card_name": "Captive Meeting",
 		"engagement": -1,
 		"risk": 1,
-		"path_to_img": "admin_card_art/temp_admin_legislation.png"
+		"path_to_img": "admin_card_art/CaptiveMeeting.png"
 	},
 	"threaten_visas": {
 		"card_name": "Threaten Visas",
 		"engagement": -1,
 		"risk": 3,
-		"path_to_img": "admin_card_art/temp_admin_visa.png"
+		"path_to_img": "admin_card_art/Visas.png"
 	},
 	"minor_spelling_mistake": {
 		"card_name": "Minor Spelling Mistake",
 		"engagement": 1,
 		"risk": 0,
-		"path_to_img": "admin_card_art/temp_admin_mistake.png"
+		"path_to_img": "admin_card_art/Mistake.png"
 	},
 	"no_show": {
 		"card_name": "No Show",
 		"engagement": 1,
 		"risk": 1,
-		"path_to_img": "admin_card_art/temp_admin_gone.png"
+		"path_to_img": "admin_card_art/NoShow.png"
 	},
 	"refuse_to_define_terms": {
 		"card_name": "Refuse to Define Terms",
 		"engagement": -1,
 		"risk": 0,
-		"path_to_img": "admin_card_art/temp_admin_ban.png"
+		"path_to_img": "admin_card_art/Refuse.png"
 	},
 	"hire_private_security": {
 		"card_name": "Hire Private Security",
 		"engagement": -1,
 		"risk": 2,
-		"path_to_img": "admin_card_art/temp_admin_cop.png"
+		"path_to_img": "admin_card_art/Security.png"
 	},
 	"invite_biased_outside_council": {
 		"card_name": "Invite Biased Outside Council",
 		"engagement": -2,
 		"risk": 1,
-		"path_to_img": "admin_card_art/temp_admin_lawyer.png"
+		"path_to_img": "admin_card_art/Biased.png"
 	},
 	"run_smeer_campaign": {
 		"card_name": "Run Smeer Campaign",
 		"engagement": -2,
 		"risk": 1,
-		"path_to_img": "admin_card_art/temp_admin_aggresive.png"
+		"path_to_img": "admin_card_art/Campaign.png"
 	},
 	"fire_organizers": {
 		"card_name": "Fire Organizers",
 		"engagement": 2,
 		"risk": 4,
-		"path_to_img": "admin_card_art/temp_admin_aggresive.png"
+		"path_to_img": "admin_card_art/Fire.png"
 	},
 	"give_token_concession": {
 		"card_name": "Give Token Concession",
 		"engagement": -1,
 		"risk": 0,
-		"path_to_img": "admin_card_art/temp_admin_balance.png"
+		"path_to_img": "admin_card_art/Concession.png"
 	},
 	"disseminate_anti_union_materials": {
 		"card_name": "Disseminate Anti Union Materials",
 		"engagement": -2,
 		"risk": 0,
-		"path_to_img": "admin_card_art/temp_admin_aggresive.png"
+		"path_to_img": "admin_card_art/Disseminate.png"
 	},
 	"meet_them_halfway": {
 		"card_name": "Meet Them Halfway",
 		"engagement": -2,
 		"risk": -1,
-		"path_to_img": "admin_card_art/temp_admin_balance.png"
+		"path_to_img": "admin_card_art/MeetMiddle.png"
 	},
 	"distract_with_pizza_party": {
 		"card_name": "Distract With Pizza Party",
 		"engagement": -3,
 		"risk": 0,
-		"path_to_img": "admin_card_art/temp_admin_pizza.png"
+		"path_to_img": "admin_card_art/Pizza.png"
 	}
 }

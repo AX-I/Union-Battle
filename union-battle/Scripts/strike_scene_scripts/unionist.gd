@@ -1,10 +1,11 @@
 extends StaticBody2D
 
-# All of the labels
+# All of the child labels and other objects
 var egmt_label: 				Label		= null
-var risk_label:				Label		= null
-var player_label:			Label		= null
-var priorities_label:		Label 		= null
+var risk_label:					Label		= null
+var player_label:				Label		= null
+var priorities_label:			Label 		= null
+var player_timer:				Timer		= null
 
 # Constants for strings
 const ENGAGEMENT_LABEL_STR:	String	    = "Engagement: "
@@ -47,7 +48,11 @@ func _ready() -> void:
 		# Storing the player label
 		if child.name.contains("Label"):
 			player_label = child
-			
+
+		# Storing the player timer
+		if child.name.contains("Timer"):
+			player_timer = child
+
 		# Storing the priorities label
 		if child.name.contains("Priorities"):
 			priorities_label = child
@@ -133,6 +138,7 @@ func adjust_stats(
 	# Adjusting engagement and risk
 	_engagement 		 	   = _engagement + card.get_engagement()
 	_risk 				 	   = _risk + card.get_risk()
+	self.display_card_played()
 
 	# Making sure engagement is not below zero
 	if _engagement < 0:
@@ -200,7 +206,7 @@ func is_player_union() -> bool:
 	return _IS_UNION
 
 func is_alive() -> bool:
-	return _engagement > 0
+	return _engagement > 0 and _risk < 10
 
 func get_stats() -> Dictionary:
 	return {'engagement':get_engagement(), 'risk':get_risk()}
@@ -208,3 +214,21 @@ func get_stats() -> Dictionary:
 func set_stats(new_stat: Dictionary) -> void:
 	set_engagement(new_stat['engagement'])
 	set_risk(new_stat['risk'])
+
+# Called to briefly flash the player gold to show a card was played on them
+func display_card_played() -> void:
+	print("card played on: " + str(Globals.MY_ID))
+	self.modulate = Color(1.0, 0.8431, 0.0, 0.5)
+	player_timer.start()
+
+func get_init_card_pos_array() -> Array:
+	var ret = []
+	for obj in get_node("CardPositions").get_children():
+		if obj.name.contains("CardPos"):
+			ret.append(obj.global_position)
+			
+	return ret
+
+# Called to reset the modulation after a timeout
+func _on_player_timer_timeout() -> void:
+	self.modulate = Color(1.0, 1.0, 1.0, 1.0)

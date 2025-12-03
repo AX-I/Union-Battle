@@ -130,7 +130,9 @@ func setup_card(
 	# Setting the font parameters for the info text
 	_info.label_settings			   = LabelSettings.new()
 	_info.label_settings.font_size	   = 65
-	_info.label_settings.font_color	   = Color(0.2824, 0.1294, 0.3176)
+	_info.label_settings.font_color	   = Color(1, 1, 1)
+	_info.label_settings.outline_color = Color(0, 0, 0)
+	_info.label_settings.outline_size  = 15
 
 	# Setting the info text
 	_info.text						   = str(_card_name) + "\nEngagement: " + str(_engagement) + "\nRisk: " + str(_risk)
@@ -222,7 +224,9 @@ func _on_body_exited(
 
 	# If the body is an appliance then revert its colour
 	if body.is_in_group("player_group"):
-		body.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		if !body.modulate == Color(1.0, 0.8431, 0.0, 0.5):
+			body.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
 		_player_ref   = null
 
 # Getter for starting position

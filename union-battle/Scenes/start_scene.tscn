@@ -54,11 +54,12 @@ offset_right = 695.0
 offset_bottom = 545.0
 theme = SubResource("Theme_7tv2a")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_82sop")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_7tv2a")
 theme_override_styles/hover = SubResource("StyleBoxFlat_aeweq")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7tv2a")
-text = "Press to Join"
+text = "Check Connection"
 script = ExtResource("1_82sop")
 
 [node name="ServerAddr" type="LineEdit" parent="StartGameButton"]

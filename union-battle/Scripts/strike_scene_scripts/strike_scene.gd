@@ -1,6 +1,16 @@
 extends Node2D
 
+@onready var priority_popup: ColorRect = $CanvasLayer/TopRight/Control/PriorityPopup
+@onready var priority_switch: Button = $CanvasLayer/BotRight/Buttons/PrioritySwitch
+@onready var end_turn: Button = $CanvasLayer/BotRight/Buttons/EndTurn
+@onready var global_priorities: Control = $CanvasLayer/Center/Control/GlobalPriorities
+@onready var union_deck_btn: TextureButton = $CanvasLayer/Center/Control/UnionDeck
+@onready var admin_deck_btn: TextureButton = $CanvasLayer/Center/Control/AdminDeck
+@onready var instructions_text: Label = $CanvasLayer/BotLeft/InstructionsBox/InstructionsLabel
+@onready var turn_text: Label = $CanvasLayer/TopLeft/TurnBox/TurnLabel
+
 const PRIO_BTN_SCENE = preload("res://Scenes/global_priority.tscn")
+
 
 # The unionist and admin decks
 var unionist_deck: Array = []
@@ -34,14 +44,21 @@ func _ready() -> void:
 	const PERSONAL_STR = "personal_position"
 	
 	# Don't show priority stuff by default
-	get_node("GlobalPriorities").visible = false
-	get_node("PriorityPopup").visible = false
+	global_priorities.visible = false
+	priority_popup.visible = false
 
 	# Get each child that is a player
-	for players in self.get_children():
-		# Store players only
-		if players.name.contains(PLAYER_STR):
-			Globals.PLAYERS.append(players)
+	for objs in self.get_children():
+		if objs.name.contains("CanvasLayer"):
+			for box_objs in objs.get_children():
+				for obj in box_objs.get_children():
+					# Store players only
+					if obj.name.contains(PLAYER_STR):
+						Globals.PLAYERS.append(obj)
+						Globals.PLAYER_COORDS.append(obj.global_position)
+						Globals.CARD_COORD_SETS.append(obj.get_init_card_pos_array())
+						
+			break
 
 	# Total number of cards created
 	var total_cards = 0
@@ -68,9 +85,9 @@ func _ready() -> void:
 		
 		btn.text = priority
 		btn.set_prio_name(priority)
-		get_node("GlobalPriorities").add_child(btn)
+		global_priorities.add_child(btn)
 		Globals.undecided_priority_btns.append(btn)
-		btn.size = Vector2(75, 30)
+		btn.size = Vector2(70, 10)
 		
 		# Connect the button_pressed signal
 		btn.pressed.connect(_on_global_priority_btn_pressed.bind(btn))
@@ -82,6 +99,8 @@ func _ready() -> void:
 	# Getting the full lists of each kind of card
 	var unionist_deck_dict = get_json_from_file(Globals.UNIONIST_CARD_JSON)
 	var admin_deck_dict = get_json_from_file(Globals.ADMIN_CARD_JSON)
+
+	turn_text.text = "You are player " + str(Globals.MY_ID + 1) + "\nIt is player " + str(Globals.curr_turn + 1) + "'s turn"
 
 	# DELETE THIS OUTER LOOP ONCE WE GET MORE CARDS
 	for i in range(10):
@@ -150,20 +169,16 @@ func place_all_global_priorities():
 	place_global_priorities(Globals.no_priority_btns)
 
 func place_global_priorities(instance_arr: Array):
-	const UNDECIDED_PATH = "GlobalPriorities/Undecided"
-	const NO_PATH = "GlobalPriorities/Scrapped"
-	const YES_PATH = "GlobalPriorities/Approved"
-	
 	for i in range(len(instance_arr)):
 		var prio_btn = instance_arr[i]
 		var parent = null
 		
 		if prio_btn.get_prio_state() == Globals.UNDECIDED_STATE:
-			parent = get_node(UNDECIDED_PATH)
+			parent = global_priorities.get_node("Undecided")
 		elif prio_btn.get_prio_state() == Globals.NO_STATE:
-			parent = get_node(NO_PATH)
+			parent = global_priorities.get_node("Scrapped")
 		elif prio_btn.get_prio_state() == Globals.YES_STATE:
-			parent = get_node(YES_PATH)
+			parent = global_priorities.get_node("Approved")
 		
 		# 0 or 1
 		var col = (i % 2)
@@ -171,15 +186,36 @@ func place_global_priorities(instance_arr: Array):
 		# 0+
 		var row = (floor(i / 2))
 		
-		prio_btn.global_position = parent.global_position + Vector2(col * 80, row * 35) + Vector2(-15, 35)
+		prio_btn.global_position = parent.global_position + Vector2(col * 140, row * 90) + Vector2(-20, 50)
 
 func setupIndicators():
 	var indicator = get_node('MeIndicator')
-	indicator.position = Globals.PLAYER_COORDS[Globals.MY_ID]
+	indicator.global_position = Globals.PLAYER_COORDS[Globals.MY_ID]
 	indicator.z_index = -10
+	
+	if (!Globals.PLAYERS[Globals.MY_ID].is_player_union()):
+		instructions_text.text = "Turn Instructions\n1.Draw a card from the Admin Deck\n2.Play a card on a unionist\nOR\nSkip your turn"
+	else:
+		# If a player cannot play then ask them to end their turn
+		if !Globals.PLAYERS[Globals.MY_ID].is_alive():
+			# Telling the player that both their risk and engagement are out of bounds
+			if Globals.PLAYERS[Globals.MY_ID].get_engagement() <= 0 and Globals.PLAYERS[Globals.MY_ID].get_risk() >= 10:
+				instructions_text.text = "Your engagement is too low\nand your risk is too high.\nPlease end your turn."
+
+			# Telling the player that their risk is too high
+			elif Globals.PLAYERS[Globals.MY_ID].get_risk() >= 10:
+				instructions_text.text = "Your risk is too high.\nPlease end your turn."
+
+			# Telling the player that their engagement is too low
+			else:
+				instructions_text.text = "Your engagement is too low.\nPlease end your turn."
+
+		# Telling the player their actions on their turn as a unionist
+		else:
+			instructions_text.text = "Turn Instructions:\n1. Draw a card from the Union Deck\n2. Play a card (on yourself or another Unionist)\nOR\nDeclare a priority to vote on\nOR\nSkip your turn"
 
 	indicator = get_node('TurnIndicator')
-	indicator.position = Globals.PLAYER_COORDS[Globals.curr_turn]
+	indicator.global_position = Globals.PLAYER_COORDS[Globals.curr_turn]
 	indicator.z_index = -20
 
 # Called to handle player input
@@ -373,8 +409,12 @@ func get_json_from_file(
 
 
 func _on_end_turn() -> void:
+	# If it is not the current player's turn don't end
+	if Globals.curr_turn != Globals.MY_ID:
+		return
+
 	Globals.drew_this_turn = false
-	
+
 	if Globals.curr_turn == Globals.MY_ID:
 		await get_tree().create_timer(0.5).timeout
 		print(Globals.MY_ID, ' end my turn!')
@@ -426,6 +466,9 @@ func _on_end_turn() -> void:
 		#get_tree().change_scene_to_file("res://Scenes/end_scene.tscn")
 		add_child(load("res://Scenes/end_scene.tscn").instantiate())
 
+	
+	turn_text.text = "You are player " + str(Globals.MY_ID + 1) + "\nIt is player " + str(Globals.curr_turn + 1) + "'s turn"
+	
 	if null != Globals.active_vote_btn:
 		start_voting_turn()
 	else:
@@ -461,6 +504,7 @@ func start_normal_turn():
 			if player.is_player_union():
 				total_engagement -= player.get_engagement()
 		Globals.PLAYERS[Globals.curr_turn].adjust_money(total_engagement)
+	setupIndicators()
 	
 func _on_dev_switch_player_pressed() -> void:
 	Globals.MY_ID += 1
@@ -476,9 +520,9 @@ func _on_dev_switch_player_pressed() -> void:
 func _on_priority_switch_pressed() -> void:
 	show_priorities = not show_priorities
 	
-	get_node("GlobalPriorities").visible = show_priorities
-	get_node("UnionDeck").visible = not show_priorities
-	get_node("AdminDeck").visible = not show_priorities
+	global_priorities.visible = show_priorities
+	union_deck_btn.visible = not show_priorities
+	admin_deck_btn.visible = not show_priorities
 	
 	for player in Globals.PLAYERS:
 		# For debugging
@@ -488,13 +532,13 @@ func _on_priority_switch_pressed() -> void:
 		player.toggle_priorities(show_priorities)
 
 func set_visible_prio_voting(visible_voting: bool):
-	get_node("GlobalPriorities/SelectedPriority").text = "Selected Priority: " + Globals.active_vote_btn.get_prio_name() if visible_voting else ""
+	global_priorities.get_node("SelectedPriority").text = "Selected Priority: " + Globals.active_vote_btn.get_prio_name() if visible_voting else ""
 	
-	get_node("GlobalPriorities/SelectedPriority").visible = visible_voting
-	get_node("GlobalPriorities/Scrapped/VoteScrapBtn").visible = visible_voting
-	get_node("GlobalPriorities/Undecided/VoteCancelBtn").visible = visible_voting
-	get_node("GlobalPriorities/Approved/VoteApproveBtn").visible = visible_voting
-	get_node("GlobalPriorities/Title").visible = not visible_voting
+	global_priorities.get_node("SelectedPriority").visible = visible_voting
+	global_priorities.get_node("Scrapped/VoteScrapBtn").visible = visible_voting
+	global_priorities.get_node("Undecided/VoteCancelBtn").visible = visible_voting
+	global_priorities.get_node("Approved/VoteApproveBtn").visible = visible_voting
+	global_priorities.get_node("Title").visible = not visible_voting
 
 func _on_global_priority_btn_pressed(btn, remote_activation := false):
 	if not remote_activation:
@@ -517,8 +561,8 @@ func _on_global_priority_btn_pressed(btn, remote_activation := false):
 	set_visible_prio_voting(true)
 	
 func _on_global_priority_btn_mouse_entered(btn):
-	get_node("PriorityPopup/PopupText").text = btn.get_hover_text()
-	get_node("PriorityPopup").visible = true
+	priority_popup.get_node("PopupText").text = btn.get_hover_text()
+	priority_popup.visible = true
 	
 func _on_global_priority_btn_mouse_exited(btn):
 	# If a vote is in progress, do as if we entered the actively voted priority's button, else hide the popup
@@ -527,7 +571,7 @@ func _on_global_priority_btn_mouse_exited(btn):
 			_on_global_priority_btn_mouse_entered(Globals.active_vote_btn)
 			return
 			
-	get_node("PriorityPopup").visible = false
+	priority_popup.visible = false
 
 func _on_vote_cancel_btn_pressed(remote_activation := false) -> void:
 	# If a vote already started, simply add a vote
@@ -557,18 +601,18 @@ func show_voting_ui(to_show: bool):
 		if not show_priorities:
 			_on_priority_switch_pressed()
 		
-	get_node("PrioritySwitch").disabled = to_show
+	priority_switch.disabled = to_show
 	# Disable the end turn button - only way to proceed is voting
-	get_node("EndTurn").disabled = to_show
+	end_turn.disabled = to_show
 	
 	# Different text for admin
 	var abstain_text = "Abstain" if Globals.PLAYERS[Globals.MY_ID].is_player_union() else "Leave Undecided"
 	var yes_text = "Vote to Approve" if Globals.PLAYERS[Globals.MY_ID].is_player_union() else "Approve Priority"
 	var no_text = "Vote to Scrap" if Globals.PLAYERS[Globals.MY_ID].is_player_union() else "Scrap Priority"
 	
-	get_node("GlobalPriorities/Undecided/VoteCancelBtn").text = abstain_text if to_show else "Cancel Vote"
-	get_node("GlobalPriorities/Approved/VoteApproveBtn").text = yes_text if to_show else "Vote to Approve"
-	get_node("GlobalPriorities/Scrapped/VoteScrapBtn").text = no_text if to_show else "Vote to Scrap"
+	global_priorities.get_node("Undecided/VoteCancelBtn").text = abstain_text if to_show else "Cancel Vote"
+	global_priorities.get_node("Approved/VoteApproveBtn").text = yes_text if to_show else "Vote to Approve"
+	global_priorities.get_node("Scrapped/VoteScrapBtn").text = no_text if to_show else "Vote to Scrap"
 	
 func start_vote(to_approve: bool, remote_activation := false):
 	# Re-init in case of prev data being there
@@ -643,7 +687,7 @@ func finish_voting(vote_to_add: String):
 	Globals.active_vote_btn = null
 	
 	# Hide the hover box
-	get_node("PriorityPopup").visible = false
+	priority_popup.visible = false
 
 func _on_vote_scrap_btn_pressed(remote_activation := false) -> void:
 	if not remote_activation:

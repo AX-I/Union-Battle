@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c331oxuq4jhyl"]
+[gd_scene load_steps=24 format=3 uid="uid://c331oxuq4jhyl"]
 
 [ext_resource type="Script" uid="uid://bgmuvfbsm32i3" path="res://Scripts/strike_scene_scripts/strike_scene.gd" id="1_n1sj3"]
 [ext_resource type="Texture2D" uid="uid://dagmrjq5aoyhs" path="res://icon.svg" id="1_x2neb"]
@@ -8,19 +8,31 @@
 [ext_resource type="Texture2D" uid="uid://ck55yqxt6dtvr" path="res://Assets/admin_temp.png" id="5_514q4"]
 [ext_resource type="Texture2D" uid="uid://drdkrulj5s0sn" path="res://Assets/union_press_temp.png" id="5_linjo"]
 [ext_resource type="Texture2D" uid="uid://cnpqoyjhw3ils" path="res://Assets/admin_press_temp.png" id="7_5jf1a"]
+[ext_resource type="Texture2D" uid="uid://gjjs3a3t62vs" path="res://Assets/UnionistOne.png" id="7_r67t3"]
+[ext_resource type="Texture2D" uid="uid://51vlxc7m00ex" path="res://Assets/UnionistTwo.png" id="8_pu5dd"]
+[ext_resource type="Texture2D" uid="uid://cflvgf4n0i8jg" path="res://Assets/UnionistThree.png" id="9_2vbqv"]
 [ext_resource type="Shader" uid="uid://dnl4m4npq2spa" path="res://Shaders/meIndicator.gdshader" id="9_xcxxk"]
 [ext_resource type="Shader" uid="uid://c8k73vwhqk75" path="res://Shaders/turnIndicator.gdshader" id="10_k2kik"]
+[ext_resource type="Texture2D" uid="uid://0g7xc0u6faso" path="res://Assets/Admin.png" id="11_7cr68"]
 [ext_resource type="Script" uid="uid://dya7gnl4x3wyj" path="res://Scripts/strike_scene_scripts/connection_in.gd" id="11_erwlu"]
 [ext_resource type="Script" uid="uid://cc0qggkckv3fa" path="res://Scripts/strike_scene_scripts/connection_out.gd" id="12_ajl8s"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ajl8s"]
+line_spacing = 1.0
+font_size = 12
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qj3wv"]
 size = Vector2(128, 128)
 
 [sub_resource type="LabelSettings" id="LabelSettings_x2neb"]
 font_size = 25
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_n1sj3"]
 font_size = 25
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_k2kik"]
 font_size = 25
@@ -33,36 +45,326 @@ shader = ExtResource("9_xcxxk")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_erwlu"]
 shader = ExtResource("10_k2kik")
 
-[sub_resource type="LabelSettings" id="LabelSettings_ajl8s"]
-line_spacing = 1.0
-font_size = 12
-
 [node name="StrikeScene" type="Node2D"]
 script = ExtResource("1_n1sj3")
 
-[node name="Player1" type="StaticBody2D" parent="." groups=["player_group"]]
-position = Vector2(583, 584)
-scale = Vector2(0.5, 0.5)
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TopRight" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -432.0
+offset_bottom = 240.0
+grow_horizontal = 0
+
+[node name="Control" type="Control" parent="CanvasLayer/TopRight"]
+layout_mode = 2
+
+[node name="PriorityPopup" type="ColorRect" parent="CanvasLayer/TopRight/Control"]
+layout_mode = 0
+offset_left = -129.0
+offset_top = 10.000001
+offset_right = 295.0
+offset_bottom = 242.0
+scale = Vector2(1.3, 1.3)
+size_flags_horizontal = 3
+color = Color(0.41960785, 0.41960785, 0.41960785, 1)
+
+[node name="PopupText" type="Label" parent="CanvasLayer/TopRight/Control/PriorityPopup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_right = -4.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Example text omg this is so great lol omg testingg stuffff asdhsdab ashdb ahsbdah"
+label_settings = SubResource("LabelSettings_ajl8s")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="BotRight" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Buttons" type="Node2D" parent="CanvasLayer/BotRight"]
+position = Vector2(-26, -21)
+scale = Vector2(1.5, 1.5)
+
+[node name="EndTurn" type="Button" parent="CanvasLayer/BotRight/Buttons"]
+offset_left = -115.0
+offset_top = -15.0
+offset_right = 35.0
+offset_bottom = 35.0
+text = "End Turn"
+
+[node name="PrioritySwitch" type="Button" parent="CanvasLayer/BotRight/Buttons"]
+offset_left = -275.0
+offset_top = -15.0
+offset_right = -125.0
+offset_bottom = 35.0
+text = "Toggle Priorities"
+
+[node name="DevSwitch" type="Button" parent="CanvasLayer/BotRight/Buttons"]
+offset_left = -115.0
+offset_top = -71.0
+offset_right = 35.0
+offset_bottom = -21.0
+text = "DEV switch player"
+
+[node name="BotLeft" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="InstructionsBox" type="ColorRect" parent="CanvasLayer/BotLeft"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+color = Color(0.41960785, 0.41960785, 0.41960785, 1)
+
+[node name="InstructionsLabel" type="Label" parent="CanvasLayer/BotLeft/InstructionsBox"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -4.8250003
+anchor_bottom = -4.8250003
+offset_left = 6.0
+offset_top = 970.00006
+offset_right = 387.0
+offset_bottom = 1157.0
+text = "Turn Instructions:
+1. Draw a card from the Union Deck
+2. Play a card (on yourself or another Unionist)
+OR
+Declare a priority to vote on
+OR
+Skip your turn"
+
+[node name="TopLeft" type="HBoxContainer" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TurnBox" type="ColorRect" parent="CanvasLayer/TopLeft"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+color = Color(0.41960785, 0.41960785, 0.41960785, 1)
+
+[node name="TurnLabel" type="Label" parent="CanvasLayer/TopLeft/TurnBox"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 206.0
+offset_bottom = 101.0
+text = "You are player 1
+It is player 1's turn"
+
+[node name="Center" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.78400004
+anchor_bottom = 0.72900003
+offset_right = 1.7199707
+offset_bottom = 0.6799927
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="CanvasLayer/Center"]
+layout_mode = 2
+
+[node name="GlobalPriorities" type="Control" parent="CanvasLayer/Center/Control"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -495.00003
+offset_top = -219.0
+offset_right = 56.99997
+offset_bottom = -216.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.75, 1.75)
+size_flags_horizontal = 2
+size_flags_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Center/Control/GlobalPriorities"]
+layout_mode = 0
+offset_right = 550.0
+offset_bottom = 250.0
+color = Color(0.4212342, 0.4212342, 0.4212342, 1)
+
+[node name="Title" type="Label" parent="CanvasLayer/Center/Control/GlobalPriorities"]
+layout_mode = 0
+offset_right = 550.0
+offset_bottom = 38.0
+theme_override_font_sizes/font_size = 24
+text = "Priorities"
+horizontal_alignment = 1
+
+[node name="SelectedPriority" type="Label" parent="CanvasLayer/Center/Control/GlobalPriorities"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -275.0
+offset_top = -38.0
+offset_right = 275.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "Selected Priority:"
+horizontal_alignment = 1
+
+[node name="Scrapped" type="Control" parent="CanvasLayer/Center/Control/GlobalPriorities"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 15.0
+offset_top = 35.0
+offset_right = 15.0
+offset_bottom = 35.0
+
+[node name="Name" type="Label" parent="CanvasLayer/Center/Control/GlobalPriorities/Scrapped"]
+self_modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = 3.85716
+offset_top = -0.14285713
+offset_right = 118.85716
+offset_bottom = 22.857143
+text = "Scrapped"
+horizontal_alignment = 1
+
+[node name="VoteScrapBtn" type="Button" parent="CanvasLayer/Center/Control/GlobalPriorities/Scrapped"]
+visible = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -7.0
+offset_top = -35.0
+offset_right = 128.0
+grow_vertical = 0
+text = "Vote to Scrap"
+
+[node name="Undecided" type="Control" parent="CanvasLayer/Center/Control/GlobalPriorities"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 35.0
+offset_right = -64.0
+offset_bottom = 35.0
+grow_horizontal = 2
+
+[node name="Name" type="Label" parent="CanvasLayer/Center/Control/GlobalPriorities/Undecided"]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_right = 131.0
+offset_bottom = 23.0
+text = "Undecided"
+horizontal_alignment = 1
+
+[node name="VoteCancelBtn" type="Button" parent="CanvasLayer/Center/Control/GlobalPriorities/Undecided"]
+visible = false
+layout_mode = 0
+offset_left = -5.0
+offset_top = -35.0
+offset_right = 130.0
+text = "Cancel Vote"
+
+[node name="Approved" type="Control" parent="CanvasLayer/Center/Control/GlobalPriorities"]
+layout_mode = 1
+anchor_top = 0.2
+anchor_right = 0.286
+anchor_bottom = 1.0
+offset_left = 408.0
+offset_top = -15.0
+offset_right = 389.13
+offset_bottom = -15.0
+
+[node name="Name" type="Label" parent="CanvasLayer/Center/Control/GlobalPriorities/Approved"]
+self_modulate = Color(0, 1, 0, 1)
+layout_mode = 0
+offset_left = 3.9999998
+offset_top = 0.22856793
+offset_right = 119.0
+offset_bottom = 23.228567
+text = "Approved"
+horizontal_alignment = 1
+
+[node name="VoteApproveBtn" type="Button" parent="CanvasLayer/Center/Control/GlobalPriorities/Approved"]
+visible = false
+layout_mode = 0
+offset_left = -10.0
+offset_top = -35.0
+offset_right = 125.0
+text = "Vote to Approve"
+
+[node name="UnionDeck" type="TextureButton" parent="CanvasLayer/Center/Control"]
+layout_mode = 0
+offset_left = -200.0
+offset_top = -51.999996
+offset_right = -72.0
+offset_bottom = 76.0
+texture_normal = ExtResource("4_20e5f")
+texture_pressed = ExtResource("5_linjo")
+stretch_mode = 0
+
+[node name="AdminDeck" type="TextureButton" parent="CanvasLayer/Center/Control"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = -51.999996
+offset_right = 153.0
+offset_bottom = 76.0
+texture_normal = ExtResource("5_514q4")
+texture_pressed = ExtResource("7_5jf1a")
+
+[node name="BotCenter" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Player1" type="StaticBody2D" parent="CanvasLayer/BotCenter" groups=["player_group"]]
+position = Vector2(0, -78)
 script = ExtResource("2_linjo")
 
-[node name="PlayerSprite1" type="Sprite2D" parent="Player1"]
-modulate = Color(0, 0, 1, 1)
-texture = ExtResource("1_x2neb")
-metadata/_edit_lock_ = true
+[node name="PlayerSprite1" type="Sprite2D" parent="CanvasLayer/BotCenter/Player1"]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("7_r67t3")
 
-[node name="PlayerShape1" type="CollisionShape2D" parent="Player1"]
+[node name="PlayerShape1" type="CollisionShape2D" parent="CanvasLayer/BotCenter/Player1"]
 shape = SubResource("RectangleShape2D_qj3wv")
 metadata/_edit_lock_ = true
 
-[node name="PlayerPriorities" type="Label" parent="Player1"]
+[node name="PlayerPriorities" type="Label" parent="CanvasLayer/BotCenter/Player1"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -226.0
-offset_top = -288.0
-offset_right = 210.0
+offset_left = -474.0
+offset_top = -191.0
+offset_right = 489.0
 offset_bottom = -69.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -71,7 +373,7 @@ label_settings = SubResource("LabelSettings_x2neb")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="PlayerEngagement1" type="Label" parent="Player1"]
+[node name="PlayerEngagement1" type="Label" parent="CanvasLayer/BotCenter/Player1"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -88,7 +390,7 @@ label_settings = SubResource("LabelSettings_x2neb")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="PlayerRisk1" type="Label" parent="Player1"]
+[node name="PlayerRisk1" type="Label" parent="CanvasLayer/BotCenter/Player1"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -105,7 +407,7 @@ label_settings = SubResource("LabelSettings_n1sj3")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="PlayerLabel" type="Label" parent="Player1"]
+[node name="PlayerLabel" type="Label" parent="CanvasLayer/BotCenter/Player1"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -121,30 +423,60 @@ label_settings = SubResource("LabelSettings_k2kik")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Player2" type="StaticBody2D" parent="." groups=["player_group"]]
-position = Vector2(1094, 306)
-scale = Vector2(0.5, 0.5)
+[node name="CardPositions" type="Node2D" parent="CanvasLayer/BotCenter/Player1"]
+
+[node name="CardPos1" type="Node2D" parent="CanvasLayer/BotCenter/Player1/CardPositions"]
+position = Vector2(0, -200)
+
+[node name="CardPos2" type="Node2D" parent="CanvasLayer/BotCenter/Player1/CardPositions"]
+position = Vector2(200, -200)
+
+[node name="CardPos3" type="Node2D" parent="CanvasLayer/BotCenter/Player1/CardPositions"]
+position = Vector2(-200, -200)
+
+[node name="CardPos4" type="Node2D" parent="CanvasLayer/BotCenter/Player1/CardPositions"]
+position = Vector2(200, 0)
+
+[node name="CardPos5" type="Node2D" parent="CanvasLayer/BotCenter/Player1/CardPositions"]
+position = Vector2(-200, 0)
+
+[node name="PlayerTimer1" type="Timer" parent="CanvasLayer/BotCenter/Player1"]
+wait_time = 2.0
+
+[node name="RightCenter" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Player2" type="StaticBody2D" parent="CanvasLayer/RightCenter" groups=["player_group"]]
+position = Vector2(-87, 0)
 script = ExtResource("2_linjo")
 
-[node name="PlayerSprite2" type="Sprite2D" parent="Player2"]
-modulate = Color(1, 0, 1, 1)
-texture = ExtResource("1_x2neb")
-metadata/_edit_lock_ = true
+[node name="PlayerSprite2" type="Sprite2D" parent="CanvasLayer/RightCenter/Player2"]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_pu5dd")
 
-[node name="PlayerShape2" type="CollisionShape2D" parent="Player2"]
+[node name="PlayerShape2" type="CollisionShape2D" parent="CanvasLayer/RightCenter/Player2"]
 shape = SubResource("RectangleShape2D_qj3wv")
 metadata/_edit_lock_ = true
 
-[node name="PlayerPriorities" type="Label" parent="Player2"]
+[node name="PlayerPriorities" type="Label" parent="CanvasLayer/RightCenter/Player2"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -500.0
-offset_top = -104.0
-offset_right = -94.0
-offset_bottom = 115.0
+offset_left = -357.0
+offset_top = -158.0
+offset_right = -113.0
+offset_bottom = 237.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Priorities: this is a test, there is more, etc"
@@ -152,7 +484,7 @@ label_settings = SubResource("LabelSettings_x2neb")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="PlayerEngagement2" type="Label" parent="Player2"]
+[node name="PlayerEngagement2" type="Label" parent="CanvasLayer/RightCenter/Player2"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -169,7 +501,7 @@ label_settings = SubResource("LabelSettings_x2neb")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="PlayerRisk2" type="Label" parent="Player2"]
+[node name="PlayerRisk2" type="Label" parent="CanvasLayer/RightCenter/Player2"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -187,7 +519,7 @@ horizontal_alignment = 1
 autowrap_mode = 3
 metadata/_edit_lock_ = true
 
-[node name="PlayerLabel" type="Label" parent="Player2"]
+[node name="PlayerLabel" type="Label" parent="CanvasLayer/RightCenter/Player2"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -203,30 +535,59 @@ label_settings = SubResource("LabelSettings_k2kik")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Player3" type="StaticBody2D" parent="." groups=["player_group"]]
-position = Vector2(582, 60)
-scale = Vector2(0.5, 0.5)
+[node name="CardPositions" type="Node2D" parent="CanvasLayer/RightCenter/Player2"]
+rotation = 1.5707964
+scale = Vector2(-1, -1)
+
+[node name="CardPos1" type="Node2D" parent="CanvasLayer/RightCenter/Player2/CardPositions"]
+position = Vector2(0, -200)
+
+[node name="CardPos2" type="Node2D" parent="CanvasLayer/RightCenter/Player2/CardPositions"]
+position = Vector2(200, -200)
+
+[node name="CardPos3" type="Node2D" parent="CanvasLayer/RightCenter/Player2/CardPositions"]
+position = Vector2(-200, -200)
+
+[node name="CardPos4" type="Node2D" parent="CanvasLayer/RightCenter/Player2/CardPositions"]
+position = Vector2(200, 0)
+
+[node name="CardPos5" type="Node2D" parent="CanvasLayer/RightCenter/Player2/CardPositions"]
+position = Vector2(-200, 0)
+
+[node name="PlayerTimer2" type="Timer" parent="CanvasLayer/RightCenter/Player2"]
+wait_time = 2.0
+
+[node name="TopCenter" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Player3" type="StaticBody2D" parent="CanvasLayer/TopCenter" groups=["player_group"]]
+position = Vector2(0, 112)
 script = ExtResource("2_linjo")
 
-[node name="PlayerSprite3" type="Sprite2D" parent="Player3"]
-modulate = Color(0, 1, 0, 1)
-texture = ExtResource("1_x2neb")
-metadata/_edit_lock_ = true
+[node name="PlayerSprite3" type="Sprite2D" parent="CanvasLayer/TopCenter/Player3"]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("9_2vbqv")
 
-[node name="PlayerShape3" type="CollisionShape2D" parent="Player3"]
+[node name="PlayerShape3" type="CollisionShape2D" parent="CanvasLayer/TopCenter/Player3"]
 shape = SubResource("RectangleShape2D_qj3wv")
 metadata/_edit_lock_ = true
 
-[node name="PlayerPriorities" type="Label" parent="Player3"]
+[node name="PlayerPriorities" type="Label" parent="CanvasLayer/TopCenter/Player3"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -222.0
-offset_top = 142.0
-offset_right = 214.0
-offset_bottom = 361.0
+offset_left = -410.0
+offset_top = 121.0
+offset_right = 415.0
+offset_bottom = 206.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Priorities: this is a test, there is more, etc"
@@ -234,7 +595,7 @@ label_settings = SubResource("LabelSettings_x2neb")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="PlayerEngagement3" type="Label" parent="Player3"]
+[node name="PlayerEngagement3" type="Label" parent="CanvasLayer/TopCenter/Player3"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -251,7 +612,7 @@ label_settings = SubResource("LabelSettings_x2neb")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="PlayerRisk3" type="Label" parent="Player3"]
+[node name="PlayerRisk3" type="Label" parent="CanvasLayer/TopCenter/Player3"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -269,7 +630,7 @@ horizontal_alignment = 1
 autowrap_mode = 3
 metadata/_edit_lock_ = true
 
-[node name="PlayerLabel" type="Label" parent="Player3"]
+[node name="PlayerLabel" type="Label" parent="CanvasLayer/TopCenter/Player3"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -285,21 +646,49 @@ label_settings = SubResource("LabelSettings_k2kik")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Player4" type="StaticBody2D" parent="."]
-position = Vector2(53, 307)
-scale = Vector2(0.5, 0.5)
+[node name="CardPositions" type="Node2D" parent="CanvasLayer/TopCenter/Player3"]
+scale = Vector2(-1, -1)
+
+[node name="CardPos1" type="Node2D" parent="CanvasLayer/TopCenter/Player3/CardPositions"]
+position = Vector2(0, -200)
+
+[node name="CardPos2" type="Node2D" parent="CanvasLayer/TopCenter/Player3/CardPositions"]
+position = Vector2(200, -200)
+
+[node name="CardPos3" type="Node2D" parent="CanvasLayer/TopCenter/Player3/CardPositions"]
+position = Vector2(-200, -200)
+
+[node name="CardPos4" type="Node2D" parent="CanvasLayer/TopCenter/Player3/CardPositions"]
+position = Vector2(200, 0)
+
+[node name="CardPos5" type="Node2D" parent="CanvasLayer/TopCenter/Player3/CardPositions"]
+position = Vector2(-200, 0)
+
+[node name="PlayerTimer3" type="Timer" parent="CanvasLayer/TopCenter/Player3"]
+wait_time = 2.0
+
+[node name="LeftCenter" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="Player4" type="StaticBody2D" parent="CanvasLayer/LeftCenter"]
+position = Vector2(95, 0)
 script = ExtResource("4_5jf1a")
 
-[node name="PlayerSprite4" type="Sprite2D" parent="Player4"]
-modulate = Color(1, 0, 0, 1)
-texture = ExtResource("1_x2neb")
-metadata/_edit_lock_ = true
+[node name="PlayerSprite4" type="Sprite2D" parent="CanvasLayer/LeftCenter/Player4"]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("11_7cr68")
 
-[node name="PlayerShape4" type="CollisionShape2D" parent="Player4"]
+[node name="PlayerShape4" type="CollisionShape2D" parent="CanvasLayer/LeftCenter/Player4"]
 shape = SubResource("RectangleShape2D_qj3wv")
 metadata/_edit_lock_ = true
 
-[node name="Money" type="Label" parent="Player4"]
+[node name="Money" type="Label" parent="CanvasLayer/LeftCenter/Player4"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -316,7 +705,7 @@ label_settings = SubResource("LabelSettings_x2neb")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="PlayerLabel" type="Label" parent="Player4"]
+[node name="PlayerLabel" type="Label" parent="CanvasLayer/LeftCenter/Player4"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -333,176 +722,36 @@ label_settings = SubResource("LabelSettings_k2kik")
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="UnionDeck" type="TextureButton" parent="."]
-offset_left = 473.00003
-offset_top = 266.0
-offset_right = 601.0
-offset_bottom = 394.0
-scale = Vector2(0.75, 0.75)
-texture_normal = ExtResource("4_20e5f")
-texture_pressed = ExtResource("5_linjo")
-stretch_mode = 0
+[node name="CardPositions" type="Node2D" parent="CanvasLayer/LeftCenter/Player4"]
+rotation = 4.712389
+scale = Vector2(-1, -1)
 
-[node name="AdminDeck" type="TextureButton" parent="."]
-offset_left = 603.0
-offset_top = 267.0
-offset_right = 731.0
-offset_bottom = 395.0
-scale = Vector2(0.75, 0.75)
-texture_normal = ExtResource("5_514q4")
-texture_pressed = ExtResource("7_5jf1a")
+[node name="CardPos1" type="Node2D" parent="CanvasLayer/LeftCenter/Player4/CardPositions"]
+position = Vector2(0, -200)
 
-[node name="EndTurn" type="Button" parent="."]
-offset_left = 1032.0
-offset_top = 581.0
-offset_right = 1129.0
-offset_bottom = 624.0
-text = "End Turn"
+[node name="CardPos2" type="Node2D" parent="CanvasLayer/LeftCenter/Player4/CardPositions"]
+position = Vector2(200, -200)
+
+[node name="CardPos3" type="Node2D" parent="CanvasLayer/LeftCenter/Player4/CardPositions"]
+position = Vector2(-200, -200)
+
+[node name="CardPos4" type="Node2D" parent="CanvasLayer/LeftCenter/Player4/CardPositions"]
+position = Vector2(200, 0)
+
+[node name="CardPos5" type="Node2D" parent="CanvasLayer/LeftCenter/Player4/CardPositions"]
+position = Vector2(-200, 0)
 
 [node name="MeIndicator" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_k2kik")
 position = Vector2(33, -68)
+scale = Vector2(1.75, 1.75)
 texture = ExtResource("1_x2neb")
 
 [node name="TurnIndicator" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_erwlu")
-position = Vector2(299.75, -150.75)
-scale = Vector2(2.3164063, 2.3164063)
+position = Vector2(351.375, -194.37502)
+scale = Vector2(3.3066404, 3.1816406)
 texture = ExtResource("1_x2neb")
-
-[node name="PrioritySwitch" type="Button" parent="."]
-offset_left = 844.0
-offset_top = 587.0
-offset_right = 1000.0
-offset_bottom = 624.0
-text = "Toggle Priorities"
-
-[node name="DevSwitch" type="Button" parent="."]
-offset_left = 977.0
-offset_top = 524.0
-offset_right = 1133.0
-offset_bottom = 561.0
-text = "DEV switch player"
-
-[node name="GlobalPriorities" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 291.0
-offset_top = 178.0
-offset_right = 841.0
-offset_bottom = 428.0
-
-[node name="ColorRect" type="ColorRect" parent="GlobalPriorities"]
-layout_mode = 0
-offset_right = 550.0
-offset_bottom = 250.0
-color = Color(0.4212342, 0.4212342, 0.4212342, 1)
-
-[node name="Title" type="Label" parent="GlobalPriorities"]
-layout_mode = 0
-offset_right = 550.0
-offset_bottom = 38.0
-theme_override_font_sizes/font_size = 24
-text = "Priorities"
-horizontal_alignment = 1
-
-[node name="SelectedPriority" type="Label" parent="GlobalPriorities"]
-visible = false
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -275.0
-offset_top = -38.0
-offset_right = 275.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/font_size = 24
-text = "Selected Priority:"
-horizontal_alignment = 1
-
-[node name="Scrapped" type="Control" parent="GlobalPriorities"]
-layout_mode = 1
-anchors_preset = 0
-offset_left = 15.0
-offset_top = 35.0
-offset_right = 15.0
-offset_bottom = 35.0
-
-[node name="Name" type="Label" parent="GlobalPriorities/Scrapped"]
-self_modulate = Color(1, 0, 0, 1)
-layout_mode = 0
-offset_right = 115.0
-offset_bottom = 23.0
-text = "Scrapped"
-horizontal_alignment = 1
-
-[node name="VoteScrapBtn" type="Button" parent="GlobalPriorities/Scrapped"]
-visible = false
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = -7.0
-offset_top = -35.0
-offset_right = 128.0
-grow_vertical = 0
-text = "Vote to Scrap"
-
-[node name="Undecided" type="Control" parent="GlobalPriorities"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -64.0
-offset_top = 35.0
-offset_right = -64.0
-offset_bottom = 35.0
-grow_horizontal = 2
-
-[node name="Name" type="Label" parent="GlobalPriorities/Undecided"]
-self_modulate = Color(0, 0, 0, 1)
-layout_mode = 0
-offset_right = 131.0
-offset_bottom = 23.0
-text = "Undecided"
-horizontal_alignment = 1
-
-[node name="VoteCancelBtn" type="Button" parent="GlobalPriorities/Undecided"]
-visible = false
-layout_mode = 0
-offset_left = -5.0
-offset_top = -35.0
-offset_right = 130.0
-text = "Cancel Vote"
-
-[node name="Approved" type="Control" parent="GlobalPriorities"]
-layout_mode = 1
-anchor_top = 0.2
-anchor_right = 0.286
-anchor_bottom = 1.0
-offset_left = 408.0
-offset_top = -15.0
-offset_right = 389.13
-offset_bottom = -15.0
-
-[node name="Name" type="Label" parent="GlobalPriorities/Approved"]
-self_modulate = Color(0, 1, 0, 1)
-layout_mode = 0
-offset_right = 115.0
-offset_bottom = 23.0
-text = "Approved"
-horizontal_alignment = 1
-
-[node name="VoteApproveBtn" type="Button" parent="GlobalPriorities/Approved"]
-visible = false
-layout_mode = 0
-offset_left = -10.0
-offset_top = -35.0
-offset_right = 125.0
-text = "Vote to Approve"
 
 [node name="ConnectionIn" type="HTTPRequest" parent="."]
 script = ExtResource("11_erwlu")
@@ -510,38 +759,20 @@ script = ExtResource("11_erwlu")
 [node name="ConnectionOut" type="HTTPRequest" parent="."]
 script = ExtResource("12_ajl8s")
 
-[node name="PriorityPopup" type="ColorRect" parent="."]
-offset_left = 741.0
-offset_right = 1151.0
-offset_bottom = 169.0
-color = Color(0.41960785, 0.41960785, 0.41960785, 1)
-
-[node name="PopupText" type="Label" parent="PriorityPopup"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_right = -4.0
-offset_bottom = -1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Example text omg this is so great lol omg testingg stuffff asdhsdab ashdb ahsbdah"
-label_settings = SubResource("LabelSettings_ajl8s")
-horizontal_alignment = 1
-autowrap_mode = 3
-
 [connection signal="send_end_my_turn" from="." to="ConnectionOut" method="_on_strike_scene_send_end_my_turn"]
-[connection signal="end_turn" from="Player1" to="." method="_on_end_turn"]
-[connection signal="end_turn" from="Player2" to="." method="_on_end_turn"]
-[connection signal="end_turn" from="Player3" to="." method="_on_end_turn"]
-[connection signal="end_turn" from="Player4" to="." method="_on_end_turn"]
-[connection signal="button_down" from="UnionDeck" to="." method="draw_card" binds= [true]]
-[connection signal="button_down" from="AdminDeck" to="." method="draw_card" binds= [false]]
-[connection signal="pressed" from="EndTurn" to="." method="_on_end_turn"]
-[connection signal="pressed" from="PrioritySwitch" to="." method="_on_priority_switch_pressed"]
-[connection signal="pressed" from="DevSwitch" to="." method="_on_dev_switch_player_pressed"]
-[connection signal="pressed" from="GlobalPriorities/Scrapped/VoteScrapBtn" to="." method="_on_vote_scrap_btn_pressed"]
-[connection signal="pressed" from="GlobalPriorities/Undecided/VoteCancelBtn" to="." method="_on_vote_cancel_btn_pressed"]
-[connection signal="pressed" from="GlobalPriorities/Approved/VoteApproveBtn" to="." method="_on_vote_approve_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/BotRight/Buttons/EndTurn" to="." method="_on_end_turn"]
+[connection signal="pressed" from="CanvasLayer/BotRight/Buttons/PrioritySwitch" to="." method="_on_priority_switch_pressed"]
+[connection signal="pressed" from="CanvasLayer/BotRight/Buttons/DevSwitch" to="." method="_on_dev_switch_player_pressed"]
+[connection signal="pressed" from="CanvasLayer/Center/Control/GlobalPriorities/Scrapped/VoteScrapBtn" to="." method="_on_vote_scrap_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/Center/Control/GlobalPriorities/Undecided/VoteCancelBtn" to="." method="_on_vote_cancel_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/Center/Control/GlobalPriorities/Approved/VoteApproveBtn" to="." method="_on_vote_approve_btn_pressed"]
+[connection signal="button_down" from="CanvasLayer/Center/Control/UnionDeck" to="." method="draw_card" binds= [true]]
+[connection signal="button_down" from="CanvasLayer/Center/Control/AdminDeck" to="." method="draw_card" binds= [false]]
+[connection signal="end_turn" from="CanvasLayer/BotCenter/Player1" to="." method="_on_end_turn"]
+[connection signal="timeout" from="CanvasLayer/BotCenter/Player1/PlayerTimer1" to="CanvasLayer/BotCenter/Player1" method="_on_player_timer_timeout"]
+[connection signal="end_turn" from="CanvasLayer/RightCenter/Player2" to="." method="_on_end_turn"]
+[connection signal="timeout" from="CanvasLayer/RightCenter/Player2/PlayerTimer2" to="CanvasLayer/RightCenter/Player2" method="_on_player_timer_timeout"]
+[connection signal="end_turn" from="CanvasLayer/TopCenter/Player3" to="." method="_on_end_turn"]
+[connection signal="timeout" from="CanvasLayer/TopCenter/Player3/PlayerTimer3" to="CanvasLayer/TopCenter/Player3" method="_on_player_timer_timeout"]
+[connection signal="end_turn" from="CanvasLayer/LeftCenter/Player4" to="." method="_on_end_turn"]
 [connection signal="recv_turn_end" from="ConnectionIn" to="." method="_on_connection_in_recv_turn_end"]

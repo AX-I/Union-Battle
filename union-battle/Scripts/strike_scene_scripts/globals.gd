@@ -18,17 +18,11 @@ var yes_priority_btns: Array = []
 
 # Player list
 var PLAYERS: Array = []
-var PLAYER_COORDS: Array = [
-	Vector2(580, 580), Vector2(1090, 306), Vector2(580, 60), Vector2(50, 306)
-]
+var PLAYER_COORDS: Array = []
 
 # The coordinate positions for each player cards
-var CARD_COORD_SETS: Array = [
-											[Vector2(462, 595), Vector2(462, 475), Vector2(582, 475), Vector2(702, 475), Vector2(702, 595)],
-											[Vector2(1110, 186), Vector2(990, 186), Vector2(990, 306), Vector2(990, 426), Vector2(1110, 426)],
-											[Vector2(462, 60), Vector2(462, 180), Vector2(582, 180), Vector2(702, 180), Vector2(702, 60)],
-											[Vector2(60, 186), Vector2(180, 186), Vector2(180, 306), Vector2(180, 426), Vector2(60, 426)]
-										  ]
+var CARD_COORD_SETS: Array = []
+
 
 # Off screen coordinates
 const OFF_SCREEN: Vector2 = Vector2(10000, 10000)
@@ -37,8 +31,8 @@ const OFF_SCREEN: Vector2 = Vector2(10000, 10000)
 const UNUSED_CARD_ID: int = -1
 
 # Different scale values for the cards (ADJUST WHEN REAL ART IS IN)
-const CARD_SCALE: Vector2 = Vector2(0.15, 0.15)
-const CARD_SCALE_HOVER: Vector2 = Vector2(0.20, 0.20)
+const CARD_SCALE: Vector2 = Vector2(0.25, 0.25)
+const CARD_SCALE_HOVER: Vector2 = Vector2(0.30, 0.30)
 
 # Values that determine if a player has picked up a card
 var picked_up: bool = false
@@ -51,9 +45,9 @@ var drew_this_turn: bool = false
 # for the one that is currently being voted on
 var active_vote_btn = null
 
-# Player count
+# Player count for the game and for the waiting room
 var PLAYER_COUNT: int = 0
-
+var NUM_PLAYERS_WAITING: int = 0
 
 # Networked Multiplayer
 var SERVER_ADDR: String = ""
