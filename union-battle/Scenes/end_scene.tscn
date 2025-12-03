@@ -9,8 +9,8 @@ script = ExtResource("1_5pkqa")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 top_level = true
-position = Vector2(574.5, 325.5)
-scale = Vector2(1.0043631, 1.1003401)
+position = Vector2(962.5001, 541.50006)
+scale = Vector2(1.6815012, 1.8350341)
 texture = ExtResource("2_5rked")
 
 [node name="GameOverLabel" type="RichTextLabel" parent="."]
