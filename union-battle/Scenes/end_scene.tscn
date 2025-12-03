@@ -4,19 +4,25 @@
 [ext_resource type="Texture2D" uid="uid://dtvgqg0best8u" path="res://Assets/dark_background.jpg" id="2_5rked"]
 
 [node name="EndScene" type="Node2D"]
+top_level = true
 script = ExtResource("1_5pkqa")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+top_level = true
 position = Vector2(574.5, 325.5)
 scale = Vector2(1.0043631, 1.1003401)
 texture = ExtResource("2_5rked")
 
 [node name="GameOverLabel" type="RichTextLabel" parent="."]
-offset_right = 1154.0
-offset_bottom = 151.0
+top_level = true
+offset_left = 2.0
+offset_top = 163.0
+offset_right = 1156.0
+offset_bottom = 245.0
 text = "Game Over!"
 
 [node name="WhoWonLabel" type="RichTextLabel" parent="."]
+top_level = true
 offset_left = 3.0
 offset_top = 241.0
 offset_right = 1151.0

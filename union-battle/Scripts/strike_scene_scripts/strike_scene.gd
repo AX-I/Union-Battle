@@ -450,7 +450,7 @@ func _on_end_turn() -> void:
 	for player in Globals.PLAYERS:
 		if not player.is_player_union():
 			admin_no_money = not player.is_alive()
-	#TOTO REMOVE, IS FOR TESTING END OF GAME
+	#TODO REMOVE, IS FOR TESTING END OF GAME
 	# for player in Globals.PLAYERS:
 	# 	if not player.is_player_union():
 	# 		player.adjust_money(-100)
