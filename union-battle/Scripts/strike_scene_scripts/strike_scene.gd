@@ -464,7 +464,8 @@ func _on_end_turn(remote_activation := false) -> void:
 		elif admin_no_money:
 			print("Game ended due to admin_no_money")
 		#get_tree().change_scene_to_file("res://Scenes/end_scene.tscn")
-		add_child(load("res://Scenes/end_scene.tscn").instantiate())
+		var end_scene = load("res://Scenes/end_scene.tscn").instantiate()
+		get_node('EndLayer').add_child(end_scene)
 
 	
 	turn_text.text = "You are player " + str(Globals.MY_ID + 1) + "\nIt is player " + str(Globals.curr_turn + 1) + "'s turn"
