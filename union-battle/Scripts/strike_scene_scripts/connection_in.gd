@@ -71,11 +71,11 @@ func syncOnePlayer(pid: int, pdata: Dictionary):
 	if 'data' in pdata:
 		Globals.PLAYERS[pid].set_stats(pdata['data']['stats'])
 
-func syncVote(pid, act):
+func syncVote(_pid, act):
 	var strikeNode = self.get_parent()
 
 	var foundbtn = false
-	for btn in strikeNode.undecided_priority_btns:
+	for btn in Globals.undecided_priority_btns:
 		#print('btn name ', btn.get_prio_name(), ' act name ', act['priority'])
 		if btn.get_prio_name() == act['priority']:
 			#print(' match!')

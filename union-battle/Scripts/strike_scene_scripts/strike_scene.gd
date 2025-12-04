@@ -408,10 +408,12 @@ func get_json_from_file(
 	return json_obj
 
 
-func _on_end_turn() -> void:
+func _on_end_turn(remote_activation := false) -> void:
 	# If it is not the current player's turn don't end
-	if Globals.curr_turn != Globals.MY_ID:
-		return
+	if not remote_activation:
+		# Nothing happens if it is not your turn
+		if Globals.curr_turn != Globals.MY_ID:
+			return
 
 	Globals.drew_this_turn = false
 
@@ -440,7 +442,7 @@ func _on_end_turn() -> void:
 	indicator.position = Globals.PLAYER_COORDS[Globals.curr_turn]
 
 	#Check for end of game conditions
-	var all_priorities_agreed = 0 == Globals.no_priority_btns.size() + Globals.undecided_priority_btns.size()
+	var all_priorities_agreed = 0 == Globals.undecided_priority_btns.size()
 	var union_engagement = 0
 	for player in Globals.PLAYERS:
 		if player.is_player_union():
@@ -590,7 +592,7 @@ func _on_vote_cancel_btn_pressed(remote_activation := false) -> void:
 
 func _on_connection_in_recv_turn_end() -> void:
 	#assert(Globals.curr_turn != Globals.MY_ID) # TODO this fails currently as of 11/24 10:30pm
-	_on_end_turn()
+	_on_end_turn(true)
 
 func show_voting_ui(to_show: bool):
 	if to_show:
@@ -622,7 +624,10 @@ func start_vote(to_approve: bool, remote_activation := false):
 	
 	# Only add your vote if you are not the admin, since admin is last
 	if Globals.PLAYERS[Globals.curr_turn].is_player_union():
-		Globals.active_vote_btn.add_player_yes_vote(Globals.curr_turn) if to_approve else Globals.active_vote_btn.add_player_no_vote(Globals.curr_turn)
+		if to_approve:
+			Globals.active_vote_btn.add_player_yes_vote(Globals.curr_turn)
+		else:
+			Globals.active_vote_btn.add_player_no_vote(Globals.curr_turn)
 	Globals.active_vote_btn.set_vote_starter_id(Globals.curr_turn)
 	Globals.active_vote_btn.set_vote_to_approve(to_approve)
 	
