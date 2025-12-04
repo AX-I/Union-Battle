@@ -250,8 +250,6 @@ func random_role(
 	personal_list: Array,
 	academic_list: Array
 ) -> void:
-	# Intialize random number generator
-	randomize()
 
 	# Globals for retrieving JSON values
 	const POS_NAME = "name"
