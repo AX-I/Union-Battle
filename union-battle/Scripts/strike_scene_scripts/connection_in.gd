@@ -24,11 +24,11 @@ func fetchUpdates():
 	var target = Globals.SERVER_ADDR + '/fetch?user=' + Globals.USERNAME
 	var err = self.request(target)
 	if err:
-		push_error('Connection error')
+		push_error('Connection error for In request: ', err)
 
 func _on_request_completed(result, response_code, _headers, body):
 	if result != HTTPRequest.RESULT_SUCCESS:
-		push_error('Connection error')
+		push_error('Connection error for In response: ', result)
 		return
 	if response_code == 400:
 		push_error('Bad request')
@@ -77,12 +77,13 @@ func syncVote(_pid, act):
 
 	var foundbtn = false
 	for btn in Globals.undecided_priority_btns:
-		#print('btn name ', btn.get_prio_name(), ' act name ', act['priority'])
+		print('id ', Globals.MY_ID, ' btn ', btn.get_prio_name(), ' act ', act['priority'])
 		if btn.get_prio_name() == act['priority']:
 			#print(' match!')
 			strikeNode._on_global_priority_btn_pressed(btn, true)
 			foundbtn = true
 	if not foundbtn:
+		push_error('id ', Globals.MY_ID, ' Bad priority name ', act['priority'])
 		return
 
 	if act['vote'] == Globals.YES_STATE:

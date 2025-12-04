@@ -2,6 +2,7 @@ extends HTTPRequest
 
 var serv = Globals.SERVER_ADDR
 var uname = Globals.USERNAME
+var target;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -14,11 +15,11 @@ func _on_strike_scene_send_end_my_turn() -> void:
 	var pinfo = Globals.PLAYERS[Globals.MY_ID].get_stats();
 	var body = JSON.stringify({'stats':pinfo})
 
-	var target = Globals.SERVER_ADDR + '/update?id=' + str(Globals.MY_ID)
+	target = Globals.SERVER_ADDR + '/update?id=' + str(Globals.MY_ID)
 	target += '&endTurn=' + str(time)
 	var err = self.request(target, [], HTTPClient.METHOD_POST, body)
 	if err:
-		push_error('Connection error')
+		push_error('Connection error for update: ', err)
 
 func _on_card_played(card, player_ref) -> void:
 	print('card ', card)
@@ -27,10 +28,10 @@ func _on_card_played(card, player_ref) -> void:
 		{'card':pinfo, 'target': player_ref.get_id()}
 	)
 
-	var target = Globals.SERVER_ADDR + '/action?id=' + str(Globals.MY_ID)
+	target = Globals.SERVER_ADDR + '/action?id=' + str(Globals.MY_ID)
 	var err = self.request(target, [], HTTPClient.METHOD_POST, body)
 	if err:
-		push_error('Connection error')
+		push_error('Connection error for action: ', err)
 
 func send_vote(vote) -> void:
 	var prio_name = Globals.active_vote_btn.get_prio_name()
@@ -38,12 +39,15 @@ func send_vote(vote) -> void:
 	print('on issue ', prio_name)
 	var body = JSON.stringify({'vote':vote, 'priority':prio_name})
 
-	var target = Globals.SERVER_ADDR + '/action?id=' + str(Globals.MY_ID)
+	target = Globals.SERVER_ADDR + '/action?id=' + str(Globals.MY_ID)
 	var err = self.request(target, [], HTTPClient.METHOD_POST, body)
 	if err:
-		push_error('Connection error')
+		push_error('Connection error for vote: ', err)
 
 func _on_request_completed(result, _response_code, _headers, _body):
 	if result != HTTPRequest.RESULT_SUCCESS:
-		push_error('Connection error: ', result)
+		push_error(
+			'Connection error for Out response: ', result,
+			' for target ', target
+		)
 		return
