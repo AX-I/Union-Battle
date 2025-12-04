@@ -1,6 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dlsg6dcu0qyb8"]
+[gd_scene load_steps=11 format=3 uid="uid://dlsg6dcu0qyb8"]
 
 [ext_resource type="Script" uid="uid://cn5bbpeahnjgr" path="res://Scripts/connect_scene_scripts/join_button.gd" id="1_jsujh"]
+[ext_resource type="Script" uid="uid://c8ed60yyqj2ib" path="res://Scripts/connect_scene_scripts/role_info.gd" id="1_kil2b"]
+[ext_resource type="Script" uid="uid://bstbkiirfic4d" path="res://Scripts/connect_scene_scripts/player_role.gd" id="1_phulx"]
 [ext_resource type="Script" uid="uid://bxhto7emhv8cr" path="res://Scripts/connect_scene_scripts/wait_for_players.gd" id="2_1wuk6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7tv2a"]
@@ -75,17 +77,67 @@ autowrap_mode = 2
 [node name="RoleContainer" type="HBoxContainer" parent="MainContainer/SeparationContainer"]
 layout_mode = 2
 
-[node name="UnionistContainer" type="VBoxContainer" parent="MainContainer/SeparationContainer/RoleContainer"]
+[node name="ButtonContainer" type="VBoxContainer" parent="MainContainer/SeparationContainer/RoleContainer"]
 custom_minimum_size = Vector2(800, 100)
 layout_mode = 2
+theme_override_constants/separation = 100
 
-[node name="UnionistTitle" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/UnionistContainer"]
+[node name="RoleTitle" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/ButtonContainer"]
+layout_mode = 2
+text = "Press a Button to See Role Description"
+label_settings = SubResource("LabelSettings_1wuk6")
+horizontal_alignment = 1
+
+[node name="UnionistButton" type="Button" parent="MainContainer/SeparationContainer/RoleContainer/ButtonContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_82sop")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7tv2a")
+theme_override_styles/hover = SubResource("StyleBoxFlat_aeweq")
+text = "Unionist Info"
+
+[node name="AdminButton" type="Button" parent="MainContainer/SeparationContainer/RoleContainer/ButtonContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_82sop")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7tv2a")
+theme_override_styles/hover = SubResource("StyleBoxFlat_aeweq")
+text = "Admin Info"
+
+[node name="PlayerRole" type="RichTextLabel" parent="MainContainer/SeparationContainer/RoleContainer/ButtonContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 0.6392157, 0.27058825, 1)
+theme_override_colors/font_shadow_color = Color(0.23137255, 0.15294118, 0.2784314, 1)
+theme_override_constants/shadow_outline_size = 10
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "Your Role: "
+scroll_active = false
+script = ExtResource("1_phulx")
+
+[node name="DescriptionContainer" type="VBoxContainer" parent="MainContainer/SeparationContainer/RoleContainer"]
+custom_minimum_size = Vector2(800, 100)
+layout_mode = 2
+script = ExtResource("1_kil2b")
+
+[node name="RoleTitle" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/DescriptionContainer"]
 layout_mode = 2
 text = "Unionist"
 label_settings = SubResource("LabelSettings_1wuk6")
 horizontal_alignment = 1
 
-[node name="UnionistInfo" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/UnionistContainer"]
+[node name="RoleInfo" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/DescriptionContainer"]
 layout_mode = 2
 text = "Your Goal: Get your own priorities approved by the Admin to
 earn points and win!
@@ -105,36 +157,6 @@ Engagement and Risk levels
 - Tip: Not all Unionists have the same priorities!"
 label_settings = SubResource("LabelSettings_jsujh")
 
-[node name="AdminContainer" type="VBoxContainer" parent="MainContainer/SeparationContainer/RoleContainer"]
-custom_minimum_size = Vector2(800, 100)
-layout_mode = 2
-
-[node name="AdminTitle" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/AdminContainer"]
-layout_mode = 2
-text = "Admin"
-label_settings = SubResource("LabelSettings_1wuk6")
-horizontal_alignment = 1
-
-[node name="Admin Info" type="Label" parent="MainContainer/SeparationContainer/RoleContainer/AdminContainer"]
-layout_mode = 2
-text = "Your Goal: Have more Money by the end of the game than the
-Unionists have points to win!
-
-Your Stats:
-- Money: How rich you are! This decreases as the strike
-progresses, but approving Unionist priorities will give them
-points that could add up to be more than you're worth, so
-manage your money wisely!
-
-On Your Turn You Can:
-- Play a card on a Unionist to affect their Engagement and Risk
-levels
-- Draw a card from the Admin Pile
-
-
-- Tip: You have the final say on if a Unionist priority is approved!"
-label_settings = SubResource("LabelSettings_jsujh")
-
 [node name="JoinButton" type="Button" parent="MainContainer/SeparationContainer"]
 custom_minimum_size = Vector2(245, 77)
 layout_mode = 2
@@ -151,4 +173,6 @@ script = ExtResource("1_jsujh")
 [node name="WaitForPlayers" type="HTTPRequest" parent="."]
 script = ExtResource("2_1wuk6")
 
+[connection signal="button_down" from="MainContainer/SeparationContainer/RoleContainer/ButtonContainer/UnionistButton" to="MainContainer/SeparationContainer/RoleContainer/DescriptionContainer" method="_on_unionist_button_down"]
+[connection signal="button_down" from="MainContainer/SeparationContainer/RoleContainer/ButtonContainer/AdminButton" to="MainContainer/SeparationContainer/RoleContainer/DescriptionContainer" method="_on_admin_button_down"]
 [connection signal="button_down" from="MainContainer/SeparationContainer/JoinButton" to="MainContainer/SeparationContainer/JoinButton" method="_on_button_down"]
