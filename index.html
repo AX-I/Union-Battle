@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Union Battle</title>
+  <style>
+    body {background:#444; color:#fff; font-size:120%;}
+    h1 {text-align:center; margin-top:1em;
+     font-family:Stencil; font-weight:normal;}
+    p {text-align:center;}
+    a {color:#fa4;}
+    a:hover {text-shadow:0 0 20px, 0 0 40px;}
+    #logo {max-height:320px; margin:auto; display:block;}
+    .mono {font-family:monospace; background:#0008; padding:2px;}
+    div {max-width:640px; display:block; margin:1em auto;}
+    .big {font-size:120%; margin-bottom:1.5em}
+  </style>
+</head>
+<body>
+  <img id="logo" src="union-battle/Assets/UB-Logo.png" alt="Union Battle Logo">
+  <p class="big"><a href="Build/UnionBattle.html">Load the game</a></p>
+  <div>
+    <hr>
+    <p>If you want to host the multiplayer server, please ensure you have Python, run <span class="mono">pip install pyOpenSSL</span>, and download these files:</p>
+    <ul>
+      <li><a href="UBServer.py">Server script</a></li>
+      <li><a href="example_cert.pem">Example SSL certificate</a></li>
+      <li><a href="example_key.pem">Example SSL key</a></li>
+    </ul>
+    <p>Then, run <span class="mono">python UBServer.py -ssl 1</span></p>
+    <p>Then, you should be able to connect using your computer's ip address, for example <span class="mono">https://100.10.1.1:6400</span></p>
+  </div>
+</body>
+</html>
