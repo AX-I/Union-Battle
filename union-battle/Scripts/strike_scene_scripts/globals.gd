@@ -56,6 +56,8 @@ var MY_ID: int = -1
 
 var R_SEED: int = -1
 
+var PLAYER_USERNAMES: Dictionary = {}
+
 func get_all_priorities() -> Array:
 	# Returns an array of all priorities for all unionists combined, with no duplicates
 	var ret = []

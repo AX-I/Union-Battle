@@ -49,9 +49,11 @@ func _ready():
 
 
 	#$WhoWonLabel.font.Size = 36
-	var final_text = "The Winner is " + players[index_ordering[0]].get_player_name() + " with " + str(player_vps[index_ordering[0]]) + " victory points\nThen its\n"
+	var final_text = "The Winner is " + Globals.PLAYER_USERNAMES[index_ordering[0]]
+	final_text += " (" + players[index_ordering[0]].get_player_name() + ") with " + str(player_vps[index_ordering[0]]) + " victory points\nThen its\n"
 	for i in range(1, players.size()):
-		final_text = final_text + players[index_ordering[i]].get_player_name() + " with " + str(player_vps[index_ordering[i]]) + " victory points\n"
+		final_text += Globals.PLAYER_USERNAMES[index_ordering[i]] + " ("
+		final_text += players[index_ordering[i]].get_player_name() + ") with " + str(player_vps[index_ordering[i]]) + " victory points\n"
 	$WhoWonLabel.text = final_text
 
 
