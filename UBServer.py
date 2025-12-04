@@ -120,12 +120,16 @@ class UnionHandler(BaseHTTPRequestHandler):
 
         self.server.players[player_id]['data'] = jdata
 
+        self.send_response(200, 'Received update')
+
     def action(self, jdata):
         data = parse_qs(urlparse(self.path).query)
         player_id = int(data['id'][0])
 
         if 'card' in jdata or 'vote' in jdata:
             self.server.players[player_id]['actions'] = [jdata]
+
+        self.send_response(200, 'Received action')
 
 
 def run(ip, use_ssl=False):
