@@ -116,6 +116,7 @@ offset_bottom = 35.0
 text = "Toggle Priorities"
 
 [node name="DevSwitch" type="Button" parent="CanvasLayer/BotRight/Buttons"]
+visible = false
 offset_left = -115.0
 offset_top = -71.0
 offset_right = 35.0
