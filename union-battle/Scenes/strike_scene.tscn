@@ -126,13 +126,13 @@ text = "DEV switch player"
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 40.0
+offset_top = -223.0
+offset_right = 417.0
 grow_vertical = 0
 
 [node name="InstructionsBox" type="ColorRect" parent="CanvasLayer/BotLeft"]
-custom_minimum_size = Vector2(400, 200)
 layout_mode = 2
+size_flags_horizontal = 3
 color = Color(0.41960785, 0.41960785, 0.41960785, 1)
 
 [node name="InstructionsLabel" type="Label" parent="CanvasLayer/BotLeft/InstructionsBox"]
@@ -141,9 +141,10 @@ anchors_preset = -1
 anchor_top = -4.8250003
 anchor_bottom = -4.8250003
 offset_left = 6.0
-offset_top = 970.00006
-offset_right = 387.0
-offset_bottom = 1157.0
+offset_top = 1080.9751
+offset_right = 410.0
+offset_bottom = 1289.9751
+theme_override_font_sizes/font_size = 18
 text = "Turn Instructions:
 1. Draw a card from the Union Deck
 2. Play a card (on yourself or another Unionist)
@@ -153,20 +154,21 @@ OR
 Skip your turn"
 
 [node name="TopLeft" type="HBoxContainer" parent="CanvasLayer"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 245.0
+offset_bottom = 105.0
 
 [node name="TurnBox" type="ColorRect" parent="CanvasLayer/TopLeft"]
-custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
+size_flags_horizontal = 3
 color = Color(0.41960785, 0.41960785, 0.41960785, 1)
 
 [node name="TurnLabel" type="Label" parent="CanvasLayer/TopLeft/TurnBox"]
 layout_mode = 0
-offset_left = 5.0
-offset_top = 4.0
-offset_right = 206.0
-offset_bottom = 101.0
+offset_left = 10.0
+offset_top = 14.0
+offset_right = 224.0
+offset_bottom = 85.0
+theme_override_font_sizes/font_size = 24
 text = "You are player 1
 It is player 1's turn"
 
@@ -743,13 +745,13 @@ position = Vector2(-200, 0)
 
 [node name="MeIndicator" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_k2kik")
-position = Vector2(33, -68)
+position = Vector2(-74.99999, -115)
 scale = Vector2(1.75, 1.75)
 texture = ExtResource("1_x2neb")
 
 [node name="TurnIndicator" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_erwlu")
-position = Vector2(351.375, -194.37502)
+position = Vector2(333, -208.99998)
 scale = Vector2(3.3066404, 3.1816406)
 texture = ExtResource("1_x2neb")
 
