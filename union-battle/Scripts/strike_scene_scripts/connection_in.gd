@@ -42,11 +42,12 @@ func _on_request_completed(result, response_code, _headers, body):
 func syncPlayers(data):
 	for k in data:
 		var pid = int(k)
+		var pdata = data[k]
+		Globals.PLAYER_USERNAMES[pid] = pdata['user']
 		if pid == Globals.MY_ID:
 			continue
 		if pid not in syncData:
 			syncData[pid] = {'endTurn':'-1'}
-		var pdata = data[k]
 		var plabel = Globals.PLAYERS[pid].get_node('PlayerLabel')
 		plabel.text = pdata['user']
 		if 'endTurn' in pdata:
