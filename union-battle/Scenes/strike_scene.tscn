@@ -762,6 +762,9 @@ script = ExtResource("11_erwlu")
 [node name="ConnectionOut" type="HTTPRequest" parent="."]
 script = ExtResource("12_ajl8s")
 
+[node name="EndLayer" type="CanvasLayer" parent="."]
+layer = 2
+
 [connection signal="send_end_my_turn" from="." to="ConnectionOut" method="_on_strike_scene_send_end_my_turn"]
 [connection signal="pressed" from="CanvasLayer/BotRight/Buttons/EndTurn" to="." method="_on_end_turn"]
 [connection signal="pressed" from="CanvasLayer/BotRight/Buttons/PrioritySwitch" to="." method="_on_priority_switch_pressed"]

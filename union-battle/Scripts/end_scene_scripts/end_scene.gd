@@ -4,6 +4,7 @@ var priority_worth = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	get_node('Background').modulate = Color(1,1,1,0.66)
 	resolve_undecideds()
 
 	#$GameOverLabel.font.Size = 48

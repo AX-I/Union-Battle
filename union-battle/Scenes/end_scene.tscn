@@ -7,7 +7,7 @@
 top_level = true
 script = ExtResource("1_5pkqa")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="."]
 top_level = true
 position = Vector2(962.5001, 541.50006)
 scale = Vector2(1.6815012, 1.8350341)
@@ -15,18 +15,18 @@ texture = ExtResource("2_5rked")
 
 [node name="GameOverLabel" type="RichTextLabel" parent="."]
 top_level = true
-offset_left = 2.0
-offset_top = 163.0
-offset_right = 1156.0
-offset_bottom = 245.0
+offset_left = 65.0
+offset_top = 154.0
+offset_right = 1219.0
+offset_bottom = 236.0
 theme_override_font_sizes/normal_font_size = 28
 text = "Game Over!"
 
 [node name="WhoWonLabel" type="RichTextLabel" parent="."]
 top_level = true
-offset_left = 3.0
+offset_left = 66.0
 offset_top = 241.0
-offset_right = 1151.0
+offset_right = 1214.0
 offset_bottom = 655.0
 theme_override_font_sizes/normal_font_size = 24
 text = "These People Won!"
