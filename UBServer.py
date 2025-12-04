@@ -56,7 +56,7 @@ class UnionHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        #print('get', self.path)
+        print('get', self.path)
 
         path = urlparse(self.path).path
         if path == '/join':
@@ -96,7 +96,8 @@ class UnionHandler(BaseHTTPRequestHandler):
             return
 
         if len(self.server.players) >= 4:
-            self.server.players = {}
+            self.send_response(400, 'Game is full!')
+            return
 
         player_id = len(self.server.players)
         self.server.players[player_id] = {'user':username, 'actions':[]}
