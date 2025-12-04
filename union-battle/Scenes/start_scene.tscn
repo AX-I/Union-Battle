@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://u41higdya1m3"]
+[gd_scene load_steps=9 format=3 uid="uid://u41higdya1m3"]
 
 [ext_resource type="Script" uid="uid://cu8jdsp4bqyqc" path="res://Scripts/start_scene_scripts/start_game_button.gd" id="1_82sop"]
+[ext_resource type="Texture2D" uid="uid://byrkguvbrcxgb" path="res://Assets/UB-Logo.png" id="1_aeweq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7tv2a"]
 font_size = 51
@@ -11,7 +12,7 @@ outline_color = Color(0.23137255, 0.15294118, 0.2784314, 1)
 [sub_resource type="Theme" id="Theme_7tv2a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_82sop"]
-bg_color = Color(1, 0.6392157, 0.27058825, 1)
+bg_color = Color(0.7318462, 0.42144293, 0, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -27,7 +28,7 @@ border_width_bottom = 2
 border_color = Color(0.2784314, 0.12941177, 0.31764707, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aeweq"]
-bg_color = Color(1, 0.69044125, 0.3985905, 1)
+bg_color = Color(0.9806059, 0.57184273, 0, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -38,23 +39,29 @@ border_color = Color(0.31543413, 0.15039995, 0.35888165, 1)
 
 [node name="StartScene" type="Node2D"]
 
+[node name="TitleImage" type="Sprite2D" parent="."]
+position = Vector2(635, 478)
+scale = Vector2(0.6058593, 0.6058593)
+texture = ExtResource("1_aeweq")
+
 [node name="Title" type="Label" parent="."]
-offset_left = 308.0
-offset_top = 151.0
-offset_right = 844.0
-offset_bottom = 226.0
+visible = false
+offset_left = 292.0
+offset_top = 169.0
+offset_right = 828.0
+offset_bottom = 244.0
 text = "Union Battle"
 label_settings = SubResource("LabelSettings_7tv2a")
 horizontal_alignment = 1
 
 [node name="StartGameButton" type="Button" parent="."]
-offset_left = 450.0
-offset_top = 468.0
-offset_right = 695.0
-offset_bottom = 545.0
+offset_left = 1158.0
+offset_top = 504.0
+offset_right = 1441.0
+offset_bottom = 581.0
 theme = SubResource("Theme_7tv2a")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxFlat_82sop")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_7tv2a")
 theme_override_styles/hover = SubResource("StyleBoxFlat_aeweq")
@@ -64,28 +71,31 @@ script = ExtResource("1_82sop")
 
 [node name="ServerAddr" type="LineEdit" parent="StartGameButton"]
 layout_mode = 0
-offset_left = -19.0
-offset_top = -105.0
-offset_right = 256.0
-offset_bottom = -59.0
+offset_left = 2.0
+offset_top = -108.0
+offset_right = 277.0
+offset_bottom = -62.0
+theme_override_font_sizes/font_size = 20
 text = "http://127.0.0.1:6400"
 placeholder_text = "Server IP"
 
 [node name="Username" type="LineEdit" parent="StartGameButton"]
 layout_mode = 0
-offset_left = -22.0
-offset_top = -189.0
-offset_right = 255.0
-offset_bottom = -141.0
+offset_left = 1.0
+offset_top = -188.0
+offset_right = 278.0
+offset_bottom = -140.0
+theme_override_font_sizes/font_size = 20
 placeholder_text = "Username"
 
 [node name="JoinRequest" type="HTTPRequest" parent="StartGameButton"]
 
 [node name="ErrorLabel" type="Label" parent="StartGameButton"]
 layout_mode = 0
-offset_left = 264.0
-offset_top = 3.0
-offset_right = 491.0
-offset_bottom = 56.0
+offset_left = 3.0
+offset_top = 112.0
+offset_right = 279.0
+offset_bottom = 193.0
+theme_override_font_sizes/font_size = 24
 
 [connection signal="pressed" from="StartGameButton" to="StartGameButton" method="_on_pressed"]

@@ -4,10 +4,13 @@ const CONN_ERR_STR = 'Error connecting to server\nPlease run `python UBServer.py
 const CONN_CHECK = 'Checking connection in new tab'
 
 var conn_success = false;
+var req;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	req = self.get_node('JoinRequest')
+	req.request_completed.connect(_on_request_completed)
+	req.timeout = 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -26,13 +29,10 @@ func reset_GUI_error():
 	self.get_node('ErrorLabel').text = ''
 
 func _on_pressed() -> void:
-	var req = self.get_node('JoinRequest')
 	var serv = self.get_node('ServerAddr').text
 	var username = self.get_node('Username').text
 	Globals.SERVER_ADDR = serv.trim_suffix('/')
 	Globals.USERNAME = username
-	req.request_completed.connect(_on_request_completed)
-	req.timeout = 1
 
 	var target = Globals.SERVER_ADDR
 	if conn_success:
